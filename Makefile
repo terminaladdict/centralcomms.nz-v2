@@ -4,10 +4,10 @@ REMOTE_USER := paul
 
 .PHONY: sync-data build push deploy
 
-# Pull live notifications.json back before committing
+# Pull live notifications.json back before committing (skips gracefully on first deploy)
 sync-data:
 	rsync $(REMOTE_USER)@$(REMOTE_HOST):$(REMOTE_PATH)/assets/data/notifications.json \
-		public/assets/data/notifications.json
+		public/assets/data/notifications.json 2>/dev/null || echo "No remote notifications.json yet — using local copy"
 
 # Build the Astro site
 build:
