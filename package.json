@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "astro dev --host",
+    "dev:php": "php -S localhost:8001 -t public",
     "build": "astro build",
     "preview": "astro preview --host"
   },
