@@ -82,13 +82,7 @@ import Layout from '../layouts/Layout.astro';
         </form>
       </div>
 
-      <!-- Notifications list -->
-      <div id="notifications-list"></div>
-
-      <!-- Pagination -->
-      <nav id="pagination" class="pagination" aria-label="Notifications pagination" hidden></nav>
-
-      <!-- Staff login (discreet) -->
+      <!-- Staff login (discreet — above the list so infinite scroll doesn't bury it) -->
       <div class="staff-login-area" id="staff-login-area">
         <button id="login-toggle" class="login-toggle-link">Staff login</button>
       </div>
@@ -112,6 +106,12 @@ import Layout from '../layouts/Layout.astro';
           </div>
         </form>
       </div>
+
+      <!-- Notifications list -->
+      <div id="notifications-list"></div>
+
+      <!-- Infinite scroll sentinel -->
+      <div id="load-more-sentinel"></div>
 
     </div>
   </section>
@@ -339,20 +339,19 @@ import Layout from '../layouts/Layout.astro';
   }
   .notif-empty p { color:#64748b; font-size:0.95rem; margin:0; }
 
-  /* Pagination */
-  .pagination { display:flex; gap:0.5rem; justify-content:center; flex-wrap:wrap; margin-top:1.5rem; padding-top:1rem; }
-  .page-btn {
-    background:#ffffff; border:1px solid #e2e8f0;
-    color:#64748b; padding:0.4rem 0.875rem; border-radius:0.5rem;
-    cursor:pointer; font-size:0.875rem; font-family:"DM Sans",sans-serif;
-    transition: all 0.15s;
+  /* Load-more spinner */
+  .load-more-spinner {
+    display:flex; justify-content:center; padding:1.5rem 0;
   }
-  .page-btn:hover { background:#f0f9ff; border-color:#7dd3fc; color:#0369a1; }
-  .page-btn.active { background:#0ea5e9; border-color:#0ea5e9; color:#ffffff; font-weight:600; }
-  .page-btn:disabled { opacity:0.35; cursor:default; }
+  .load-more-spinner span {
+    width:28px; height:28px; border:3px solid #e2e8f0;
+    border-top-color:#0ea5e9; border-radius:50%;
+    animation: spin 0.7s linear infinite;
+  }
+  @keyframes spin { to { transform:rotate(360deg); } }
 
-  /* Staff login (discreet) */
-  .staff-login-area { text-align:center; margin-top:3rem; padding-top:2rem; border-top:1px solid #e2e8f0; }
+  /* Staff login (discreet — sits above the list) */
+  .staff-login-area { text-align:right; margin-bottom:1.5rem; }
   .login-toggle-link {
     background:none; border:none; color:#cbd5e1; font-size:0.75rem; cursor:pointer;
     font-family:"DM Sans",sans-serif; transition: color 0.2s;
@@ -374,7 +373,7 @@ import Layout from '../layouts/Layout.astro';
   const PER_PAGE = 5;
 
   let notifications = [];
-  let page = 1;
+  let visibleCount = PER_PAGE;
   let isLoggedIn = false;
   let currentUser = null;
   let editingNotifId = null;
@@ -442,7 +441,7 @@ import Layout from '../layouts/Layout.astro';
     renderStatusBanner();
     renderStaffBar();
     renderList();
-    renderPagination();
+    updateSentinel();
     // Hide login area when logged in
     const loginArea = document.getElementById('staff-login-area');
     if (loginArea) loginArea.hidden = isLoggedIn;
@@ -519,9 +518,7 @@ import Layout from '../layouts/Layout.astro';
     }
 
     const sorted = sortedNotifications();
-    const totalPages = Math.ceil(sorted.length / PER_PAGE);
-    if (page > totalPages) page = totalPages;
-    const slice = sorted.slice((page - 1) * PER_PAGE, page * PER_PAGE);
+    const slice = sorted.slice(0, visibleCount);
 
     const hasActive   = notifications.some(n => n.status !== 'resolved');
     const hasResolved = notifications.some(n => n.status === 'resolved');
@@ -626,30 +623,28 @@ import Layout from '../layouts/Layout.astro';
       </div>`;
   }
 
-  function renderPagination() {
-    const nav = document.getElementById('pagination');
-    if (!nav) return;
-    const total = Math.ceil(notifications.length / PER_PAGE);
-    if (total <= 1) { nav.hidden = true; return; }
-    nav.hidden = false;
+  // ── Infinite scroll ──────────────────────────────────────────────────────────
 
-    let html = `<button class="page-btn" onclick="goPage(${page-1})" ${page===1?'disabled':''}>← Prev</button>`;
-    for (let i = 1; i <= total; i++) {
-      html += `<button class="page-btn${i===page?' active':''}" onclick="goPage(${i})">${i}</button>`;
-    }
-    html += `<button class="page-btn" onclick="goPage(${page+1})" ${page===total?'disabled':''}>Next →</button>`;
-    nav.innerHTML = html;
+  function updateSentinel() {
+    const sentinel = document.getElementById('load-more-sentinel');
+    if (!sentinel) return;
+    const hasMore = visibleCount < notifications.length;
+    sentinel.innerHTML = hasMore
+      ? `<div class="load-more-spinner"><span></span></div>`
+      : '';
   }
 
-  // ── Navigation ───────────────────────────────────────────────────────────────
-
-  function goPage(n) {
-    const total = Math.ceil(notifications.length / PER_PAGE);
-    if (n < 1 || n > total) return;
-    page = n;
-    renderList();
-    renderPagination();
-    document.getElementById('notifications-list')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  function setupIntersectionObserver() {
+    const sentinel = document.getElementById('load-more-sentinel');
+    if (!sentinel) return;
+    const observer = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting && visibleCount < notifications.length) {
+        visibleCount += PER_PAGE;
+        renderList();
+        updateSentinel();
+      }
+    }, { rootMargin: '200px' });
+    observer.observe(sentinel);
   }
 
   // ── Notification CRUD ────────────────────────────────────────────────────────
@@ -708,7 +703,7 @@ import Layout from '../layouts/Layout.astro';
         if (idx >= 0) notifications[idx] = result.notification;
       } else {
         notifications.unshift(result.notification);
-        page = 1;
+        visibleCount = Math.max(visibleCount, PER_PAGE);
       }
 
       hideNotifForm();
@@ -737,8 +732,6 @@ import Layout from '../layouts/Layout.astro';
     if (result.error) { alert(result.error); return; }
 
     notifications = notifications.filter(n => n.id !== id);
-    const total = Math.ceil(notifications.length / PER_PAGE);
-    if (page > total && total > 0) page = total;
     render();
   }
 
@@ -860,7 +853,7 @@ import Layout from '../layouts/Layout.astro';
   // Note: Astro injects this module after </html>, so DOMContentLoaded has
   // already fired. Run setup directly instead of waiting for that event.
 
-  init();
+  init().then(setupIntersectionObserver);
 
   document.getElementById('notif-form')
     ?.addEventListener('submit', submitNotifForm);
@@ -890,7 +883,6 @@ import Layout from '../layouts/Layout.astro';
     });
 
   // Expose functions called from inline onclick handlers
-  window.goPage           = goPage;
   window.resolveNotif     = resolveNotif;
   window.startEditNotif   = startEditNotif;
   window.deleteNotif      = deleteNotif;
