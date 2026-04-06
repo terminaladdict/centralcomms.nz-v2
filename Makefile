@@ -1,0 +1,24 @@
+REMOTE_HOST := centralcomms.netent.co.nz
+REMOTE_PATH := /var/www/html
+REMOTE_USER := paul
+
+.PHONY: sync-data build push deploy
+
+# Pull live notifications.json back before committing
+sync-data:
+	rsync $(REMOTE_USER)@$(REMOTE_HOST):$(REMOTE_PATH)/assets/data/notifications.json \
+		public/assets/data/notifications.json
+
+# Build the Astro site
+build:
+	npm run build
+
+# Push dist/ to the server.
+# Excludes notifications-auth-config.php — it lives on the server but is not in the repo.
+push:
+	rsync -avz --delete \
+		--exclude='assets/php/notifications-auth-config.php' \
+		dist/ $(REMOTE_USER)@$(REMOTE_HOST):$(REMOTE_PATH)/
+
+# Full workflow: pull live data → build → push
+deploy: sync-data build push
