@@ -1,0 +1,12 @@
+<?php
+// Copy this file to notifications-auth-config.php and set your staff credentials.
+// notifications-auth-config.php is gitignored — never commit real passwords.
+//
+// To generate a hashed password, run on the server:
+//   php -r "echo password_hash('yourpassword', PASSWORD_DEFAULT) . PHP_EOL;"
+
+$STAFF_USERS = [
+    'paul'  => '$2y$10$REPLACE_WITH_GENERATED_HASH_FOR_PAUL',
+    // 'jane' => '$2y$10$REPLACE_WITH_GENERATED_HASH_FOR_JANE',
+    // 'adam' => '$2y$10$REPLACE_WITH_GENERATED_HASH_FOR_ADAM',
+];

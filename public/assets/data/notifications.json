@@ -1,0 +1,34 @@
+{
+  "notifications": [
+    {
+      "id": "7c3e1a28-b4d4-4e5f-9c6d-7a8b9c0d1e2f",
+      "title": "Central Communications Christmas and New Years hours 2024/2025",
+      "body": "The company will operate under \"brown out\" status from December 20, 2024 through January 6, 2025. During this period there will be restrictions on number porting, reduced support capacity, and all project work will be frozen.\n\nA \"black out\" period runs December 23, 2024 to January 3, 2025 during which only emergency responses will be handled.\n\nIf you require holiday greeting messages for your phone system, please request these now.\n\nNormal operations resume January 6, 2025.",
+      "status": "resolved",
+      "author": "Paul Willard",
+      "created_at": "2024-12-11T19:30:00+13:00",
+      "updated_at": "2024-12-11T19:30:00+13:00",
+      "comments": []
+    },
+    {
+      "id": "a1b2c3d4-5e6f-7a8b-9c0d-e1f2a3b4c5d6",
+      "title": "iPhone users and NX Witness",
+      "body": "Some iPhone users may be experiencing problems with NX Witness. This issue has been escalated to NXVMS for investigation.",
+      "status": "resolved",
+      "author": "Paul Willard",
+      "created_at": "2024-04-03T07:20:33+13:00",
+      "updated_at": "2024-04-03T07:20:33+13:00",
+      "comments": []
+    },
+    {
+      "id": "d4e5f6a7-b8c9-0d1e-2f3a-4b5c6d7e8f9a",
+      "title": "NX Witness Cloud account issues",
+      "body": "Cloud account users are facing login problems where they authenticate successfully but experience an immediate logout. This issue has been escalated to NXVMS for investigation.",
+      "status": "resolved",
+      "author": "Paul Willard",
+      "created_at": "2024-03-20T01:28:25+13:00",
+      "updated_at": "2024-03-20T01:28:25+13:00",
+      "comments": []
+    }
+  ]
+}

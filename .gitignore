@@ -1,3 +1,6 @@
+# Staff auth credentials (never commit — copy from .example and fill in on server)
+public/assets/php/notifications-auth-config.php
+
 # Build output
 dist/
 
