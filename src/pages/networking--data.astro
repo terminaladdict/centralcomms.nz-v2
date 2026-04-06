@@ -1,0 +1,92 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+<Layout
+  title="Networking & Data Cabling — Hamilton & Waikato"
+  description="Expert structured data cabling, fibre optic splicing and 10 Gigabit Ethernet installations for businesses in Hamilton and the Waikato. Site Safe certified, at-heights qualified."
+>
+  <div class="page-hero">
+    <div class="container">
+      <span class="section-tag">Services — Networking & Data</span>
+      <h1 class="page-title">Networking &amp;<br /><em>Data Cabling</em></h1>
+      <p class="page-sub">Structured cabling, fibre optics and 10GbE installations built to last.</p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="content-grid">
+        <div class="prose">
+          <h2>Infrastructure Built the Right Way</h2>
+          <p>
+            Whether you're running cable for a new commercial build, upgrading to 10 Gigabit Ethernet,
+            or extending your CCTV system, Central Communications has the skills and qualifications
+            to get it done — on time, and to spec.
+          </p>
+          <p>
+            We are certified for at-heights work, elevated work platforms, and hold Site Safe accreditation.
+            It is quite likely we've already tackled the specific cabling challenge you're facing.
+          </p>
+
+          <h2>10 Gigabit Ethernet</h2>
+          <p>
+            10 Gigabit Ethernet (10GbE) is here, and it makes your network rocket. We're experts in
+            fibre splicing and copper structured data cabling. Be it cabling for your CCTV system,
+            phone system, or general network — we've got the cabling solution for you.
+          </p>
+          <p>
+            Our 10GbE installations typically combine SFP+ fibre uplinks for inter-cabinet connections
+            with Cat6 copper for desktop/device distribution — giving you the best performance at every
+            point in the network.
+          </p>
+
+          <h2>Our Networking Brands</h2>
+          <div class="brands-grid">
+            <img src="/assets/images/mikrotik.svg"  alt="MikroTik" width="120" height="40" />
+            <img src="/assets/images/unifi.svg"     alt="Unifi"    width="120" height="40" />
+            <img src="/assets/images/netgear.svg"   alt="Netgear"  width="120" height="40" />
+            <img src="/assets/images/legrand.svg"   alt="Legrand"  width="120" height="40" />
+          </div>
+
+          <h2>What's included?</h2>
+          <ul class="feature-list">
+            <li>Structured Cat5e / Cat6 / Cat6A copper cabling</li>
+            <li>Fibre optic installation and splicing</li>
+            <li>10 Gigabit Ethernet (10GbE) infrastructure</li>
+            <li>Patch panel &amp; cabinet installation</li>
+            <li>Commercial builds — at-heights &amp; Site Safe certified</li>
+            <li>CCTV and phone system cabling</li>
+            <li>Cable testing &amp; certification</li>
+          </ul>
+        </div>
+
+        <div class="sidebar">
+          <div class="cta-box">
+            <h3>Planning a cabling project?</h3>
+            <p>We'd love to hear about your project. Call us or send a message for a quote.</p>
+            <a href="tel:+6480084800038" class="btn btn-ember">0800 848 0038</a>
+            <a href="/#contact" class="btn btn-outline" style="margin-top:0.75rem;">Send a message</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-title { font-size: clamp(2rem, 5vw, 3.5rem); color: #e8f1ff; margin: 0.5rem 0 1rem; }
+  .page-title em { font-style: normal; color: #0ea5e9; }
+  .page-sub { font-size: 1.1rem; color: #7ea3c8; max-width: 520px; }
+  .content-grid { display: grid; grid-template-columns: 1fr 340px; gap: 4rem; align-items: start; }
+  .brands-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: center; padding: 1.5rem; background: rgba(14,165,233,0.04); border: 1px solid rgba(14,165,233,0.1); border-radius: 0.75rem; margin: 1.5rem 0; }
+  .brands-grid img { height: 32px; width: auto; filter: brightness(0) invert(0.6); transition: filter 0.2s; }
+  .brands-grid img:hover { filter: brightness(0) invert(1); }
+  .feature-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.6rem; }
+  .feature-list li { padding-left: 1.5rem; position: relative; color: #b8cce0; font-size: 0.95rem; line-height: 1.6; }
+  .feature-list li::before { content: ''; position: absolute; left: 0; top: 0.6rem; width: 6px; height: 6px; background: #0ea5e9; border-radius: 50%; }
+  .sidebar { display: flex; flex-direction: column; gap: 1.5rem; position: sticky; top: 6rem; }
+  .cta-box { background: #0c1d35; border: 1px solid rgba(14,165,233,0.15); border-radius: 1rem; padding: 1.75rem; display: flex; flex-direction: column; gap: 0.75rem; }
+  .cta-box h3 { font-size: 1.1rem; color: #e8f1ff; margin: 0; }
+  .cta-box p { font-size: 0.875rem; color: #7ea3c8; margin: 0; line-height: 1.6; }
+  @media (max-width: 900px) { .content-grid { grid-template-columns: 1fr; } .sidebar { position: static; } }
+</style>

@@ -1,0 +1,169 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+<Layout
+  title="CCTV Security Camera Surveillance Systems — Hamilton & Waikato"
+  description="Central Communications supply, install & service IP cameras and NVR systems with Hikvision, Dahua, Uniview & Mobotix. PSPLA licensed security installers in Hamilton and the Waikato."
+>
+  <div class="page-hero">
+    <div class="container">
+      <span class="section-tag">Services — CCTV</span>
+      <h1 class="page-title">CCTV &amp; Security<br /><em>Surveillance</em></h1>
+      <p class="page-sub">Licensed installation of professional IP camera systems for homes and businesses.</p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="content-grid">
+        <div class="prose">
+          <h2>Keep an Eye on What's Important</h2>
+          <p>
+            Central Communications supply, install &amp; service only the highest quality IP cameras and
+            NVR (Network Video Recorder) systems. With Hikvision, Dahua, Uniview &amp; Mobotix all bases
+            are covered. If you want cutting-edge VMS software then Central Communications can point you
+            in the right direction with the feature-rich, user-friendly NxWitness platform.
+          </p>
+          <p>
+            We love open source at Central Comms. Open source allows thousands of engineers to inspect
+            the security and safety of the software used in CCTV installations — adding an extra layer
+            of trust on top of your system.
+          </p>
+
+          <h2>PSPLA Licensed — It's a Legal Requirement</h2>
+          <p>
+            Did you know that the company that installs your CCTV is legally required to be licensed?
+            Central Communications is fully licensed as both a <strong>security technician company</strong>
+            (legally authorised to carry out installations) and a <strong>security consultant company</strong>
+            (legally allowed to sell and advise commercially).
+          </p>
+          <p>
+            In 2026 when we renewed our license, it was a reminder that many companies we encounter
+            are <em>not</em> licensed. Doing CCTV work without a license can mean huge fines.
+          </p>
+          <div style="margin:1.5rem 0;">
+            <img src="/assets/images/pspla-license-2026.png" alt="PSPLA License 2026 — Central Communications Ltd" style="max-width:420px;border-radius:0.75rem;border:1px solid rgba(14,165,233,0.15);" loading="lazy" />
+          </div>
+
+          <h2>Our CCTV Brands</h2>
+          <div class="brands-grid">
+            <img src="/assets/images/hikvision.svg" alt="Hikvision" width="120" height="40" />
+            <img src="/assets/images/dahua.svg" alt="Dahua" width="120" height="40" />
+            <img src="/assets/images/uniview.svg" alt="Uniview" width="120" height="40" />
+            <img src="/assets/images/mobotix.svg" alt="Mobotix" width="120" height="40" />
+            <img src="/assets/images/unifi.svg" alt="Unifi" width="120" height="40" />
+          </div>
+
+          <h2>What's included?</h2>
+          <ul class="feature-list">
+            <li>Full site survey and system design</li>
+            <li>Supply &amp; installation of IP cameras (dome, bullet, PTZ)</li>
+            <li>NVR setup &amp; configuration</li>
+            <li>Remote viewing on mobile &amp; desktop</li>
+            <li>Open-source NVR software (NxWitness) integration</li>
+            <li>Integration with alarm and access control systems</li>
+            <li>Ongoing maintenance &amp; support</li>
+          </ul>
+        </div>
+
+        <div class="sidebar">
+          <div class="cta-box">
+            <h3>Need a CCTV system?</h3>
+            <p>Call us for a free consultation. We'll design the right system for your home or business.</p>
+            <a href="tel:+6480084800038" class="btn btn-ember">0800 848 0038</a>
+            <a href="/#contact" class="btn btn-outline" style="margin-top:0.75rem;">Send a message</a>
+          </div>
+          <img src="/assets/images/posts/cctv-graphic.jpg" alt="CCTV surveillance systems" class="sidebar-img" loading="lazy" />
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-title {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    color: #e8f1ff;
+    margin: 0.5rem 0 1rem;
+  }
+  .page-title em { font-style: normal; color: #0ea5e9; }
+  .page-sub { font-size: 1.1rem; color: #7ea3c8; max-width: 520px; }
+
+  .content-grid {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  .brands-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    align-items: center;
+    padding: 1.5rem;
+    background: rgba(14, 165, 233, 0.04);
+    border: 1px solid rgba(14, 165, 233, 0.1);
+    border-radius: 0.75rem;
+    margin: 1.5rem 0;
+  }
+  .brands-grid img {
+    height: 32px;
+    width: auto;
+    filter: brightness(0) invert(0.6);
+    transition: filter 0.2s;
+  }
+  .brands-grid img:hover { filter: brightness(0) invert(1); }
+
+  .feature-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  .feature-list li {
+    padding-left: 1.5rem;
+    position: relative;
+    color: #b8cce0;
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+  .feature-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.6rem;
+    width: 6px;
+    height: 6px;
+    background: #0ea5e9;
+    border-radius: 50%;
+  }
+
+  .sidebar { display: flex; flex-direction: column; gap: 1.5rem; position: sticky; top: 6rem; }
+
+  .cta-box {
+    background: #0c1d35;
+    border: 1px solid rgba(14, 165, 233, 0.15);
+    border-radius: 1rem;
+    padding: 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .cta-box h3 { font-size: 1.1rem; color: #e8f1ff; margin: 0; }
+  .cta-box p  { font-size: 0.875rem; color: #7ea3c8; margin: 0; line-height: 1.6; }
+
+  .sidebar-img {
+    border-radius: 1rem;
+    border: 1px solid rgba(14, 165, 233, 0.12);
+    width: 100%;
+    height: auto;
+  }
+
+  @media (max-width: 900px) {
+    .content-grid { grid-template-columns: 1fr; }
+    .sidebar { position: static; }
+  }
+</style>

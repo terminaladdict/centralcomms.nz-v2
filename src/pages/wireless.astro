@@ -1,0 +1,92 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+<Layout
+  title="Managed Wireless Networking for Business — Hamilton & Waikato"
+  description="Enterprise WiFi design, site surveys, point-to-point wireless links and full management for businesses in Hamilton and the Waikato. Legally qualified wireless operators."
+>
+  <div class="page-hero">
+    <div class="container">
+      <span class="section-tag">Services — Wireless</span>
+      <h1 class="page-title">Managed<br /><em>Wireless</em></h1>
+      <p class="page-sub">Enterprise WiFi, site surveys, point-to-point links and full ongoing management.</p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="content-grid">
+        <div class="prose">
+          <h2>Experience Counts for Everything in Tech</h2>
+          <p>
+            We've got decades of experience looking after IT environments. It is quite likely that we
+            have already encountered that wireless task you need taking care of.
+          </p>
+          <p>
+            Central Comms can completely design and manage your wireless network. We intimately
+            understand the complexities of wireless networking — we can solve coverage issues, extend
+            coverage to remote buildings, and deploy point-to-point wireless links across your property.
+          </p>
+          <p>
+            We have the skills and qualifications to do it, and to do it legally within New Zealand's
+            wireless broadcasting regulations.
+          </p>
+
+          <h2>Beyond Just WiFi</h2>
+          <p>
+            It's not just wireless that Central Comms can help with. We can remotely manage your local
+            servers, store your backups offline, manage your cloud email service — there are heaps of
+            things we can help with across your broader IT environment.
+          </p>
+
+          <h2>Our Wireless Brands</h2>
+          <div class="brands-grid">
+            <img src="/assets/images/unifi.svg"    alt="Unifi"    width="120" height="40" />
+            <img src="/assets/images/mikrotik.svg" alt="MikroTik" width="120" height="40" />
+          </div>
+
+          <h2>What's included?</h2>
+          <ul class="feature-list">
+            <li>Full wireless site survey</li>
+            <li>Enterprise WiFi design &amp; installation</li>
+            <li>Coverage issue diagnosis &amp; resolution</li>
+            <li>Point-to-point wireless links</li>
+            <li>Remote building coverage extension</li>
+            <li>Ongoing monitoring &amp; management</li>
+            <li>Regulatory-compliant installations (NZ wireless laws)</li>
+            <li>Remote server management &amp; cloud services</li>
+          </ul>
+        </div>
+
+        <div class="sidebar">
+          <div class="cta-box">
+            <h3>Wireless coverage issues?</h3>
+            <p>We'll come on site, survey your space and design a solution that works.</p>
+            <a href="tel:+6480084800038" class="btn btn-ember">0800 848 0038</a>
+            <a href="/#contact" class="btn btn-outline" style="margin-top:0.75rem;">Send a message</a>
+          </div>
+          <img src="/assets/images/posts/wireless-graphic.jpg" alt="Managed wireless networking" class="sidebar-img" loading="lazy" />
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-title { font-size: clamp(2rem, 5vw, 3.5rem); color: #e8f1ff; margin: 0.5rem 0 1rem; }
+  .page-title em { font-style: normal; color: #0ea5e9; }
+  .page-sub { font-size: 1.1rem; color: #7ea3c8; max-width: 520px; }
+  .content-grid { display: grid; grid-template-columns: 1fr 340px; gap: 4rem; align-items: start; }
+  .brands-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: center; padding: 1.5rem; background: rgba(14,165,233,0.04); border: 1px solid rgba(14,165,233,0.1); border-radius: 0.75rem; margin: 1.5rem 0; }
+  .brands-grid img { height: 32px; width: auto; filter: brightness(0) invert(0.6); transition: filter 0.2s; }
+  .brands-grid img:hover { filter: brightness(0) invert(1); }
+  .feature-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.6rem; }
+  .feature-list li { padding-left: 1.5rem; position: relative; color: #b8cce0; font-size: 0.95rem; line-height: 1.6; }
+  .feature-list li::before { content: ''; position: absolute; left: 0; top: 0.6rem; width: 6px; height: 6px; background: #0ea5e9; border-radius: 50%; }
+  .sidebar { display: flex; flex-direction: column; gap: 1.5rem; position: sticky; top: 6rem; }
+  .cta-box { background: #0c1d35; border: 1px solid rgba(14,165,233,0.15); border-radius: 1rem; padding: 1.75rem; display: flex; flex-direction: column; gap: 0.75rem; }
+  .cta-box h3 { font-size: 1.1rem; color: #e8f1ff; margin: 0; }
+  .cta-box p { font-size: 0.875rem; color: #7ea3c8; margin: 0; line-height: 1.6; }
+  .sidebar-img { border-radius: 1rem; border: 1px solid rgba(14,165,233,0.12); width: 100%; height: auto; }
+  @media (max-width: 900px) { .content-grid { grid-template-columns: 1fr; } .sidebar { position: static; } }
+</style>

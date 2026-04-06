@@ -1,0 +1,11 @@
+# Redirect old Jekyll URLs to new Astro URLs
+RedirectMatch 301 ^/updates/index\.html$ /updates.html
+RedirectMatch 301 ^/notifications\.php$  /notifications.html
+
+# Pretty URL support — serve .html files without extension
+Options -MultiViews
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^(.*)$ $1.html [L]

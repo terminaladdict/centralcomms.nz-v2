@@ -1,0 +1,148 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('updates')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+
+const categoryColors: Record<string, string> = {
+  'CCTV':         '#0ea5e9',
+  'infrastructure': '#38bdf8',
+  'voip':         '#60a5fa',
+  'wireless':     '#7dd3fc',
+  'web':          '#93c5fd',
+};
+---
+<Layout
+  title="Updates & Portfolio — Central Communications Ltd"
+  description="Latest project updates and portfolio work from Central Communications Ltd — CCTV, networking, VoIP and more."
+>
+  <div class="page-hero">
+    <div class="container">
+      <span class="section-tag">Updates & Portfolio</span>
+      <h1 class="page-title">Project<br /><em>Updates</em></h1>
+      <p class="page-sub">A look at some of the work we've done for clients across the Waikato and beyond.</p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="posts-grid">
+        {posts.map((post, i) => {
+          const cats = post.data.categories ?? [];
+          const color = cats.length ? (categoryColors[cats[0]] ?? '#0ea5e9') : '#0ea5e9';
+          return (
+            <a href={`/updates/${post.slug}.html`} class={`post-card card reveal reveal-delay-${(i % 3) + 1}`}>
+              {post.data.image && (
+                <div class="post-img-wrap">
+                  <img
+                    src={`/assets/images/posts/${post.data.image}`}
+                    alt={post.data.title}
+                    loading="lazy"
+                    class="post-img"
+                  />
+                </div>
+              )}
+              <div class="post-body">
+                <div class="post-meta">
+                  {cats.map(c => (
+                    <span class="post-cat" style={`border-color:${color};color:${color};`}>{c}</span>
+                  ))}
+                  <span class="post-date">
+                    {post.data.date.toLocaleDateString('en-NZ', { year: 'numeric', month: 'short', day: 'numeric' })}
+                  </span>
+                </div>
+                <h2 class="post-title">{post.data.title}</h2>
+                {post.data.excerpt && <p class="post-excerpt">{post.data.excerpt}</p>}
+                <span class="post-read-more">
+                  Read more
+                  <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                    <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+              </div>
+            </a>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-title { font-size: clamp(2rem, 5vw, 3.5rem); color: #e8f1ff; margin: 0.5rem 0 1rem; }
+  .page-title em { font-style: normal; color: #0ea5e9; }
+  .page-sub { font-size: 1.1rem; color: #7ea3c8; max-width: 520px; }
+
+  .posts-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+
+  .post-card { display: flex; flex-direction: column; overflow: hidden; padding: 0; }
+
+  .post-img-wrap { overflow: hidden; border-radius: 0.875rem 0.875rem 0 0; aspect-ratio: 16/9; }
+  .post-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; display: block; }
+  .post-card:hover .post-img { transform: scale(1.05); }
+
+  .post-body { padding: 1.5rem; flex: 1; display: flex; flex-direction: column; }
+
+  .post-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.75rem;
+  }
+
+  .post-cat {
+    font-family: "Space Mono", monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.6rem;
+    border: 1px solid;
+    border-radius: 9999px;
+  }
+
+  .post-date {
+    font-size: 0.75rem;
+    color: #7ea3c8;
+    margin-left: auto;
+  }
+
+  .post-title {
+    font-size: 1.05rem;
+    color: #e8f1ff;
+    margin: 0 0 0.5rem;
+    transition: color 0.2s;
+    line-height: 1.4;
+  }
+  .post-card:hover .post-title { color: #0ea5e9; }
+
+  .post-excerpt {
+    font-size: 0.85rem;
+    color: #7ea3c8;
+    line-height: 1.6;
+    flex: 1;
+    margin: 0 0 1rem;
+  }
+
+  .post-read-more {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: "Space Mono", monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    color: #0ea5e9;
+    margin-top: auto;
+    transition: gap 0.2s;
+  }
+  .post-card:hover .post-read-more { gap: 0.7rem; }
+
+  @media (max-width: 900px) { .posts-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .posts-grid { grid-template-columns: 1fr; } }
+</style>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.1" id="Central_Comms" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+	 y="0px" viewBox="0 0 394 87" style="enable-background:new 0 0 394 87;" xml:space="preserve">
+<style type="text/css">
+    @font-face {
+        font-family: 'CentralCommsSVG';
+            src: url('../fonts/centralcomms/CentralComms.regular.eot');
+            src: url('../fonts/centralcomms/CentralComms.regular.eot?#iefix') format('embedded-opentype'),
+                 url('../fonts/centralcomms/CentralComms.regular.woff2') format('woff2'),
+                 url('../fonts/centralcomms/CentralComms.regular.woff') format('woff'),
+                 url('../fonts/centralcomms/CentralComms.regular.ttf')  format('truetype'),
+                 url('../fonts/centralcomms/CentralComms.regular.svg#svgFontName') format('svg');
+ }
+    .st0{fill:#27448F;}
+    .st1{fill:#B7B7B7;}
+    .st2{font-family:'CentralCommsSVG';}
+    .st3{font-size:48px;}
+    .st4{font-size:24px;}
+    .st5{font-size:8px;}
+</style>
+<title>Central Communications Ltd</title>
+<g>
+    <path id="Blue_C" class="st0" d="M44,71c-14.9,0-27-12.1-27-27s12.1-27,27-27h32.7C68.9,7.3,56.9,1,43.5,1C20,1,1,20,1,43.5 
+        S20,86,43.5,86c13,0,24.6-5.8,32.4-15H44z"/>
+    <path id="Grey_C" class="st1" d="M67.9,47h-7.5H57H43h-1v-0.1c-2.2-0.3-4-2.1-4-4.4s1.8-4.2,4-4.4V38h1h14h3.4h7.2h16.1
+        c-0.7-5-2.3-9.7-4.5-14H59.9H43v0c-0.2,0-0.3,0-0.5,0C32.3,24,24,32.3,24,42.5C24,52.7,32.3,61,42.5,61c0.2,0,0.3,0,0.5,0v0h18.7
+        h18.9c1.9-4.3,3.1-9.1,3.5-14H67.9z"/>
+</g>
+<text transform="matrix(1.2991 0 0 1 87.332 48.4902)" class="st0 st2 st3">CENTRAL</text>
+<text transform="matrix(1.2337 0 0 1 90.666 75.333)" class="st0 st2 st4">COMMUNICATIONS</text>
+<g>
+    <text transform="matrix(7.954624e-17 -1.2991 1 6.123234e-17 386.2236 75.9678)" class="st0 st2 st5">LTD</text>
+</g>
+</svg>

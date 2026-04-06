@@ -1,0 +1,202 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('updates');
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props:  { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const allPosts = (await getCollection('updates')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+const currentIndex = allPosts.findIndex(p => p.slug === post.slug);
+const prev = allPosts[currentIndex + 1];
+const next = allPosts[currentIndex - 1];
+---
+<Layout
+  title={`${post.data.title} — Central Communications Ltd`}
+  description={post.data.excerpt ?? `${post.data.title} — a project update from Central Communications Ltd.`}
+  image={post.data.image ? `/assets/images/posts/${post.data.image}` : undefined}
+>
+  <!-- Post hero -->
+  <div class="post-hero">
+    <div class="container">
+      <a href="/updates/index.html" class="back-link">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M13 8H3M7 4l-4 4 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        All updates
+      </a>
+
+      <div class="post-meta">
+        {(post.data.categories ?? []).map(c => (
+          <span class="section-tag" style="margin-bottom:0;">{c}</span>
+        ))}
+        <span class="post-date">
+          {post.data.date.toLocaleDateString('en-NZ', { year: 'numeric', month: 'long', day: 'numeric' })}
+        </span>
+      </div>
+
+      <h1 class="post-title">{post.data.title}</h1>
+      <p class="post-author">By {post.data.author}</p>
+    </div>
+  </div>
+
+  {post.data.image && (
+    <div class="post-cover">
+      <div class="container">
+        <img
+          src={`/assets/images/posts/${post.data.image}`}
+          alt={post.data.title}
+          class="cover-img"
+          loading="eager"
+        />
+      </div>
+    </div>
+  )}
+
+  <!-- Content -->
+  <article class="section">
+    <div class="container">
+      <div class="prose">
+        <Content />
+      </div>
+
+      <!-- Prev / Next -->
+      <nav class="post-nav">
+        {prev && (
+          <a href={`/updates/${prev.slug}.html`} class="post-nav-item post-nav-prev">
+            <span class="post-nav-label">
+              <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M13 8H3M7 4l-4 4 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Previous
+            </span>
+            <span class="post-nav-title">{prev.data.title}</span>
+          </a>
+        )}
+        {next && (
+          <a href={`/updates/${next.slug}.html`} class="post-nav-item post-nav-next">
+            <span class="post-nav-label">
+              Next
+              <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <span class="post-nav-title">{next.data.title}</span>
+          </a>
+        )}
+      </nav>
+    </div>
+  </article>
+</Layout>
+
+<style>
+  .post-hero {
+    padding: 7rem 0 2rem;
+    background: linear-gradient(to bottom, #071525, #030b18);
+    border-bottom: 1px solid rgba(14, 165, 233, 0.08);
+  }
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: "Space Mono", monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #7ea3c8;
+    margin-bottom: 1.5rem;
+    transition: color 0.2s;
+  }
+  .back-link:hover { color: #0ea5e9; }
+
+  .post-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+  }
+  .post-date {
+    font-size: 0.8rem;
+    color: #7ea3c8;
+  }
+
+  .post-title {
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    color: #e8f1ff;
+    margin: 0 0 0.5rem;
+    line-height: 1.15;
+    max-width: 720px;
+  }
+
+  .post-author {
+    font-size: 0.85rem;
+    color: #7ea3c8;
+    margin: 0;
+  }
+
+  .post-cover { padding: 2rem 0; }
+  .cover-img {
+    width: 100%;
+    max-height: 480px;
+    object-fit: cover;
+    border-radius: 1.25rem;
+    border: 1px solid rgba(14, 165, 233, 0.12);
+    display: block;
+  }
+
+  .post-nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(14, 165, 233, 0.1);
+  }
+
+  .post-nav-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding: 1.25rem;
+    background: #071525;
+    border: 1px solid rgba(14, 165, 233, 0.1);
+    border-radius: 0.875rem;
+    transition: border-color 0.2s;
+  }
+  .post-nav-item:hover { border-color: rgba(14, 165, 233, 0.3); }
+  .post-nav-next { text-align: right; }
+
+  .post-nav-label {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: "Space Mono", monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #0ea5e9;
+  }
+  .post-nav-next .post-nav-label { justify-content: flex-end; }
+
+  .post-nav-title {
+    font-family: "Syne", sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #e8f1ff;
+    line-height: 1.3;
+  }
+
+  @media (max-width: 600px) {
+    .post-nav { grid-template-columns: 1fr; }
+  }
+</style>

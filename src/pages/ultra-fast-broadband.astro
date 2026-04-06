@@ -1,0 +1,78 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+<Layout
+  title="Ultra Fast Broadband for Business — Hamilton & Waikato"
+  description="Business-grade UFB fibre broadband packages with full installation and ongoing support from Central Communications Ltd in Hamilton and the Waikato."
+>
+  <div class="page-hero">
+    <div class="container">
+      <span class="section-tag">Services — Broadband</span>
+      <h1 class="page-title">Ultra Fast<br /><em>Broadband</em></h1>
+      <p class="page-sub">Business-grade fibre internet with local support you can actually reach.</p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="content-grid">
+        <div class="prose">
+          <h2>Broadband Built for Business</h2>
+          <p>
+            Slow or unreliable internet costs your business money. Central Communications provides
+            business-grade Ultra Fast Broadband (UFB) packages with full installation and dedicated
+            local support — not an overseas call centre.
+          </p>
+          <p>
+            As your internet provider, we take care of everything from the initial connection and
+            router setup through to troubleshooting and ongoing support. And because we're also your
+            data cabling specialists, we can make sure the connection gets to every part of your
+            premises perfectly.
+          </p>
+
+          <h2>Why Choose Central Comms for Internet?</h2>
+          <ul class="feature-list">
+            <li>Business-grade UFB fibre packages</li>
+            <li>Local Hamilton support team</li>
+            <li>Router &amp; equipment supply and configuration</li>
+            <li>Integration with your phone system and CCTV</li>
+            <li>Static IP options for businesses that need it</li>
+            <li>24/7 emergency support</li>
+            <li>Competitive pricing — ask for a quote</li>
+          </ul>
+
+          <h2>Bundled Solutions</h2>
+          <p>
+            Many of our clients choose to bundle their internet with their phone system and/or CCTV.
+            This simplifies billing, means a single point of contact for support, and often results
+            in better overall pricing.
+          </p>
+        </div>
+
+        <div class="sidebar">
+          <div class="cta-box">
+            <h3>Get a broadband quote</h3>
+            <p>Tell us your address and requirements and we'll find the best package for you.</p>
+            <a href="tel:+6480084800038" class="btn btn-ember">0800 848 0038</a>
+            <a href="/#contact" class="btn btn-outline" style="margin-top:0.75rem;">Send a message</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-title { font-size: clamp(2rem, 5vw, 3.5rem); color: #e8f1ff; margin: 0.5rem 0 1rem; }
+  .page-title em { font-style: normal; color: #0ea5e9; }
+  .page-sub { font-size: 1.1rem; color: #7ea3c8; max-width: 520px; }
+  .content-grid { display: grid; grid-template-columns: 1fr 340px; gap: 4rem; align-items: start; }
+  .feature-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.6rem; }
+  .feature-list li { padding-left: 1.5rem; position: relative; color: #b8cce0; font-size: 0.95rem; line-height: 1.6; }
+  .feature-list li::before { content: ''; position: absolute; left: 0; top: 0.6rem; width: 6px; height: 6px; background: #0ea5e9; border-radius: 50%; }
+  .sidebar { display: flex; flex-direction: column; gap: 1.5rem; position: sticky; top: 6rem; }
+  .cta-box { background: #0c1d35; border: 1px solid rgba(14,165,233,0.15); border-radius: 1rem; padding: 1.75rem; display: flex; flex-direction: column; gap: 0.75rem; }
+  .cta-box h3 { font-size: 1.1rem; color: #e8f1ff; margin: 0; }
+  .cta-box p { font-size: 0.875rem; color: #7ea3c8; margin: 0; line-height: 1.6; }
+  @media (max-width: 900px) { .content-grid { grid-template-columns: 1fr; } .sidebar { position: static; } }
+</style>

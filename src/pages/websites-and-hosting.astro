@@ -1,0 +1,79 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+<Layout
+  title="Websites & Hosting — Hamilton & Waikato"
+  description="Web design, development and managed hosting for small businesses in Hamilton and the Waikato. Central Communications Ltd — taking you online."
+>
+  <div class="page-hero">
+    <div class="container">
+      <span class="section-tag">Services — Web</span>
+      <h1 class="page-title">Websites &amp;<br /><em>Hosting</em></h1>
+      <p class="page-sub">Professional web design and managed hosting that keeps your business online.</p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="content-grid">
+        <div class="prose">
+          <h2>Taking You Online</h2>
+          <p>
+            Central Communications has been building websites and managing hosting for our clients
+            for many years. We bring the same no-nonsense, get-it-done attitude to web work that we
+            apply to every other aspect of your business infrastructure.
+          </p>
+          <p>
+            We build fast, modern, mobile-friendly websites — and we host them on reliable
+            infrastructure right here in New Zealand. You get a local contact who actually understands
+            your business.
+          </p>
+
+          <h2>What We Offer</h2>
+          <ul class="feature-list">
+            <li>Modern, responsive website design</li>
+            <li>Business websites &amp; landing pages</li>
+            <li>NZ-hosted web hosting packages</li>
+            <li>Domain name registration &amp; management</li>
+            <li>Email hosting (Microsoft 365 / Google Workspace)</li>
+            <li>SSL certificates</li>
+            <li>Website maintenance &amp; updates</li>
+            <li>Search engine optimisation basics</li>
+          </ul>
+
+          <h2>Bundled with Your Other Services</h2>
+          <p>
+            Many clients find it simpler to have their website hosting bundled with their other
+            Central Comms services — one invoice, one point of contact for everything.
+          </p>
+        </div>
+
+        <div class="sidebar">
+          <div class="cta-box">
+            <h3>Need a website?</h3>
+            <p>Tell us what you're looking for and we'll put together a proposal.</p>
+            <a href="tel:+6480084800038" class="btn btn-ember">0800 848 0038</a>
+            <a href="/#contact" class="btn btn-outline" style="margin-top:0.75rem;">Send a message</a>
+          </div>
+          <img src="/assets/images/posts/cloud-computer-graphic.jpg" alt="Web hosting and design" class="sidebar-img" loading="lazy" />
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-title { font-size: clamp(2rem, 5vw, 3.5rem); color: #e8f1ff; margin: 0.5rem 0 1rem; }
+  .page-title em { font-style: normal; color: #0ea5e9; }
+  .page-sub { font-size: 1.1rem; color: #7ea3c8; max-width: 520px; }
+  .content-grid { display: grid; grid-template-columns: 1fr 340px; gap: 4rem; align-items: start; }
+  .feature-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.6rem; }
+  .feature-list li { padding-left: 1.5rem; position: relative; color: #b8cce0; font-size: 0.95rem; line-height: 1.6; }
+  .feature-list li::before { content: ''; position: absolute; left: 0; top: 0.6rem; width: 6px; height: 6px; background: #0ea5e9; border-radius: 50%; }
+  .sidebar { display: flex; flex-direction: column; gap: 1.5rem; position: sticky; top: 6rem; }
+  .cta-box { background: #0c1d35; border: 1px solid rgba(14,165,233,0.15); border-radius: 1rem; padding: 1.75rem; display: flex; flex-direction: column; gap: 0.75rem; }
+  .cta-box h3 { font-size: 1.1rem; color: #e8f1ff; margin: 0; }
+  .cta-box p { font-size: 0.875rem; color: #7ea3c8; margin: 0; line-height: 1.6; }
+  .sidebar-img { border-radius: 1rem; border: 1px solid rgba(14,165,233,0.12); width: 100%; height: auto; }
+  @media (max-width: 900px) { .content-grid { grid-template-columns: 1fr; } .sidebar { position: static; } }
+</style>

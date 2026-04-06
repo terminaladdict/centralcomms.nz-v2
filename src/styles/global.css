@@ -1,0 +1,357 @@
+@import "tailwindcss";
+
+/* ─── Custom font ──────────────────────────────────── */
+@font-face {
+  font-family: 'CentralComms';
+  src: url('/assets/fonts/centralcomms/CentralComms.regular.eot');
+  src: url('/assets/fonts/centralcomms/CentralComms.regular.eot?#iefix') format('embedded-opentype'),
+       url('/assets/fonts/centralcomms/CentralComms.regular.woff2') format('woff2'),
+       url('/assets/fonts/centralcomms/CentralComms.regular.woff') format('woff'),
+       url('/assets/fonts/centralcomms/CentralComms.regular.ttf') format('truetype'),
+       url('/assets/fonts/centralcomms/CentralComms.regular.svg#svgFontName') format('svg');
+  font-display: block;
+}
+
+@theme {
+  /* Colour palette */
+  --color-deep:       #0c1a2e;   /* headings / dark text */
+  --color-surface:    #ffffff;   /* card background */
+  --color-elevated:   #eef5fc;   /* alt section / sidebar */
+  --color-electric:   #0284c7;   /* primary accent (darker for light bg) */
+  --color-sky:        #0ea5e9;   /* hover / lighter blue */
+  --color-ember:      #d97706;   /* CTA amber */
+  --color-ink:        #0c1a2e;   /* body text */
+  --color-muted:      #4a6a9a;   /* secondary text */
+  --color-faint:      #c8ddf0;   /* very light blue */
+
+  /* Typography */
+  --font-heading:       "Syne", sans-serif;
+  --font-body:          "DM Sans", sans-serif;
+  --font-mono:          "Space Mono", monospace;
+  --font-centralcomms:  "CentralComms", "Syne", sans-serif;
+}
+
+/* ─── Base ────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background-color: #f4f8fd;
+  color: #0c1a2e;
+  font-family: "DM Sans", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Syne", sans-serif;
+  font-weight: 700;
+  line-height: 1.15;
+  color: #0c1a2e;
+}
+
+a { color: inherit; text-decoration: none; }
+
+img { max-width: 100%; height: auto; }
+
+/* ─── Utility classes ─────────────────────────────── */
+.label-mono {
+  font-family: "Space Mono", monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #0284c7;
+}
+
+.section-tag {
+  display: inline-block;
+  font-family: "Space Mono", monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #0284c7;
+  border: 1px solid rgba(2, 132, 199, 0.35);
+  padding: 0.3rem 0.75rem;
+  border-radius: 9999px;
+  margin-bottom: 1rem;
+  background: rgba(2, 132, 199, 0.06);
+}
+
+/* ─── Buttons ─────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.75rem;
+  border-radius: 0.5rem;
+  font-family: "Syne", sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 0.03em;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+}
+
+.btn-primary {
+  background: #0284c7;
+  color: #ffffff;
+}
+.btn-primary:hover {
+  background: #0ea5e9;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(2, 132, 199, 0.3);
+}
+
+.btn-ember {
+  background: #d97706;
+  color: #ffffff;
+}
+.btn-ember:hover {
+  background: #f59e0b;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(217, 119, 6, 0.3);
+}
+
+.btn-outline {
+  background: transparent;
+  color: #0c1a2e;
+  border: 1px solid rgba(2, 132, 199, 0.4);
+}
+.btn-outline:hover {
+  border-color: #0284c7;
+  color: #0284c7;
+  transform: translateY(-2px);
+}
+
+/* White-text outline variant (for use on dark hero) */
+.btn-outline-light {
+  background: transparent;
+  color: #e8f1ff;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+}
+.btn-outline-light:hover {
+  border-color: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateY(-2px);
+}
+
+/* ─── Cards ───────────────────────────────────────── */
+.card {
+  background: #ffffff;
+  border: 1px solid rgba(2, 132, 199, 0.14);
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 2px 12px rgba(2, 132, 199, 0.05);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+.card:hover {
+  border-color: rgba(2, 132, 199, 0.35);
+  box-shadow: 0 8px 40px rgba(2, 132, 199, 0.12);
+  transform: translateY(-4px);
+}
+
+/* ─── Page hero (inner pages) — dark strip ────────── */
+.page-hero {
+  padding: 7rem 0 4rem;
+  background: linear-gradient(135deg, #0c1a2e 0%, #0d2444 60%, #0a1f3d 100%);
+  border-bottom: none;
+  position: relative;
+  overflow: hidden;
+}
+.page-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 50% 70% at 75% 50%, rgba(14, 165, 233, 0.12) 0%, transparent 65%);
+  pointer-events: none;
+}
+/* Override headings/text inside page-hero to be light */
+.page-hero h1,
+.page-hero h2,
+.page-hero h3 { color: #e8f1ff; }
+.page-hero .section-tag {
+  color: #38bdf8;
+  border-color: rgba(56, 189, 248, 0.4);
+  background: rgba(56, 189, 248, 0.08);
+}
+
+/* ─── Section spacing ─────────────────────────────── */
+.section {
+  padding: 5rem 0;
+  background: #f4f8fd;
+}
+.section-alt {
+  padding: 5rem 0;
+  background: #eef5fc;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* ─── Reveal animations ───────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: none;
+}
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+.reveal-delay-5 { transition-delay: 0.5s; }
+
+/* ─── Brand text logo ─────────────────────────────── */
+.brand-logo {
+  font-family: "CentralComms", "Syne", sans-serif;
+  font-weight: 400;
+  font-size: 1.25rem;
+  line-height: 1;
+  letter-spacing: 0.01em;
+}
+.brand-logo .top { color: #0284c7; }
+.brand-logo .bot { color: #0c1a2e; }
+.brand-logo .ltd {
+  font-size: 0.55rem;
+  font-family: "Space Mono", monospace;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #4a6a9a;
+  display: block;
+  margin-top: 3px;
+}
+
+/* Brand logo variant for dark backgrounds */
+.brand-logo-light .top { color: #38bdf8; }
+.brand-logo-light .bot { color: #e8f1ff; }
+.brand-logo-light .ltd { color: #7ea3c8; }
+
+/* ─── Service icon circles ────────────────────────── */
+.service-icon {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 0.75rem;
+  background: rgba(2, 132, 199, 0.08);
+  border: 1px solid rgba(2, 132, 199, 0.18);
+  color: #0284c7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+  transition: background 0.3s, border-color 0.3s;
+}
+.card:hover .service-icon {
+  background: rgba(2, 132, 199, 0.15);
+  border-color: rgba(2, 132, 199, 0.4);
+}
+
+/* ─── Prose (blog content) ────────────────────────── */
+.prose {
+  max-width: 780px;
+  line-height: 1.8;
+  color: #2d4a6e;
+}
+.prose h2, .prose h3 {
+  color: #0c1a2e;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+.prose p { margin-bottom: 1.25rem; }
+.prose a { color: #0284c7; }
+.prose a:hover { text-decoration: underline; }
+.prose img {
+  border-radius: 0.75rem;
+  border: 1px solid rgba(2, 132, 199, 0.15);
+  margin: 1.5rem 0;
+}
+.prose .video-wrapper {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  border-radius: 0.75rem;
+  margin: 1.5rem 0;
+  border: 1px solid rgba(2, 132, 199, 0.15);
+}
+.prose .video-wrapper iframe {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  border: 0;
+}
+
+/* ─── Form fields ─────────────────────────────────── */
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.form-field label {
+  font-family: "Space Mono", monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #4a6a9a;
+}
+.form-field input,
+.form-field textarea,
+.form-field select {
+  background: #ffffff;
+  border: 1px solid rgba(2, 132, 199, 0.25);
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  color: #0c1a2e;
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.95rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  width: 100%;
+}
+.form-field input::placeholder,
+.form-field textarea::placeholder { color: #a0b8d0; }
+.form-field input:focus,
+.form-field textarea:focus,
+.form-field select:focus {
+  outline: none;
+  border-color: #0284c7;
+  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.1);
+}
+.form-field textarea { min-height: 120px; resize: vertical; }
+
+/* ─── Testimonial cards ───────────────────────────── */
+.testimonial-card {
+  background: #ffffff;
+  border: 1px solid rgba(2, 132, 199, 0.12);
+  border-radius: 1rem;
+  padding: 2rem;
+  position: relative;
+  box-shadow: 0 2px 12px rgba(2, 132, 199, 0.05);
+}
+.testimonial-card::before {
+  content: '"';
+  position: absolute;
+  top: 1rem;
+  right: 1.5rem;
+  font-size: 5rem;
+  line-height: 1;
+  font-family: "Syne", sans-serif;
+  color: rgba(2, 132, 199, 0.1);
+  pointer-events: none;
+}
+
+/* ─── Scrollbar ───────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #f4f8fd; }
+::-webkit-scrollbar-thumb { background: rgba(2, 132, 199, 0.3); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(2, 132, 199, 0.5); }
+
+/* ─── Focus visible ───────────────────────────────── */
+:focus-visible { outline: 2px solid #0284c7; outline-offset: 3px; }

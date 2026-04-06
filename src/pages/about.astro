@@ -1,0 +1,237 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const team = [
+  {
+    name: 'Paul Willard',
+    role: 'Owner & IT Manager',
+    img: '/assets/images/people/PaulWillard-May2022.jpg',
+    bio: 'Paul has always been fully immersed in telecommunications — first as a Systems Administrator, then Senior Network Engineer, then Network Operations Manager, then General Manager at numerous internet and telecoms companies. Paul has been running telecommunications systems for 25 years, he\'s seen a lot! He studied management at executive level at Waikato University, but at heart is a geek who loves technology. In the weekends he enjoys hunting and fishing. Paul took over management of Central Communications in April 2022.',
+  },
+  {
+    name: 'Max Whitelaw',
+    role: 'Founder',
+    img: '/assets/images/people/MaxWhitelaw.jpg',
+    bio: 'Max and Raewyn established Central Communications Ltd in February 1989 to provide an alternative to the dominant players in the telecommunications market at that time. After more than 30 years running Central Communications, Max and Raewyn handed the leadership to Paul.',
+  },
+  {
+    name: 'Grace Sun',
+    role: 'Office Manager',
+    img: '/assets/images/people/GraceSun.jpg',
+    bio: 'Grace has been running all the administration of Central Communications for a very long time. Grace will likely be the person you speak with when you ring into the office.',
+  },
+  {
+    name: 'Aleks Skomski',
+    role: 'Senior Telco Engineer',
+    img: '/assets/images/people/AleksSkomski.jpg',
+    bio: 'Aleks has been involved in telecommunications for over a decade. He has extensive experience in wireless networking, data cabling, fibre optics, and phone systems. Aleks is a family man and a musician who enjoys playing in a rock band.',
+  },
+  {
+    name: 'Adam Crawforth',
+    role: 'Telco Engineer',
+    img: '/assets/images/people/AdamCrawforth-Highvis.jpg',
+    bio: 'Adam has years of experience as a warehouse manager for a large retailer. He\'s likely one of the guys you will meet who come to your business and help you out. In the weekends Adam has a house full of tropical fish and is involved in the Waikato Aquarium Society.',
+  },
+];
+---
+<Layout
+  title="About Central Communications Ltd"
+  description="Central Communications Ltd was established in 1989 and provides smart telecommunications solutions to businesses throughout the Waikato. Meet our team."
+>
+  <div class="page-hero">
+    <div class="container">
+      <span class="section-tag">About us</span>
+      <h1 class="page-title">Building Better Business<br /><em>Since 1989</em></h1>
+      <p class="page-sub">A privately owned New Zealand company, trusted by businesses across the Waikato for over 35 years.</p>
+    </div>
+  </div>
+
+  <!-- Mission -->
+  <section class="section">
+    <div class="container">
+      <div class="about-grid">
+        <div>
+          <span class="section-tag reveal">Our mission</span>
+          <h2 class="section-heading reveal reveal-delay-1">The One-Stop<br />Communication Shop</h2>
+          <p class="body-text reveal reveal-delay-2">
+            We will take care of all your telecommunications needs. Your communications services work
+            for you, not you for them. Consider it done.
+          </p>
+          <p class="body-text reveal reveal-delay-3">
+            Providing 'best of class' telecommunications and tech services to small businesses in New Zealand.
+            Personalised service and a one-stop shop for your tech needs — making sure tech works for your business.
+          </p>
+          <p class="body-text reveal reveal-delay-4">
+            Central Communications Ltd is a privately owned and operated New Zealand company, supplying
+            a comprehensive range of telecommunications, security and data services to businesses and individuals.
+            Established in February 1989 by Max and Raewyn Whitelaw, we have remained committed to delivering
+            better service and competitive pricing — a right for all.
+          </p>
+        </div>
+        <div class="reveal reveal-delay-2">
+          <img
+            src="/assets/images/central_comms_montage.jpg"
+            alt="Central Communications team"
+            class="about-img"
+            loading="lazy"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Team -->
+  <section class="section-alt">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">The team</span>
+        <h2 class="section-heading">The People Behind<br />Central Comms</h2>
+      </div>
+
+      <div class="team-grid">
+        {team.map((member, i) => (
+          <div class={`team-card card reveal reveal-delay-${(i % 3) + 1}`}>
+            <img
+              src={member.img}
+              alt={member.name}
+              class="team-avatar"
+              loading="lazy"
+            />
+            <div>
+              <div class="team-name">{member.name}</div>
+              <div class="team-role">{member.role}</div>
+              <p class="team-bio">{member.bio}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Company info -->
+  <section class="section">
+    <div class="container">
+      <div class="info-grid">
+        <div>
+          <span class="section-tag reveal">Company details</span>
+          <h2 class="section-heading reveal reveal-delay-1">Company Information</h2>
+          <dl class="info-list reveal reveal-delay-2">
+            <div class="info-row"><dt>GST Number</dt><dd>135-084-565</dd></div>
+            <div class="info-row"><dt>NZBN</dt><dd>9429050077809</dd></div>
+            <div class="info-row"><dt>Company Number</dt><dd>8261978</dd></div>
+            <div class="info-row"><dt>Bank</dt><dd>ASB Hamilton</dd></div>
+            <div class="info-row"><dt>Bank Account</dt><dd>12-3498-0001628-00</dd></div>
+            <div class="info-row"><dt>SWIFT / BIC</dt><dd>ASBBNZ2A</dd></div>
+            <div class="info-row"><dt>PSPLA Licence</dt><dd>26-136741 (Paul Willard)</dd></div>
+          </dl>
+        </div>
+        <div class="reveal reveal-delay-2">
+          <img
+            src="/assets/images/pspla-license-2026.png"
+            alt="PSPLA License 2026"
+            style="max-width:360px;border-radius:0.75rem;border:1px solid rgba(14,165,233,0.15);"
+            loading="lazy"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-title { font-size: clamp(2rem, 5vw, 3.5rem); color: #e8f1ff; margin: 0.5rem 0 1rem; }
+  .page-title em { font-style: normal; color: #0ea5e9; }
+  .page-sub { font-size: 1.1rem; color: #7ea3c8; max-width: 520px; }
+
+  .about-grid, .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+  .about-img {
+    border-radius: 1.25rem;
+    border: 1px solid rgba(14, 165, 233, 0.15);
+    width: 100%;
+    height: auto;
+  }
+
+  .section-header { text-align: center; margin-bottom: 3rem; }
+  .section-heading { font-size: clamp(1.8rem, 4vw, 2.4rem); color: #e8f1ff; margin: 0.5rem 0 1rem; }
+
+  .body-text {
+    color: #7ea3c8;
+    line-height: 1.8;
+    margin-bottom: 1rem;
+    font-size: 0.975rem;
+  }
+
+  /* Team */
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+
+  .team-card { display: flex; flex-direction: column; gap: 1rem; }
+
+  .team-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(14, 165, 233, 0.3);
+  }
+
+  .team-name {
+    font-family: "Syne", sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: #e8f1ff;
+    margin-bottom: 0.2rem;
+  }
+  .team-role {
+    font-family: "Space Mono", monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #0ea5e9;
+    margin-bottom: 0.75rem;
+  }
+  .team-bio {
+    font-size: 0.855rem;
+    color: #7ea3c8;
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  /* Company info */
+  .info-list { display: flex; flex-direction: column; gap: 0; }
+  .info-row {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 1rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid rgba(14, 165, 233, 0.08);
+  }
+  .info-row dt {
+    font-family: "Space Mono", monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #7ea3c8;
+  }
+  .info-row dd {
+    font-size: 0.9rem;
+    color: #e8f1ff;
+    margin: 0;
+  }
+
+  @media (max-width: 900px) {
+    .about-grid, .info-grid { grid-template-columns: 1fr; }
+    .team-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 560px) {
+    .team-grid { grid-template-columns: 1fr; }
+  }
+</style>

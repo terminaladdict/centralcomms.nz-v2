@@ -1,0 +1,190 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+<Layout
+  title="Technical Support — Central Communications Ltd"
+  description="After-sales support for all Central Communications services. Remote support via RustDesk, 24/7 emergency line, and our support request form."
+>
+  <div class="page-hero">
+    <div class="container">
+      <span class="section-tag">Support</span>
+      <h1 class="page-title">Technical &amp;<br /><em>Product Support</em></h1>
+      <p class="page-sub">We're here when you need us — 24/7 for emergencies, next business day for everything else.</p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="support-grid">
+
+        <!-- Left: info -->
+        <div>
+          <h2 class="content-h2 reveal">After-Sales Support</h2>
+          <p class="body-text reveal reveal-delay-1">
+            After the purchase and installation of your technology, Central Communications' service
+            doesn't end there. Our technicians are there to answer questions, make changes to settings,
+            and ensure you get the full potential out of your equipment.
+          </p>
+          <p class="body-text reveal reveal-delay-2">
+            The vast majority of support can be done remotely, saving you money with no need for our
+            technicians to attend site. We offer <strong style="color:#e8f1ff;">24/7 emergency service</strong> and next-day
+            response via email, phone or remote access for non-urgent enquiries.
+          </p>
+
+          <!-- RustDesk -->
+          <div class="rustdesk-box reveal reveal-delay-3">
+            <img src="/assets/images/rustdesk.svg" alt="RustDesk" width="48" height="48" />
+            <div>
+              <h3 class="rustdesk-title">Remote Support via RustDesk</h3>
+              <p class="body-text" style="margin:0;">
+                We use RustDesk to provide remote support to customers we can't visit in person.
+                Download the tool below, then call us on
+                <a href="tel:+6480084800038" style="color:#0ea5e9;">0800 848 0038</a> to get connected.
+              </p>
+              <a
+                href="/assets/rustdesk-host=rustdesk.centralcomms.nz,key=417TnSNdiK7jjGkpAB5wKELbzRnS6fxA75uO3buEbys=.exe"
+                class="btn btn-primary"
+                style="margin-top:1rem;display:inline-flex;"
+              >
+                Download RustDesk
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              </a>
+            </div>
+          </div>
+          <img
+            src="/assets/images/RustDesk_image.jpg"
+            alt="RustDesk screenshot showing ID and password fields"
+            style="border-radius:0.75rem;border:1px solid rgba(14,165,233,0.12);max-width:500px;margin-top:1.5rem;"
+            loading="lazy"
+            class="reveal reveal-delay-4"
+          />
+        </div>
+
+        <!-- Right: contact form -->
+        <div id="contact" class="reveal reveal-delay-2">
+          <div class="contact-card">
+            <h2 class="content-h2" style="margin-top:0;">Send a Support Request</h2>
+            <form id="support-form" method="post" action="/assets/php/contact.php" novalidate>
+              <div class="form-field">
+                <label for="s-name">Name *</label>
+                <input type="text" id="s-name" name="name" required autocomplete="name" placeholder="Your name" />
+              </div>
+              <div class="form-field">
+                <label for="s-email">Email *</label>
+                <input type="email" id="s-email" name="email" required autocomplete="email" placeholder="you@company.co.nz" />
+              </div>
+              <div class="form-field">
+                <label for="s-phone">Phone</label>
+                <input type="tel" id="s-phone" name="phone" autocomplete="tel" placeholder="027 000 0000" />
+              </div>
+              <div class="form-field">
+                <label for="s-issue">Issue *</label>
+                <textarea id="s-issue" name="message" required placeholder="Describe the problem you're experiencing…"></textarea>
+              </div>
+              <div id="support-status" aria-live="polite"></div>
+              <button type="submit" class="btn btn-ember" style="width:100%;justify-content:center;">
+                Send Support Request
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-title { font-size: clamp(2rem, 5vw, 3.5rem); color: #e8f1ff; margin: 0.5rem 0 1rem; }
+  .page-title em { font-style: normal; color: #0ea5e9; }
+  .page-sub { font-size: 1.1rem; color: #7ea3c8; max-width: 520px; }
+
+  .support-grid {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  .content-h2 {
+    font-size: 1.6rem;
+    color: #e8f1ff;
+    margin: 0 0 1rem;
+  }
+
+  .body-text {
+    color: #7ea3c8;
+    line-height: 1.8;
+    font-size: 0.975rem;
+    margin-bottom: 1rem;
+  }
+
+  .rustdesk-box {
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+    background: #0c1d35;
+    border: 1px solid rgba(14, 165, 233, 0.15);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+  }
+  .rustdesk-box img { flex-shrink: 0; margin-top: 0.25rem; }
+  .rustdesk-title {
+    font-family: "Syne", sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #e8f1ff;
+    margin: 0 0 0.5rem;
+  }
+
+  .contact-card {
+    background: #0c1d35;
+    border: 1px solid rgba(14, 165, 233, 0.15);
+    border-radius: 1.25rem;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    position: sticky;
+    top: 6rem;
+  }
+  .contact-card form { display: flex; flex-direction: column; gap: 1rem; }
+
+  #support-status { font-size: 0.875rem; min-height: 1.5rem; }
+  #support-status.success { color: #4ade80; }
+  #support-status.error   { color: #f87171; }
+
+  @media (max-width: 900px) {
+    .support-grid { grid-template-columns: 1fr; }
+    .contact-card { position: static; }
+  }
+</style>
+
+<script>
+  const form = document.getElementById('support-form') as HTMLFormElement;
+  const status = document.getElementById('support-status')!;
+  const btn = form?.querySelector('[type="submit"]') as HTMLButtonElement;
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+    status.className = '';
+    status.textContent = '';
+    try {
+      const res  = await fetch('/assets/php/contact.php', { method: 'POST', body: new FormData(form) });
+      const json = await res.json();
+      if (json.success) {
+        status.className = 'success';
+        status.textContent = json.message || 'Request sent! We\'ll be in touch soon.';
+        form.reset();
+      } else { throw new Error(json.message); }
+    } catch (err: any) {
+      status.className = 'error';
+      status.textContent = err.message || 'Something went wrong. Please call 0800 848 0038.';
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Send Support Request';
+    }
+  });
+</script>
