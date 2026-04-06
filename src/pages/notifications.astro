@@ -196,44 +196,124 @@ import Layout from '../layouts/Layout.astro';
   .btn-ghost-sm:hover { color:#e8f1ff; }
   .btn-sm { font-size:0.85rem; padding:0.5rem 1rem; }
 
+  /* Section headers (Active / Past) */
+  .section-header {
+    display:flex; align-items:center; gap:0.75rem;
+    margin:1.75rem 0 1rem;
+    font-family:"Space Mono",monospace; font-size:0.7rem;
+    text-transform:uppercase; letter-spacing:.08em;
+  }
+  .section-header::after { content:''; flex:1; height:1px; }
+  .section-header.active-header  { color:#ef4444; }
+  .section-header.active-header::after  { background: rgba(239,68,68,0.2); }
+  .section-header.warning-header { color:#f59e0b; }
+  .section-header.warning-header::after { background: rgba(245,158,11,0.2); }
+  .section-header.resolved-header { color:#3a5570; margin-top:2.5rem; }
+  .section-header.resolved-header::after { background: rgba(255,255,255,0.05); }
+  .section-badge {
+    background:rgba(239,68,68,0.15); color:#ef4444;
+    border-radius:999px; padding:0.1rem 0.55rem; font-size:0.68rem;
+  }
+
   /* Notification cards */
   .notif-card {
-    border:1px solid rgba(14,165,233,0.12); border-radius:1rem;
+    border:1px solid rgba(14,165,233,0.12);
+    border-left:4px solid rgba(14,165,233,0.25);
+    border-radius:0 0.875rem 0.875rem 0;
     background: rgba(255,255,255,0.02); padding:1.5rem;
-    margin-bottom:1.25rem; transition: border-color 0.2s;
+    margin-bottom:1.5rem; transition: border-color 0.2s, background 0.2s;
   }
-  .notif-card:hover { border-color: rgba(14,165,233,0.22); }
-  .notif-card.status-warning { border-color: rgba(245,158,11,0.2); }
-  .notif-card.status-outage  { border-color: rgba(239,68,68,0.25); }
-  .notif-card.status-resolved { opacity: 0.8; }
+  .notif-card.status-info    { border-left-color:#0ea5e9; border-color:rgba(14,165,233,0.2); }
+  .notif-card.status-warning { border-left-color:#f59e0b; border-color:rgba(245,158,11,0.2); background:rgba(245,158,11,0.02); }
+  .notif-card.status-outage  { border-left-color:#ef4444; border-color:rgba(239,68,68,0.2);  background:rgba(239,68,68,0.02); }
+  .notif-card.status-resolved {
+    border-left-color:rgba(74,222,128,0.25); border-color:rgba(74,222,128,0.1);
+    opacity:0.6;
+  }
+  .notif-card.status-resolved:hover { opacity: 0.85; }
 
-  .notif-header { display:flex; align-items:flex-start; gap:0.875rem; margin-bottom:0.875rem; flex-wrap:wrap; }
+  .notif-header { display:flex; align-items:flex-start; gap:0.875rem; margin-bottom:1rem; flex-wrap:wrap; }
   .notif-badge {
-    font-family:"Space Mono",monospace; font-size:0.7rem; text-transform:uppercase;
+    font-family:"Space Mono",monospace; font-size:0.68rem; text-transform:uppercase;
     letter-spacing:.06em; padding:0.25rem 0.6rem; border-radius:999px; white-space:nowrap;
-    flex-shrink:0; margin-top:0.2rem;
+    flex-shrink:0; margin-top:0.25rem;
   }
   .badge-info     { background:rgba(14,165,233,0.15); color:#0ea5e9; border:1px solid rgba(14,165,233,0.3); }
   .badge-warning  { background:rgba(245,158,11,0.12); color:#f59e0b; border:1px solid rgba(245,158,11,0.3); }
-  .badge-outage   { background:rgba(239,68,68,0.1);  color:#ef4444;  border:1px solid rgba(239,68,68,0.3);  }
-  .badge-resolved { background:rgba(74,222,128,0.08);color:#4ade80;  border:1px solid rgba(74,222,128,0.2); }
+  .badge-outage   { background:rgba(239,68,68,0.12);  color:#ef4444;  border:1px solid rgba(239,68,68,0.35); }
+  .badge-resolved { background:rgba(74,222,128,0.08); color:#4ade80;  border:1px solid rgba(74,222,128,0.2); }
 
-  .notif-title-wrap { flex:1; }
-  .notif-title { font-family:"Syne",sans-serif; font-size:1.05rem; font-weight:700; color:#e8f1ff; margin:0 0 0.25rem; }
-  .notif-meta  { font-size:0.78rem; color:#7ea3c8; }
-  .notif-meta .edited { color: #4a6a8a; font-style: italic; }
+  .notif-title-wrap { flex:1; min-width:0; }
+  .notif-title { font-family:"Syne",sans-serif; font-size:1.05rem; font-weight:700; color:#e8f1ff; margin:0 0 0.3rem; }
+  .notif-meta  { font-size:0.78rem; color:#5a7a9a; }
+  .notif-meta .edited { color:#3a5570; font-style:italic; }
 
-  .notif-body { color:#a8c0d8; line-height:1.75; font-size:0.95rem; white-space:pre-wrap; word-break:break-word; }
+  .notif-body { color:#a8c0d8; line-height:1.8; font-size:0.95rem; white-space:pre-wrap; word-break:break-word; }
 
-  .notif-staff-actions { display:flex; gap:0.5rem; margin-top:1rem; padding-top:1rem; border-top:1px solid rgba(14,165,233,0.08); }
+  /* Staff action bar */
+  .notif-staff-actions {
+    display:flex; gap:0.5rem; align-items:center; flex-wrap:wrap;
+    margin-top:1.25rem; padding:0.875rem 1rem;
+    background:rgba(255,255,255,0.025); border-radius:0.5rem;
+    border:1px solid rgba(255,255,255,0.04);
+  }
+  .notif-staff-actions .spacer { flex:1; }
 
-  /* Comments */
-  .comments-section { margin-top:1.25rem; padding-top:1.25rem; border-top:1px solid rgba(14,165,233,0.08); }
-  .comments-heading { font-family:"Space Mono",monospace; font-size:0.72rem; text-transform:uppercase; letter-spacing:.06em; color:#4a6a8a; margin-bottom:0.875rem; }
+  /* Action buttons */
+  .action-btn {
+    display:inline-flex; align-items:center; gap:0.35rem;
+    font-size:0.8rem; font-family:"DM Sans",sans-serif; font-weight:500;
+    padding:0.35rem 0.8rem; border-radius:0.375rem;
+    cursor:pointer; border:1px solid; transition: all 0.15s;
+    white-space:nowrap;
+  }
+  .action-btn.resolve {
+    background:rgba(74,222,128,0.12); border-color:rgba(74,222,128,0.4);
+    color:#4ade80;
+  }
+  .action-btn.resolve:hover { background:rgba(74,222,128,0.22); border-color:#4ade80; }
+  .action-btn.edit {
+    background:rgba(14,165,233,0.08); border-color:rgba(14,165,233,0.35);
+    color:#0ea5e9;
+  }
+  .action-btn.edit:hover { background:rgba(14,165,233,0.18); border-color:#0ea5e9; }
+  .action-btn.save {
+    background:rgba(14,165,233,0.12); border-color:rgba(14,165,233,0.4);
+    color:#0ea5e9; font-weight:600;
+  }
+  .action-btn.save:hover { background:rgba(14,165,233,0.22); border-color:#0ea5e9; }
+  .action-btn.cancel-btn {
+    background:none; border-color:rgba(255,255,255,0.08); color:#5a7a9a;
+  }
+  .action-btn.cancel-btn:hover { border-color:rgba(255,255,255,0.2); color:#a8c0d8; }
+  .action-btn.danger {
+    background:rgba(239,68,68,0.08); border-color:rgba(239,68,68,0.3);
+    color:#ef4444;
+  }
+  .action-btn.danger:hover { background:rgba(239,68,68,0.18); border-color:#ef4444; }
+  /* keep .primary for add-comment button */
+  .action-btn.primary {
+    background:rgba(14,165,233,0.1); border-color:rgba(14,165,233,0.4);
+    color:#0ea5e9;
+  }
+  .action-btn.primary:hover { background:rgba(14,165,233,0.2); border-color:#0ea5e9; }
+
+  /* Comments / staff updates */
+  .comments-section {
+    margin-top:1.25rem; padding-top:1.25rem;
+    border-top:1px solid rgba(255,255,255,0.05);
+  }
+  .comments-heading {
+    font-family:"Space Mono",monospace; font-size:0.7rem; text-transform:uppercase;
+    letter-spacing:.06em; color:#3a5570; margin-bottom:0.875rem;
+    display:flex; align-items:center; gap:0.5rem;
+  }
+  .comments-heading::after { content:''; flex:1; height:1px; background:rgba(255,255,255,0.04); }
   .comment {
-    background: rgba(255,255,255,0.025); border-radius:0.625rem;
+    background:rgba(255,255,255,0.02); border-radius:0.5rem;
     padding:0.875rem 1rem; margin-bottom:0.625rem;
-    border-left:2px solid rgba(14,165,233,0.2);
+    border:1px solid rgba(14,165,233,0.08);
+    border-left:2px solid rgba(14,165,233,0.25);
   }
   .comment-meta { font-size:0.75rem; color:#4a6a8a; margin-bottom:0.4rem; }
   .comment-meta strong { color:#7ea3c8; }
@@ -246,28 +326,25 @@ import Layout from '../layouts/Layout.astro';
     font-family:"DM Sans",sans-serif; resize:vertical; outline:none; box-sizing:border-box;
   }
   .comment-edit-actions { display:flex; gap:0.5rem; margin-top:0.5rem; }
-  .add-comment-form { margin-top:0.875rem; }
+
+  /* Add staff update form */
+  .add-comment-form {
+    margin-top:1rem; padding:1rem 1.1rem;
+    background:rgba(14,165,233,0.03); border:1px dashed rgba(14,165,233,0.15);
+    border-radius:0.5rem;
+  }
+  .add-comment-label {
+    display:block; font-family:"Space Mono",monospace; font-size:0.68rem;
+    text-transform:uppercase; letter-spacing:.05em; color:#4a6a8a; margin-bottom:0.6rem;
+  }
   .add-comment-form textarea {
     width:100%; background:rgba(255,255,255,0.04); border:1px solid rgba(14,165,233,0.15);
-    border-radius:0.5rem; padding:0.625rem 0.875rem; color:#e8f1ff; font-size:0.9rem;
+    border-radius:0.4rem; padding:0.6rem 0.875rem; color:#e8f1ff; font-size:0.9rem;
     font-family:"DM Sans",sans-serif; resize:vertical; outline:none; box-sizing:border-box;
     transition: border-color 0.2s;
   }
   .add-comment-form textarea:focus { border-color: rgba(14,165,233,0.4); }
-  .add-comment-actions { display:flex; gap:0.5rem; margin-top:0.5rem; align-items:center; }
-
-  /* Action buttons (small text buttons) */
-  .action-btn {
-    background:none; border:1px solid rgba(14,165,233,0.2); color:#7ea3c8;
-    font-size:0.78rem; padding:0.25rem 0.65rem; border-radius:0.375rem;
-    cursor:pointer; font-family:"DM Sans",sans-serif;
-    transition: border-color 0.2s, color 0.2s;
-  }
-  .action-btn:hover { border-color:rgba(14,165,233,0.4); color:#e8f1ff; }
-  .action-btn.danger { border-color:rgba(239,68,68,0.2); color:#ef9999; }
-  .action-btn.danger:hover { border-color:rgba(239,68,68,0.5); color:#ef4444; }
-  .action-btn.primary { border-color:rgba(14,165,233,0.4); color:#0ea5e9; }
-  .action-btn.primary:hover { border-color:#0ea5e9; }
+  .add-comment-actions { display:flex; gap:0.5rem; margin-top:0.625rem; align-items:center; }
 
   /* Empty state */
   .notif-empty {
@@ -432,6 +509,16 @@ import Layout from '../layouts/Layout.astro';
     }
   }
 
+  function sortedNotifications() {
+    const priority = { outage: 0, warning: 1, info: 2, resolved: 3 };
+    return [...notifications].sort((a, b) => {
+      const pa = priority[a.status] ?? 4;
+      const pb = priority[b.status] ?? 4;
+      if (pa !== pb) return pa - pb;
+      return new Date(b.created_at) - new Date(a.created_at);
+    });
+  }
+
   function renderList() {
     const container = document.getElementById('notifications-list');
     if (!container) return;
@@ -445,12 +532,37 @@ import Layout from '../layouts/Layout.astro';
       return;
     }
 
-    const total = notifications.length;
-    const totalPages = Math.ceil(total / PER_PAGE);
+    const sorted = sortedNotifications();
+    const totalPages = Math.ceil(sorted.length / PER_PAGE);
     if (page > totalPages) page = totalPages;
-    const slice = notifications.slice((page - 1) * PER_PAGE, page * PER_PAGE);
+    const slice = sorted.slice((page - 1) * PER_PAGE, page * PER_PAGE);
 
-    container.innerHTML = slice.map(n => renderCard(n)).join('');
+    const hasActive   = notifications.some(n => n.status !== 'resolved');
+    const hasResolved = notifications.some(n => n.status === 'resolved');
+    const showHeaders = hasActive && hasResolved;
+
+    let html = '';
+    let inResolved = false;
+
+    slice.forEach(n => {
+      const isResolved = n.status === 'resolved';
+
+      if (showHeaders) {
+        if (!inResolved && !isResolved && html === '') {
+          const activeCount = notifications.filter(n => n.status !== 'resolved').length;
+          const worstStatus = notifications.some(n => n.status === 'outage') ? 'active-header' : 'warning-header';
+          html += `<div class="section-header ${worstStatus}"><span>Active Issues</span><span class="section-badge">${activeCount}</span></div>`;
+        }
+        if (!inResolved && isResolved) {
+          inResolved = true;
+          html += `<div class="section-header resolved-header"><span>Past Notifications</span></div>`;
+        }
+      }
+
+      html += renderCard(n);
+    });
+
+    container.innerHTML = html;
   }
 
   function renderCard(n) {
@@ -459,10 +571,15 @@ import Layout from '../layouts/Layout.astro';
     const edited = wasEdited(n.created_at, n.updated_at)
       ? ` <span class="edited">(edited ${fmt(n.updated_at)})</span>` : '';
 
+    const resolveBtn = (isLoggedIn && n.status !== 'resolved')
+      ? `<button class="action-btn resolve" onclick="resolveNotif('${n.id}')">✓ Mark Resolved</button>`
+      : '';
     const staffActions = isLoggedIn ? `
       <div class="notif-staff-actions">
-        <button class="action-btn primary" onclick="startEditNotif('${n.id}')">Edit</button>
-        <button class="action-btn danger"  onclick="deleteNotif('${n.id}')">Delete</button>
+        ${resolveBtn}
+        <span class="spacer"></span>
+        <button class="action-btn edit"   onclick="startEditNotif('${n.id}')">Edit</button>
+        <button class="action-btn danger" onclick="deleteNotif('${n.id}')">Delete</button>
       </div>` : '';
 
     const commentsHtml = renderComments(n);
@@ -490,9 +607,10 @@ import Layout from '../layouts/Layout.astro';
 
     const addForm = isLoggedIn ? `
       <div class="add-comment-form">
-        <textarea id="comment-input-${n.id}" rows="3" placeholder="Add a staff comment…"></textarea>
+        <span class="add-comment-label">Add Staff Update</span>
+        <textarea id="comment-input-${n.id}" rows="3" placeholder="Add an update, workaround, or resolution note…"></textarea>
         <div class="add-comment-actions">
-          <button class="action-btn primary" onclick="submitComment('${n.id}')">Add Comment</button>
+          <button class="action-btn primary" onclick="submitComment('${n.id}')">Post Update</button>
         </div>
       </div>` : '';
 
@@ -614,6 +732,16 @@ import Layout from '../layouts/Layout.astro';
     }
   }
 
+  async function resolveNotif(id) {
+    const n = notifications.find(n => n.id === id);
+    if (!n) return;
+    const result = await apiCall('update', { id }, { title: n.title, body: n.body, status: 'resolved' });
+    if (result.error) { alert(result.error); return; }
+    const idx = notifications.findIndex(n => n.id === id);
+    if (idx >= 0) notifications[idx] = result.notification;
+    render();
+  }
+
   async function deleteNotif(id) {
     const n = notifications.find(n => n.id === id);
     if (!n) return;
@@ -655,8 +783,8 @@ import Layout from '../layouts/Layout.astro';
       <div class="comment-edit-wrap">
         <textarea class="comment-edit-textarea" id="cedit-${commentId}" rows="4">${esc(c.body)}</textarea>
         <div class="comment-edit-actions">
-          <button class="action-btn primary" onclick="saveEditComment('${notifId}','${commentId}')">Save</button>
-          <button class="action-btn" onclick="cancelEditComment()">Cancel</button>
+          <button class="action-btn save" onclick="saveEditComment('${notifId}','${commentId}')">Save</button>
+          <button class="action-btn cancel-btn" onclick="cancelEditComment()">Cancel</button>
         </div>
       </div>`;
     document.getElementById(`cedit-${commentId}`)?.focus();
@@ -777,6 +905,7 @@ import Layout from '../layouts/Layout.astro';
 
   // Expose functions called from inline onclick handlers
   window.goPage           = goPage;
+  window.resolveNotif     = resolveNotif;
   window.startEditNotif   = startEditNotif;
   window.deleteNotif      = deleteNotif;
   window.submitComment    = submitComment;
