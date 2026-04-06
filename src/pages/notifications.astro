@@ -95,7 +95,7 @@ import Layout from '../layouts/Layout.astro';
 
       <!-- Login panel -->
       <div id="login-panel" class="login-panel" hidden>
-        <form id="login-form" novalidate>
+        <form id="login-form" method="post" novalidate>
           <h3 class="form-heading">Staff Login</h3>
           <div class="form-group">
             <label for="login-username">Username</label>
@@ -350,16 +350,25 @@ import Layout from '../layouts/Layout.astro';
       opts.body = JSON.stringify(body);
     }
     const res = await fetch(url, opts);
-    return res.json();
+    try {
+      return await res.json();
+    } catch {
+      return { error: `Server error ${res.status}: response was not JSON` };
+    }
   }
 
   // ── Init ────────────────────────────────────────────────────────────────────
 
   async function init() {
-    const [me, data] = await Promise.all([apiCall('me'), apiCall('list')]);
-    isLoggedIn = me.logged_in;
-    currentUser = me.user;
-    notifications = data.notifications ?? [];
+    try {
+      const [me, data] = await Promise.all([apiCall('me'), apiCall('list')]);
+      isLoggedIn = me.logged_in ?? false;
+      currentUser = me.user ?? null;
+      notifications = data.notifications ?? [];
+    } catch (err) {
+      console.error('Notifications API unavailable:', err);
+      notifications = [];
+    }
     render();
     updateStatusTime();
   }
@@ -706,6 +715,8 @@ import Layout from '../layouts/Layout.astro';
       document.getElementById('login-panel').hidden = true;
       document.getElementById('login-password').value = '';
       render();
+    } catch (err) {
+      showFormError('login-error', 'Connection error — check the server is reachable.');
     } finally {
       btn.disabled = false; btn.textContent = 'Login';
     }
@@ -732,37 +743,37 @@ import Layout from '../layouts/Layout.astro';
   }
 
   // ── Wire up events ───────────────────────────────────────────────────────────
+  // Note: Astro injects this module after </html>, so DOMContentLoaded has
+  // already fired. Run setup directly instead of waiting for that event.
 
-  document.addEventListener('DOMContentLoaded', () => {
-    init();
+  init();
 
-    document.getElementById('notif-form')
-      ?.addEventListener('submit', submitNotifForm);
+  document.getElementById('notif-form')
+    ?.addEventListener('submit', submitNotifForm);
 
-    document.getElementById('notif-cancel-btn')
-      ?.addEventListener('click', hideNotifForm);
+  document.getElementById('notif-cancel-btn')
+    ?.addEventListener('click', hideNotifForm);
 
-    document.getElementById('add-notif-btn')
-      ?.addEventListener('click', () => showNotifForm('New Notification', '', 'info', '', ''));
+  document.getElementById('add-notif-btn')
+    ?.addEventListener('click', () => showNotifForm('New Notification', '', 'info', '', ''));
 
-    document.getElementById('logout-btn')
-      ?.addEventListener('click', logout);
+  document.getElementById('logout-btn')
+    ?.addEventListener('click', logout);
 
-    document.getElementById('login-form')
-      ?.addEventListener('submit', submitLogin);
+  document.getElementById('login-form')
+    ?.addEventListener('submit', submitLogin);
 
-    document.getElementById('login-toggle')
-      ?.addEventListener('click', () => {
-        const panel = document.getElementById('login-panel');
-        panel.hidden = !panel.hidden;
-        if (!panel.hidden) document.getElementById('login-username').focus();
-      });
+  document.getElementById('login-toggle')
+    ?.addEventListener('click', () => {
+      const panel = document.getElementById('login-panel');
+      panel.hidden = !panel.hidden;
+      if (!panel.hidden) document.getElementById('login-username').focus();
+    });
 
-    document.getElementById('login-cancel')
-      ?.addEventListener('click', () => {
-        document.getElementById('login-panel').hidden = true;
-      });
-  });
+  document.getElementById('login-cancel')
+    ?.addEventListener('click', () => {
+      document.getElementById('login-panel').hidden = true;
+    });
 
   // Expose functions called from inline onclick handlers
   window.goPage           = goPage;
