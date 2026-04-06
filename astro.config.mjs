@@ -7,12 +7,7 @@ export default defineConfig({
   site: 'https://www.centralcomms.nz',
   integrations: [sitemap(), mdx()],
   vite: {
-    plugins: [tailwindcss()],
-    server: {
-      proxy: {
-        '/assets/php': 'http://localhost:8001'
-      }
-    }
+    plugins: [tailwindcss()]
   },
   build: {
     format: 'file'
