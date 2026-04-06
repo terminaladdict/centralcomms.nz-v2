@@ -1,4 +1,10 @@
 <?php
+// Capture any stray output (PHP notices/warnings) so they can't corrupt JSON
+ob_start();
+// Suppress display of PHP errors into output
+ini_set('display_errors', '0');
+error_reporting(E_ALL);
+
 session_start();
 header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: no-store, no-cache, must-revalidate');
@@ -14,7 +20,8 @@ $dataFile = __DIR__ . '/../data/notifications.json';
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
-function respond(int $code, array $data): never {
+function respond(int $code, array $data): void {
+    ob_clean(); // discard any stray output before sending JSON
     http_response_code($code);
     echo json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
     exit;
