@@ -110,6 +110,8 @@ import Layout from '../layouts/Layout.astro';
       <!-- Notifications list -->
       <div id="notifications-list"></div>
 
+      <!-- Infinite scroll sentinel (loads more resolved notifications) -->
+      <div id="load-more-sentinel"></div>
 
     </div>
   </section>
@@ -337,6 +339,17 @@ import Layout from '../layouts/Layout.astro';
   }
   .notif-empty p { color:#64748b; font-size:0.95rem; margin:0; }
 
+  /* Load-more spinner */
+  .load-more-spinner {
+    display: flex; justify-content: center; padding: 1.5rem 0;
+  }
+  .load-more-spinner span {
+    width: 28px; height: 28px; border: 3px solid #e2e8f0;
+    border-top-color: #0ea5e9; border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
   /* Staff login (discreet — sits above the list) */
   .staff-login-area { text-align:right; margin-bottom:1.5rem; }
   .login-toggle-link {
@@ -357,8 +370,10 @@ import Layout from '../layouts/Layout.astro';
 <!-- ─────────────────────────────────────────────────────────── script ── -->
 <script>
   const API = '/assets/php/notifications-api.php';
+  const RESOLVED_PER_LOAD = 5;
 
   let notifications = [];
+  let resolvedVisible = RESOLVED_PER_LOAD;
   let isLoggedIn = false;
   let currentUser = null;
   let editingNotifId = null;
@@ -426,6 +441,7 @@ import Layout from '../layouts/Layout.astro';
     renderStatusBanner();
     renderStaffBar();
     renderList();
+    updateSentinel();
     // Hide login area when logged in
     const loginArea = document.getElementById('staff-login-area');
     if (loginArea) loginArea.hidden = isLoggedIn;
@@ -502,7 +518,9 @@ import Layout from '../layouts/Layout.astro';
     }
 
     const sorted = sortedNotifications();
-    const slice = sorted;
+    const active   = sorted.filter(n => n.status !== 'resolved');
+    const resolved = sorted.filter(n => n.status === 'resolved').slice(0, resolvedVisible);
+    const slice = [...active, ...resolved];
 
     const hasActive   = notifications.some(n => n.status !== 'resolved');
     const hasResolved = notifications.some(n => n.status === 'resolved');
@@ -605,6 +623,33 @@ import Layout from '../layouts/Layout.astro';
         <div class="comment-body" id="cbody-${c.id}">${escLines(c.body)}</div>
         ${actions}
       </div>`;
+  }
+
+  // ── Infinite scroll (resolved items only) ───────────────────────────────────
+
+  function updateSentinel() {
+    const sentinel = document.getElementById('load-more-sentinel');
+    if (!sentinel) return;
+    const totalResolved = notifications.filter(n => n.status === 'resolved').length;
+    const hasMore = resolvedVisible < totalResolved;
+    sentinel.innerHTML = hasMore
+      ? `<div class="load-more-spinner"><span></span></div>`
+      : '';
+  }
+
+  function setupIntersectionObserver() {
+    const sentinel = document.getElementById('load-more-sentinel');
+    if (!sentinel) return;
+    const observer = new IntersectionObserver(entries => {
+      if (!entries[0].isIntersecting) return;
+      const totalResolved = notifications.filter(n => n.status === 'resolved').length;
+      if (resolvedVisible < totalResolved) {
+        resolvedVisible += RESOLVED_PER_LOAD;
+        renderList();
+        updateSentinel();
+      }
+    }, { rootMargin: '200px' });
+    observer.observe(sentinel);
   }
 
   // ── Notification CRUD ────────────────────────────────────────────────────────
@@ -812,7 +857,7 @@ import Layout from '../layouts/Layout.astro';
   // Note: Astro injects this module after </html>, so DOMContentLoaded has
   // already fired. Run setup directly instead of waiting for that event.
 
-  init();
+  init().then(setupIntersectionObserver);
 
   document.getElementById('notif-form')
     ?.addEventListener('submit', submitNotifForm);
