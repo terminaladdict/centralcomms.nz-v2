@@ -36,7 +36,7 @@ if (preg_match('/\b(http|https|www\.)\b/i', $message)) {
 }
 
 // Compose email
-$to      = 'info@centralcomms.nz';
+$to      = 'support@centralcomms.nz';
 $subject = "Website Enquiry from {$name}";
 $body    = implode("\n", [
     "Name:    {$name}",
