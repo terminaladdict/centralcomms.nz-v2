@@ -3,7 +3,7 @@ import Layout from '../layouts/Layout.astro';
 ---
 <Layout
   title="Technical Support — Central Communications Ltd"
-  description="After-sales support for all Central Communications services. Remote support via RustDesk, 24/7 emergency line, and our support request form."
+  description="After-sales support for all Central Communications services. Remote support via HelpWire, 24/7 emergency line, and our support request form."
 >
   <div class="page-hero">
     <div class="container">
@@ -27,37 +27,46 @@ import Layout from '../layouts/Layout.astro';
           </p>
           <p class="body-text reveal reveal-delay-2">
             The vast majority of support can be done remotely, saving you money with no need for our
-            technicians to attend site. We offer <strong style="color:#e8f1ff;">24/7 emergency service</strong> and next-day
+            technicians to attend site. We offer <strong style="color:#27448f;">24/7 emergency service</strong> and next-day
             response via email, phone or remote access for non-urgent enquiries.
           </p>
 
-          <!-- RustDesk -->
-          <div class="rustdesk-box reveal reveal-delay-3">
-            <img src="/assets/images/rustdesk.svg" alt="RustDesk" width="48" height="48" />
+          <!-- HelpWire -->
+          <div class="helpwire-box reveal reveal-delay-3">
+            <svg class="helpwire-icon" viewBox="0 0 48 48" width="48" height="48" fill="none" aria-hidden="true">
+              <rect width="48" height="48" rx="12" fill="#0ea5e9"/>
+              <path d="M14 24a10 10 0 1 1 20 0 10 10 0 0 1-20 0Z" fill="white" fill-opacity="0.15"/>
+              <path d="M24 16v8l5 3" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M10 34c2-4 7-7 14-7s12 3 14 7" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
             <div>
-              <h3 class="rustdesk-title">Remote Support via RustDesk</h3>
-              <p class="body-text" style="margin:0;">
-                We use RustDesk to provide remote support to customers we can't visit in person.
-                Download the tool below, then call us on
-                <a href="tel:+6480084800038" style="color:#0ea5e9;">0800 848 0038</a> to get connected.
+              <h3 class="helpwire-title">Remote Support via HelpWire</h3>
+              <p class="body-text" style="margin:0 0 0.75rem;">
+                We use HelpWire to connect directly to your computer and resolve issues fast — no technical
+                knowledge required on your end. It's free, simple, and secure. When you call us for remote
+                support, we'll send you a link or ask you to download the HelpWire Quick Connect client below.
               </p>
-              <a
-                href="/assets/rustdesk-host=rustdesk.centralcomms.nz,key=417TnSNdiK7jjGkpAB5wKELbzRnS6fxA75uO3buEbys=.exe"
-                class="btn btn-primary"
-                style="margin-top:1rem;display:inline-flex;"
-              >
-                Download RustDesk
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-              </a>
+              <div class="helpwire-steps">
+                <div class="step">
+                  <span class="step-num">1</span>
+                  <span>Call us on <a href="tel:+6480084800038" class="inline-link">0800 848 0038</a> to start a remote session</span>
+                </div>
+                <div class="step">
+                  <span class="step-num">2</span>
+                  <span>Download and run the HelpWire app that we send you.</span>
+                </div>
+                <div class="step">
+                  <span class="step-num">3</span>
+                  <span>We'll take it from there.</span>
+                </div>
+              </div>
             </div>
           </div>
-          <img
-            src="/assets/images/RustDesk_image.jpg"
-            alt="RustDesk screenshot showing ID and password fields"
-            style="border-radius:0.75rem;border:1px solid rgba(14,165,233,0.12);max-width:500px;margin-top:1.5rem;"
-            loading="lazy"
-            class="reveal reveal-delay-4"
-          />
+
+          <div class="helpwire-note reveal reveal-delay-4">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            HelpWire is free for customers to use and requires no installation — just download, run, and share your ID with our technician. The session ends the moment you close the app.
+          </div>
         </div>
 
         <!-- Right: contact form -->
@@ -114,30 +123,75 @@ import Layout from '../layouts/Layout.astro';
   }
 
   .body-text {
-    color: #7ea3c8;
+    color: #334e68;
     line-height: 1.8;
     font-size: 0.975rem;
     margin-bottom: 1rem;
   }
 
-  .rustdesk-box {
+  .helpwire-box {
     display: flex;
     gap: 1.25rem;
     align-items: flex-start;
-    background: #0c1d35;
-    border: 1px solid rgba(14, 165, 233, 0.15);
+    background: #f0f9ff;
+    border: 1px solid rgba(14, 165, 233, 0.2);
     border-radius: 1rem;
     padding: 1.5rem;
-    margin: 1.5rem 0;
+    margin: 1.5rem 0 1rem;
   }
-  .rustdesk-box img { flex-shrink: 0; margin-top: 0.25rem; }
-  .rustdesk-title {
+  .helpwire-icon { flex-shrink: 0; margin-top: 0.25rem; }
+  .helpwire-title {
     font-family: "Syne", sans-serif;
     font-size: 1rem;
     font-weight: 700;
-    color: #e8f1ff;
+    color: #1e3a5f;
     margin: 0 0 0.5rem;
   }
+
+  .helpwire-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin-top: 0.75rem;
+  }
+  .step {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    font-size: 0.9rem;
+    color: #334e68;
+    line-height: 1.5;
+  }
+  .step-num {
+    flex-shrink: 0;
+    width: 1.5rem;
+    height: 1.5rem;
+    background: #0ea5e9;
+    color: #fff;
+    border-radius: 50%;
+    font-size: 0.75rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0.05rem;
+  }
+  .inline-link { color: #0369a1; text-decoration: underline; }
+
+  .helpwire-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.75rem;
+    padding: 0.875rem 1rem;
+    font-size: 0.83rem;
+    color: #486581;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+  .helpwire-note svg { flex-shrink: 0; margin-top: 0.15rem; color: #64748b; }
 
   .contact-card {
     background: #0c1d35;
@@ -150,6 +204,7 @@ import Layout from '../layouts/Layout.astro';
     position: sticky;
     top: 6rem;
   }
+  .contact-card .content-h2 { color: #e8f1ff; }
   .contact-card form { display: flex; flex-direction: column; gap: 1rem; }
 
   #support-status { font-size: 0.875rem; min-height: 1.5rem; }
