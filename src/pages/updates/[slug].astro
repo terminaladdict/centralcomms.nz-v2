@@ -1,62 +1,71 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { getCollection, render } from 'astro:content';
+import updatesData from '../../../public/assets/data/updates.json';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('updates');
-  return posts.map((post) => ({
+  return updatesData.updates.map((post) => ({
     params: { slug: post.slug },
     props:  { post },
   }));
 }
 
 const { post } = Astro.props;
-const { Content } = await render(post);
 
-const allPosts = (await getCollection('updates')).sort(
-  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
-);
+const allPosts = [...updatesData.updates].sort((a, b) => b.date.localeCompare(a.date));
 const currentIndex = allPosts.findIndex(p => p.slug === post.slug);
 const prev = allPosts[currentIndex + 1];
 const next = allPosts[currentIndex - 1];
+
+const formattedDate = new Date(post.date + 'T00:00:00').toLocaleDateString('en-NZ', {
+  year: 'numeric', month: 'long', day: 'numeric'
+});
+
+const categoryColors: Record<string, string> = {
+  'CCTV':           '#0ea5e9',
+  'Infrastructure': '#38bdf8',
+  'VoIP':           '#60a5fa',
+  'Wireless':       '#7dd3fc',
+  'Broadband':      '#93c5fd',
+  'Websites':       '#a78bfa',
+  'Hosting':        '#34d399',
+};
 ---
 <Layout
-  title={`${post.data.title} — Central Communications Ltd`}
-  description={post.data.excerpt ?? `${post.data.title} — a project update from Central Communications Ltd.`}
-  image={post.data.image ? `/assets/images/posts/${post.data.image}` : undefined}
+  title={`${post.title} — Central Communications Ltd`}
+  description={post.excerpt ?? `${post.title} — a project update from Central Communications Ltd.`}
+  image={post.image ? `/assets/images/posts/${post.image}` : undefined}
 >
   <!-- Post hero -->
   <div class="post-hero">
     <div class="container">
-      <a href="/updates/index.html" class="back-link">
+      <a href="/updates.html" class="back-link">
         <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
           <path d="M13 8H3M7 4l-4 4 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
         All updates
       </a>
 
-      <div class="post-meta">
-        {(post.data.categories ?? []).map(c => (
-          <span class="section-tag" style="margin-bottom:0;">{c}</span>
+      <div class="post-meta" id="post-meta-display">
+        {(post.categories ?? []).map(c => (
+          <span class="section-tag" style={`margin-bottom:0;border-color:${categoryColors[c] ?? '#0ea5e9'};color:${categoryColors[c] ?? '#0ea5e9'};`}>{c}</span>
         ))}
-        <span class="post-date">
-          {post.data.date.toLocaleDateString('en-NZ', { year: 'numeric', month: 'long', day: 'numeric' })}
-        </span>
+        <span class="post-date">{formattedDate}</span>
       </div>
 
-      <h1 class="post-title">{post.data.title}</h1>
-      <p class="post-author">By {post.data.author}</p>
+      <h1 class="post-title" id="post-title-display">{post.title}</h1>
+      <p class="post-author">By {post.author}</p>
     </div>
   </div>
 
-  {post.data.image && (
-    <div class="post-cover">
+  {post.image && (
+    <div class="post-cover" id="post-cover-display">
       <div class="container">
         <img
-          src={`/assets/images/posts/${post.data.image}`}
-          alt={post.data.title}
+          src={`/assets/images/posts/${post.image}`}
+          alt={post.title}
           class="cover-img"
           loading="eager"
+          id="post-cover-img"
         />
       </div>
     </div>
@@ -65,12 +74,10 @@ const next = allPosts[currentIndex - 1];
   <!-- Content -->
   <article class="section">
     <div class="container">
-      <div class="prose">
-        <Content />
-      </div>
+      <div class="prose" id="post-content" set:html={post.content_html} />
 
       <!-- Prev / Next -->
-      <nav class="post-nav">
+      <nav class="post-nav" id="post-nav">
         {prev && (
           <a href={`/updates/${prev.slug}.html`} class="post-nav-item post-nav-prev">
             <span class="post-nav-label">
@@ -79,7 +86,7 @@ const next = allPosts[currentIndex - 1];
               </svg>
               Previous
             </span>
-            <span class="post-nav-title">{prev.data.title}</span>
+            <span class="post-nav-title">{prev.title}</span>
           </a>
         )}
         {next && (
@@ -90,12 +97,84 @@ const next = allPosts[currentIndex - 1];
                 <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </span>
-            <span class="post-nav-title">{next.data.title}</span>
+            <span class="post-nav-title">{next.title}</span>
           </a>
         )}
       </nav>
     </div>
   </article>
+
+  <!-- Staff toolbar (shown when logged in) -->
+  <div id="staff-bar" style="display:none;">
+    <button id="edit-btn" class="staff-bar-btn staff-bar-btn--primary">Edit Post</button>
+    <button id="delete-btn" class="staff-bar-btn staff-bar-btn--danger">Delete Post</button>
+    <button id="bar-logout-btn" class="staff-bar-btn">Logout</button>
+  </div>
+
+  <!-- Edit overlay -->
+  <div id="edit-overlay" class="overlay-backdrop" style="display:none;" role="dialog" aria-modal="true" aria-label="Edit update">
+    <div class="overlay-panel">
+      <div class="overlay-header">
+        <h2 class="overlay-title">Edit: <span id="edit-overlay-title">{post.title}</span></h2>
+        <div class="overlay-actions">
+          <button id="edit-save-btn" class="btn btn-primary" style="font-size:0.85rem;padding:0.55rem 1.1rem;">Save Changes</button>
+          <button id="edit-cancel-btn" class="btn btn-outline" style="font-size:0.85rem;padding:0.55rem 1.1rem;">Cancel</button>
+        </div>
+      </div>
+
+      <div class="overlay-body">
+        <!-- Left column: meta -->
+        <div class="overlay-meta">
+          <label class="field-label">Title *
+            <input class="field-input" type="text" id="e-title">
+          </label>
+          <label class="field-label">Excerpt
+            <textarea class="field-input" id="e-excerpt" rows="3"></textarea>
+          </label>
+          <label class="field-label">Date *
+            <input class="field-input" type="date" id="e-date">
+          </label>
+          <label class="field-label">Author
+            <input class="field-input" type="text" id="e-author">
+          </label>
+          <label class="field-label">Categories (comma-separated)
+            <input class="field-input" type="text" id="e-categories">
+          </label>
+
+          <!-- Featured image management -->
+          <div class="field-label">Featured Image
+            <div class="img-upload-area">
+              <img id="e-img-preview" src="" alt="" style="display:none;" class="img-preview">
+              <div class="img-upload-btns">
+                <label class="btn btn-outline upload-label" style="font-size:0.8rem;padding:0.4rem 0.9rem;cursor:pointer;">
+                  {post.image ? 'Replace' : 'Upload Image'}
+                  <input type="file" id="e-img-file" accept="image/*" style="display:none;">
+                </label>
+                <button id="e-img-clear" class="btn btn-outline" style="font-size:0.8rem;padding:0.4rem 0.9rem;display:none;">Remove</button>
+              </div>
+              <input type="hidden" id="e-img-filename" value={post.image ?? ''}>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right column: editor -->
+        <div class="overlay-editor-col">
+          <div class="editor-label">Content</div>
+          <div class="editor-toolbar" id="e-toolbar"></div>
+          <div class="tiptap-editor" id="e-editor"></div>
+          <div class="editor-img-upload">
+            <label class="btn btn-outline upload-label" style="font-size:0.8rem;padding:0.4rem 0.9rem;cursor:pointer;">
+              Insert Image
+              <input type="file" id="e-content-img" accept="image/*" style="display:none;">
+            </label>
+            <button id="e-youtube-btn" class="btn btn-outline" style="font-size:0.8rem;padding:0.4rem 0.9rem;">Embed YouTube</button>
+          </div>
+        </div>
+      </div>
+
+      <p id="edit-error" class="form-error" style="display:none;margin:0 1.5rem 1rem;"></p>
+    </div>
+  </div>
 </Layout>
 
 <style>
@@ -105,98 +184,311 @@ const next = allPosts[currentIndex - 1];
     border-bottom: 1px solid rgba(14, 165, 233, 0.08);
   }
   .back-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    font-family: "Space Mono", monospace;
-    font-size: 0.7rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: #7ea3c8;
-    margin-bottom: 1.5rem;
-    transition: color 0.2s;
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    font-family: "Space Mono", monospace; font-size: 0.7rem; letter-spacing: 0.1em;
+    text-transform: uppercase; color: #7ea3c8; margin-bottom: 1.5rem; transition: color 0.2s;
   }
   .back-link:hover { color: #0ea5e9; }
-
-  .post-meta {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    flex-wrap: wrap;
-    margin-bottom: 1rem;
-  }
-  .post-date {
-    font-size: 0.8rem;
-    color: #7ea3c8;
-  }
-
-  .post-title {
-    font-size: clamp(1.8rem, 4vw, 3rem);
-    color: #e8f1ff;
-    margin: 0 0 0.5rem;
-    line-height: 1.15;
-    max-width: 720px;
-  }
-
-  .post-author {
-    font-size: 0.85rem;
-    color: #7ea3c8;
-    margin: 0;
-  }
+  .post-meta { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1rem; }
+  .post-date { font-size: 0.8rem; color: #7ea3c8; }
+  .post-title { font-size: clamp(1.8rem, 4vw, 3rem); color: #e8f1ff; margin: 0 0 0.5rem; line-height: 1.15; max-width: 720px; }
+  .post-author { font-size: 0.85rem; color: #7ea3c8; margin: 0; }
 
   .post-cover { padding: 2rem 0; }
-  .cover-img {
-    width: 100%;
-    max-height: 480px;
-    object-fit: cover;
-    border-radius: 1.25rem;
-    border: 1px solid rgba(14, 165, 233, 0.12);
-    display: block;
-  }
+  .cover-img { width: 100%; max-height: 480px; object-fit: cover; border-radius: 1.25rem; border: 1px solid rgba(14, 165, 233, 0.12); display: block; }
 
-  .post-nav {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-    margin-top: 4rem;
-    padding-top: 2rem;
-    border-top: 1px solid rgba(14, 165, 233, 0.1);
-  }
-
-  .post-nav-item {
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-    padding: 1.25rem;
-    background: #071525;
-    border: 1px solid rgba(14, 165, 233, 0.1);
-    border-radius: 0.875rem;
-    transition: border-color 0.2s;
-  }
+  .post-nav { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid rgba(14, 165, 233, 0.1); }
+  .post-nav-item { display: flex; flex-direction: column; gap: 0.4rem; padding: 1.25rem; background: #071525; border: 1px solid rgba(14, 165, 233, 0.1); border-radius: 0.875rem; transition: border-color 0.2s; }
   .post-nav-item:hover { border-color: rgba(14, 165, 233, 0.3); }
   .post-nav-next { text-align: right; }
-
-  .post-nav-label {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    font-family: "Space Mono", monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: #0ea5e9;
-  }
+  .post-nav-label { display: flex; align-items: center; gap: 0.4rem; font-family: "Space Mono", monospace; font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: #0ea5e9; }
   .post-nav-next .post-nav-label { justify-content: flex-end; }
+  .post-nav-title { font-family: "Syne", sans-serif; font-size: 0.9rem; font-weight: 600; color: #e8f1ff; line-height: 1.3; }
 
-  .post-nav-title {
-    font-family: "Syne", sans-serif;
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: #e8f1ff;
-    line-height: 1.3;
+  /* Staff bar */
+  #staff-bar {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
+    background: rgba(7, 21, 37, 0.97); backdrop-filter: blur(12px);
+    border-top: 1px solid rgba(14, 165, 233, 0.2);
+    display: flex; align-items: center; justify-content: center; gap: 0.75rem; padding: 0.75rem 1.5rem;
   }
+  .staff-bar-btn {
+    background: none; border: 1px solid rgba(14,165,233,0.3); border-radius: 0.5rem;
+    color: #7ea3c8; font-family: "DM Sans", sans-serif; font-size: 0.85rem; font-weight: 500;
+    padding: 0.55rem 1.1rem; cursor: pointer; transition: all 0.2s;
+  }
+  .staff-bar-btn:hover { border-color: #0ea5e9; color: #0ea5e9; }
+  .staff-bar-btn--primary { background: #0284c7; border-color: #0284c7; color: #fff; }
+  .staff-bar-btn--primary:hover { background: #0ea5e9; border-color: #0ea5e9; color: #fff; }
+  .staff-bar-btn--danger { border-color: rgba(239,68,68,0.4); color: #f87171; }
+  .staff-bar-btn--danger:hover { border-color: #ef4444; color: #ef4444; background: rgba(239,68,68,0.08); }
+
+  /* Overlay */
+  .overlay-backdrop { position: fixed; inset: 0; background: rgba(3,11,24,0.92); backdrop-filter: blur(4px); z-index: 500; overflow-y: auto; }
+  .overlay-panel { min-height: 100vh; background: #0a1a2e; display: flex; flex-direction: column; }
+  .overlay-header {
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    padding: 1.25rem 1.5rem; background: #071525; border-bottom: 1px solid rgba(14,165,233,0.12);
+    position: sticky; top: 0; z-index: 10;
+  }
+  .overlay-title { color: #e8f1ff; font-size: 1.1rem; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .overlay-actions { display: flex; gap: 0.75rem; flex-shrink: 0; }
+  .overlay-body { display: grid; grid-template-columns: 320px 1fr; gap: 0; flex: 1; }
+  .overlay-meta { padding: 1.5rem; border-right: 1px solid rgba(14,165,233,0.1); display: flex; flex-direction: column; gap: 1rem; overflow-y: auto; }
+  .overlay-editor-col { padding: 1.5rem; display: flex; flex-direction: column; gap: 0.75rem; }
+
+  .field-label { display: flex; flex-direction: column; gap: 0.4rem; font-size: 0.8rem; color: #7ea3c8; font-family: "Space Mono", monospace; letter-spacing: 0.08em; text-transform: uppercase; }
+  .field-input { background: #0c1a2e; border: 1px solid rgba(14,165,233,0.2); border-radius: 0.5rem; color: #e8f1ff; font-family: "DM Sans", sans-serif; font-size: 0.9rem; padding: 0.6rem 0.75rem; outline: none; transition: border-color 0.2s; }
+  .field-input:focus { border-color: #0ea5e9; }
+  textarea.field-input { resize: vertical; }
+
+  .img-upload-area { display: flex; flex-direction: column; gap: 0.75rem; }
+  .img-preview { width: 100%; max-height: 180px; object-fit: cover; border-radius: 0.5rem; border: 1px solid rgba(14,165,233,0.2); }
+  .img-upload-btns { display: flex; gap: 0.5rem; }
+  .upload-label { display: inline-flex; align-items: center; cursor: pointer; }
+
+  .editor-label { font-size: 0.8rem; color: #7ea3c8; font-family: "Space Mono", monospace; letter-spacing: 0.08em; text-transform: uppercase; }
+  .editor-toolbar { display: flex; flex-wrap: wrap; gap: 0.25rem; padding: 0.5rem; background: #071525; border: 1px solid rgba(14,165,233,0.15); border-radius: 0.5rem 0.5rem 0 0; border-bottom: none; }
+  .tiptap-editor { flex: 1; min-height: 320px; background: #0c1a2e; border: 1px solid rgba(14,165,233,0.2); border-radius: 0 0 0.5rem 0.5rem; color: #e8f1ff; font-size: 0.95rem; line-height: 1.7; padding: 1rem; outline: none; overflow-y: auto; }
+  .tiptap-editor:focus-within { border-color: #0ea5e9; }
+  .editor-img-upload { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+
+  .form-error { color: #f87171; font-size: 0.85rem; }
 
   @media (max-width: 600px) {
     .post-nav { grid-template-columns: 1fr; }
+    .overlay-body { grid-template-columns: 1fr; }
   }
 </style>
+
+<script define:vars={{ slug: post.slug, postDate: post.date, postAuthor: post.author, postExcerpt: post.excerpt, postCategories: post.categories, postImage: post.image }}>
+  // Note: TipTap imports happen below — split into a separate module block
+</script>
+
+<script>
+  import { Editor } from '@tiptap/core';
+  import StarterKit from '@tiptap/starter-kit';
+  import Image from '@tiptap/extension-image';
+  import Link from '@tiptap/extension-link';
+  import Youtube from '@tiptap/extension-youtube';
+
+  const API  = '/assets/php/updates-api.php';
+  const SLUG = document.currentScript?.dataset?.slug
+    ?? window.location.pathname.replace('/updates/', '').replace('.html', '');
+
+  // ── Auth check ────────────────────────────────────────────────────────────
+
+  const staffBar    = document.getElementById('staff-bar')!;
+  const editBtn     = document.getElementById('edit-btn')!;
+  const deleteBtn   = document.getElementById('delete-btn')!;
+  const barLogout   = document.getElementById('bar-logout-btn')!;
+
+  (async () => {
+    const r = await fetch(`${API}?action=me`).then(r => r.json());
+    if (r.logged_in) staffBar.style.display = 'flex';
+  })();
+
+  barLogout.addEventListener('click', async () => {
+    await fetch(`${API}?action=logout`, { method: 'POST' });
+    staffBar.style.display = 'none';
+  });
+
+  // ── Delete ────────────────────────────────────────────────────────────────
+
+  deleteBtn.addEventListener('click', async () => {
+    const title = document.getElementById('post-title-display')?.textContent ?? 'this post';
+    if (!confirm(`Delete "${title}"? This cannot be undone.`)) return;
+    const r = await fetch(`${API}?action=delete&slug=${encodeURIComponent(SLUG)}`, { method: 'POST' }).then(r => r.json());
+    if (r.success) {
+      alert('Post deleted. Run "make deploy" to remove it from the site.');
+      window.location.href = '/updates.html';
+    } else {
+      alert('Delete failed: ' + (r.error ?? 'Unknown error'));
+    }
+  });
+
+  // ── Edit overlay ──────────────────────────────────────────────────────────
+
+  const editOverlay  = document.getElementById('edit-overlay')!;
+  const editSaveBtn  = document.getElementById('edit-save-btn')!;
+  const editCancelBtn= document.getElementById('edit-cancel-btn')!;
+  const editError    = document.getElementById('edit-error')!;
+
+  let editEditor: Editor | null = null;
+  let currentImageFilename = '';
+
+  function buildToolbar(container: HTMLElement, editor: Editor) {
+    const btns: Array<[string, () => void, () => boolean]> = [
+      ['B',       () => editor.chain().focus().toggleBold().run(),        () => editor.isActive('bold')],
+      ['I',       () => editor.chain().focus().toggleItalic().run(),      () => editor.isActive('italic')],
+      ['H2',      () => editor.chain().focus().toggleHeading({ level: 2 }).run(), () => editor.isActive('heading', { level: 2 })],
+      ['H3',      () => editor.chain().focus().toggleHeading({ level: 3 }).run(), () => editor.isActive('heading', { level: 3 })],
+      ['• List',  () => editor.chain().focus().toggleBulletList().run(),   () => editor.isActive('bulletList')],
+      ['1. List', () => editor.chain().focus().toggleOrderedList().run(),  () => editor.isActive('orderedList')],
+      ['" "',     () => editor.chain().focus().toggleBlockquote().run(),   () => editor.isActive('blockquote')],
+      ['—',       () => editor.chain().focus().setHorizontalRule().run(), () => false],
+    ];
+    btns.forEach(([label, action, isActive]) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.textContent = label;
+      btn.style.cssText = 'background:none;border:1px solid rgba(14,165,233,0.2);border-radius:0.3rem;color:#7ea3c8;font-size:0.75rem;padding:0.25rem 0.5rem;cursor:pointer;font-family:inherit;';
+      btn.addEventListener('mousedown', (e) => { e.preventDefault(); action(); updateToolbar(); });
+      container.appendChild(btn);
+    });
+    function updateToolbar() {
+      container.querySelectorAll('button').forEach((btn, i) => {
+        const active = btns[i]?.[2]();
+        (btn as HTMLElement).style.background = active ? 'rgba(14,165,233,0.15)' : 'none';
+        (btn as HTMLElement).style.color = active ? '#0ea5e9' : '#7ea3c8';
+      });
+    }
+    editor.on('selectionUpdate', updateToolbar);
+    editor.on('transaction', updateToolbar);
+  }
+
+  async function uploadImageFile(file: File): Promise<string | null> {
+    const fd = new FormData();
+    fd.append('file', file);
+    const r = await fetch(`${API}?action=upload_image`, { method: 'POST', body: fd }).then(r => r.json());
+    return r.url ?? null;
+  }
+
+  async function openEditOverlay() {
+    editError.style.display = 'none';
+
+    // Fetch current data from server
+    const data = await fetch(`${API}?action=get&slug=${encodeURIComponent(SLUG)}`).then(r => r.json());
+    const u = data.update ?? {};
+
+    // Populate meta fields
+    (document.getElementById('e-title') as HTMLInputElement).value    = u.title ?? '';
+    (document.getElementById('e-excerpt') as HTMLTextAreaElement).value = u.excerpt ?? '';
+    (document.getElementById('e-date') as HTMLInputElement).value     = u.date ?? '';
+    (document.getElementById('e-author') as HTMLInputElement).value   = u.author ?? '';
+    (document.getElementById('e-categories') as HTMLInputElement).value = (u.categories ?? []).join(', ');
+
+    // Featured image
+    currentImageFilename = u.image ?? '';
+    const imgPreview = document.getElementById('e-img-preview') as HTMLImageElement;
+    const imgClear   = document.getElementById('e-img-clear')!;
+    if (currentImageFilename) {
+      imgPreview.src = `/assets/images/posts/${currentImageFilename}`;
+      imgPreview.style.display = 'block';
+      imgClear.style.display = 'inline-flex';
+    } else {
+      imgPreview.style.display = 'none';
+      imgClear.style.display = 'none';
+    }
+
+    // Initialise or update editor
+    if (!editEditor) {
+      editEditor = new Editor({
+        element: document.getElementById('e-editor')!,
+        extensions: [
+          StarterKit,
+          Image.configure({ inline: false }),
+          Link.configure({ openOnClick: false }),
+          Youtube.configure({ controls: true }),
+        ],
+        content: u.content_html ?? '',
+      });
+      buildToolbar(document.getElementById('e-toolbar')!, editEditor);
+    } else {
+      editEditor.commands.setContent(u.content_html ?? '');
+    }
+
+    editOverlay.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+  }
+
+  editBtn.addEventListener('click', openEditOverlay);
+
+  editCancelBtn.addEventListener('click', () => {
+    editOverlay.style.display = 'none';
+    document.body.style.overflow = '';
+  });
+
+  // Featured image upload
+  const eImgFile    = document.getElementById('e-img-file') as HTMLInputElement;
+  const eImgPreview = document.getElementById('e-img-preview') as HTMLImageElement;
+  const eImgClear   = document.getElementById('e-img-clear')!;
+
+  eImgFile.addEventListener('change', async () => {
+    if (!eImgFile.files?.[0]) return;
+    const url = await uploadImageFile(eImgFile.files[0]);
+    if (url) {
+      currentImageFilename = url.split('/').pop()!;
+      eImgPreview.src = url;
+      eImgPreview.style.display = 'block';
+      eImgClear.style.display = 'inline-flex';
+    }
+  });
+
+  eImgClear.addEventListener('click', () => {
+    currentImageFilename = '';
+    eImgPreview.src = '';
+    eImgPreview.style.display = 'none';
+    eImgClear.style.display = 'none';
+    eImgFile.value = '';
+  });
+
+  // Content image insert
+  const eContentImg = document.getElementById('e-content-img') as HTMLInputElement;
+  eContentImg.addEventListener('change', async () => {
+    if (!eContentImg.files?.[0] || !editEditor) return;
+    const url = await uploadImageFile(eContentImg.files[0]);
+    if (url) editEditor.chain().focus().setImage({ src: url }).run();
+    eContentImg.value = '';
+  });
+
+  // YouTube embed
+  document.getElementById('e-youtube-btn')!.addEventListener('click', () => {
+    if (!editEditor) return;
+    const url = prompt('YouTube URL or video ID:');
+    if (url) editEditor.chain().focus().setYoutubeVideo({ src: url }).run();
+  });
+
+  // Save
+  editSaveBtn.addEventListener('click', async () => {
+    editError.style.display = 'none';
+    const title      = (document.getElementById('e-title') as HTMLInputElement).value.trim();
+    const date       = (document.getElementById('e-date') as HTMLInputElement).value.trim();
+    const author     = (document.getElementById('e-author') as HTMLInputElement).value.trim();
+    const excerpt    = (document.getElementById('e-excerpt') as HTMLTextAreaElement).value.trim();
+    const catRaw     = (document.getElementById('e-categories') as HTMLInputElement).value;
+    const categories = catRaw.split(',').map((s: string) => s.trim()).filter(Boolean);
+
+    if (!title || !date) {
+      editError.textContent = 'Title and date are required';
+      editError.style.display = 'block';
+      return;
+    }
+
+    const r = await fetch(`${API}?action=update&slug=${encodeURIComponent(SLUG)}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        title, date, author, excerpt, categories,
+        image: currentImageFilename || null,
+        content_html: editEditor!.getHTML(),
+      }),
+    }).then(r => r.json());
+
+    if (r.update) {
+      editOverlay.style.display = 'none';
+      document.body.style.overflow = '';
+      // Update visible page content
+      document.getElementById('post-content')!.innerHTML = r.update.content_html;
+      document.getElementById('post-title-display')!.textContent = r.update.title;
+      if (r.update.image) {
+        const coverImg = document.getElementById('post-cover-img') as HTMLImageElement | null;
+        if (coverImg) coverImg.src = `/assets/images/posts/${r.update.image}`;
+      }
+      alert('Saved. Run "make deploy" to publish changes.');
+    } else {
+      editError.textContent = (r.errors ?? [r.error]).join(', ');
+      editError.style.display = 'block';
+    }
+  });
+</script>

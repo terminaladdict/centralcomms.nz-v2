@@ -1,17 +1,17 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { getCollection } from 'astro:content';
+import updatesData from '../../../public/assets/data/updates.json';
 
-const posts = (await getCollection('updates')).sort(
-  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
-);
+const posts = updatesData.updates;
 
 const categoryColors: Record<string, string> = {
-  'CCTV':         '#0ea5e9',
-  'infrastructure': '#38bdf8',
-  'voip':         '#60a5fa',
-  'wireless':     '#7dd3fc',
-  'web':          '#93c5fd',
+  'CCTV':           '#0ea5e9',
+  'Infrastructure': '#38bdf8',
+  'VoIP':           '#60a5fa',
+  'Wireless':       '#7dd3fc',
+  'Broadband':      '#93c5fd',
+  'Websites':       '#a78bfa',
+  'Hosting':        '#34d399',
 };
 ---
 <Layout
@@ -19,26 +19,37 @@ const categoryColors: Record<string, string> = {
   description="Latest project updates and portfolio work from Central Communications Ltd — CCTV, networking, VoIP and more."
 >
   <div class="page-hero">
-    <div class="container">
-      <span class="section-tag">Updates & Portfolio</span>
-      <h1 class="page-title">Project<br /><em>Updates</em></h1>
-      <p class="page-sub">A look at some of the work we've done for clients across the Waikato and beyond.</p>
+    <div class="container hero-inner">
+      <div>
+        <span class="section-tag">Updates & Portfolio</span>
+        <h1 class="page-title">Project<br /><em>Updates</em></h1>
+        <p class="page-sub">A look at some of the work we've done for clients across the Waikato and beyond.</p>
+      </div>
+      <div class="staff-area">
+        <button id="staff-login-btn" class="staff-link" style="display:none;">Staff Login</button>
+        <div id="staff-controls" style="display:none;">
+          <button id="new-update-btn" class="btn btn-primary" style="font-size:0.85rem;padding:0.6rem 1.25rem;">
+            + New Update
+          </button>
+          <button id="staff-logout-btn" class="staff-link">Logout</button>
+        </div>
+      </div>
     </div>
   </div>
 
   <section class="section">
     <div class="container">
-      <div class="posts-grid">
+      <div class="posts-grid" id="posts-grid">
         {posts.map((post, i) => {
-          const cats = post.data.categories ?? [];
+          const cats = post.categories ?? [];
           const color = cats.length ? (categoryColors[cats[0]] ?? '#0ea5e9') : '#0ea5e9';
           return (
             <a href={`/updates/${post.slug}.html`} class={`post-card card reveal reveal-delay-${(i % 3) + 1}`}>
-              {post.data.image && (
+              {post.image && (
                 <div class="post-img-wrap">
                   <img
-                    src={`/assets/images/posts/${post.data.image}`}
-                    alt={post.data.title}
+                    src={`/assets/images/posts/${post.image}`}
+                    alt={post.title}
                     loading="lazy"
                     class="post-img"
                   />
@@ -47,14 +58,14 @@ const categoryColors: Record<string, string> = {
               <div class="post-body">
                 <div class="post-meta">
                   {cats.map(c => (
-                    <span class="post-cat" style={`border-color:${color};color:${color};`}>{c}</span>
+                    <span class="post-cat" style={`border-color:${categoryColors[c] ?? '#0ea5e9'};color:${categoryColors[c] ?? '#0ea5e9'};`}>{c}</span>
                   ))}
                   <span class="post-date">
-                    {post.data.date.toLocaleDateString('en-NZ', { year: 'numeric', month: 'short', day: 'numeric' })}
+                    {new Date(post.date + 'T00:00:00').toLocaleDateString('en-NZ', { year: 'numeric', month: 'short', day: 'numeric' })}
                   </span>
                 </div>
-                <h2 class="post-title">{post.data.title}</h2>
-                {post.data.excerpt && <p class="post-excerpt">{post.data.excerpt}</p>}
+                <h2 class="post-title">{post.title}</h2>
+                {post.excerpt && <p class="post-excerpt">{post.excerpt}</p>}
                 <span class="post-read-more">
                   Read more
                   <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true">
@@ -68,6 +79,87 @@ const categoryColors: Record<string, string> = {
       </div>
     </div>
   </section>
+
+  <!-- Staff login modal -->
+  <div id="login-modal" class="modal-backdrop" style="display:none;" role="dialog" aria-modal="true" aria-label="Staff login">
+    <div class="modal">
+      <button class="modal-close" id="login-close" aria-label="Close">&times;</button>
+      <h2 class="modal-title">Staff Login</h2>
+      <form id="login-form" autocomplete="on">
+        <label class="field-label">Username
+          <input class="field-input" type="text" name="username" autocomplete="username" required>
+        </label>
+        <label class="field-label">Password
+          <input class="field-input" type="password" name="password" autocomplete="current-password" required>
+        </label>
+        <p id="login-error" class="form-error" style="display:none;"></p>
+        <button class="btn btn-primary" style="width:100%;" type="submit">Login</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Create new update overlay -->
+  <div id="create-overlay" class="overlay-backdrop" style="display:none;" role="dialog" aria-modal="true" aria-label="Create update">
+    <div class="overlay-panel">
+      <div class="overlay-header">
+        <h2 class="overlay-title">New Update</h2>
+        <div class="overlay-actions">
+          <button id="create-save-btn" class="btn btn-primary" style="font-size:0.85rem;padding:0.55rem 1.1rem;">Save</button>
+          <button id="create-cancel-btn" class="btn btn-outline" style="font-size:0.85rem;padding:0.55rem 1.1rem;">Cancel</button>
+        </div>
+      </div>
+
+      <div class="overlay-body">
+        <!-- Left column: meta -->
+        <div class="overlay-meta">
+          <label class="field-label">Title *
+            <input class="field-input" type="text" id="c-title" placeholder="Post title">
+          </label>
+          <label class="field-label">Excerpt
+            <textarea class="field-input" id="c-excerpt" rows="3" placeholder="Short description for the grid card…"></textarea>
+          </label>
+          <label class="field-label">Date *
+            <input class="field-input" type="date" id="c-date">
+          </label>
+          <label class="field-label">Author
+            <input class="field-input" type="text" id="c-author" value="Paul Willard">
+          </label>
+          <label class="field-label">Categories (comma-separated)
+            <input class="field-input" type="text" id="c-categories" placeholder="CCTV, Networking">
+          </label>
+          <div class="field-label">Featured Image
+            <div class="img-upload-area">
+              <img id="c-img-preview" src="" alt="" style="display:none;" class="img-preview">
+              <div class="img-upload-btns">
+                <label class="btn btn-outline upload-label" style="font-size:0.8rem;padding:0.4rem 0.9rem;cursor:pointer;">
+                  Upload Image
+                  <input type="file" id="c-img-file" accept="image/*" style="display:none;">
+                </label>
+                <button id="c-img-clear" class="btn btn-outline" style="font-size:0.8rem;padding:0.4rem 0.9rem;display:none;">Remove</button>
+              </div>
+              <input type="hidden" id="c-img-filename" value="">
+            </div>
+          </div>
+        </div>
+
+        <!-- Right column: editor -->
+        <div class="overlay-editor-col">
+          <div class="editor-label">Content</div>
+          <div class="editor-toolbar" id="c-toolbar"></div>
+          <div class="tiptap-editor" id="c-editor"></div>
+          <div class="editor-img-upload">
+            <label class="btn btn-outline upload-label" style="font-size:0.8rem;padding:0.4rem 0.9rem;cursor:pointer;">
+              Insert Image
+              <input type="file" id="c-content-img" accept="image/*" style="display:none;">
+            </label>
+            <button id="c-youtube-btn" class="btn btn-outline" style="font-size:0.8rem;padding:0.4rem 0.9rem;">Embed YouTube</button>
+          </div>
+        </div>
+      </div>
+
+      <p id="create-error" class="form-error" style="display:none;margin:0 1.5rem 1rem;"></p>
+    </div>
+  </div>
 </Layout>
 
 <style>
@@ -75,74 +167,334 @@ const categoryColors: Record<string, string> = {
   .page-title em { font-style: normal; color: #0ea5e9; }
   .page-sub { font-size: 1.1rem; color: #7ea3c8; max-width: 520px; }
 
+  .hero-inner { display: flex; justify-content: space-between; align-items: flex-start; gap: 2rem; }
+  .staff-area { display: flex; flex-direction: column; align-items: flex-end; gap: 0.75rem; padding-top: 5rem; }
+  #staff-controls { display: flex; align-items: center; gap: 1rem; }
+
+  .staff-link {
+    background: none; border: none; cursor: pointer; font-family: "Space Mono", monospace;
+    font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: #4a6a9a;
+    padding: 0; transition: color 0.2s;
+  }
+  .staff-link:hover { color: #0ea5e9; }
+
   .posts-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 1.25rem;
   }
-
   .post-card { display: flex; flex-direction: column; overflow: hidden; padding: 0; }
-
   .post-img-wrap { overflow: hidden; border-radius: 0.875rem 0.875rem 0 0; aspect-ratio: 16/9; }
   .post-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; display: block; }
   .post-card:hover .post-img { transform: scale(1.05); }
-
   .post-body { padding: 1.5rem; flex: 1; display: flex; flex-direction: column; }
-
-  .post-meta {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    margin-bottom: 0.75rem;
-  }
-
+  .post-meta { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.75rem; }
   .post-cat {
-    font-family: "Space Mono", monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    padding: 0.2rem 0.6rem;
-    border: 1px solid;
-    border-radius: 9999px;
+    font-family: "Space Mono", monospace; font-size: 0.6rem; letter-spacing: 0.12em;
+    text-transform: uppercase; padding: 0.2rem 0.6rem; border: 1px solid; border-radius: 9999px;
   }
-
-  .post-date {
-    font-size: 0.75rem;
-    color: #7ea3c8;
-    margin-left: auto;
-  }
-
-  .post-title {
-    font-size: 1.05rem;
-    color: #e8f1ff;
-    margin: 0 0 0.5rem;
-    transition: color 0.2s;
-    line-height: 1.4;
-  }
+  .post-date { font-size: 0.75rem; color: #7ea3c8; margin-left: auto; }
+  .post-title { font-size: 1.05rem; color: #e8f1ff; margin: 0 0 0.5rem; transition: color 0.2s; line-height: 1.4; }
   .post-card:hover .post-title { color: #0ea5e9; }
-
-  .post-excerpt {
-    font-size: 0.85rem;
-    color: #7ea3c8;
-    line-height: 1.6;
-    flex: 1;
-    margin: 0 0 1rem;
-  }
-
+  .post-excerpt { font-size: 0.85rem; color: #7ea3c8; line-height: 1.6; flex: 1; margin: 0 0 1rem; }
   .post-read-more {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    font-family: "Space Mono", monospace;
-    font-size: 0.7rem;
-    letter-spacing: 0.08em;
-    color: #0ea5e9;
-    margin-top: auto;
-    transition: gap 0.2s;
+    display: flex; align-items: center; gap: 0.4rem; font-family: "Space Mono", monospace;
+    font-size: 0.7rem; letter-spacing: 0.08em; color: #0ea5e9; margin-top: auto; transition: gap 0.2s;
   }
   .post-card:hover .post-read-more { gap: 0.7rem; }
 
+  /* Modal */
+  .modal-backdrop {
+    position: fixed; inset: 0; background: rgba(3,11,24,0.8); backdrop-filter: blur(4px);
+    display: flex; align-items: center; justify-content: center; z-index: 500; padding: 1rem;
+  }
+  .modal {
+    background: #0f2035; border: 1px solid rgba(14,165,233,0.2); border-radius: 1rem;
+    padding: 2rem; width: 100%; max-width: 400px; position: relative;
+  }
+  .modal-close {
+    position: absolute; top: 1rem; right: 1rem; background: none; border: none;
+    color: #7ea3c8; font-size: 1.5rem; cursor: pointer; line-height: 1; padding: 0.25rem;
+  }
+  .modal-title { color: #e8f1ff; font-size: 1.25rem; margin: 0 0 1.5rem; }
+
+  /* Overlay */
+  .overlay-backdrop {
+    position: fixed; inset: 0; background: rgba(3,11,24,0.92); backdrop-filter: blur(4px);
+    z-index: 500; overflow-y: auto;
+  }
+  .overlay-panel {
+    min-height: 100vh; background: #0a1a2e; display: flex; flex-direction: column;
+  }
+  .overlay-header {
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    padding: 1.25rem 1.5rem; background: #071525; border-bottom: 1px solid rgba(14,165,233,0.12);
+    position: sticky; top: 0; z-index: 10;
+  }
+  .overlay-title { color: #e8f1ff; font-size: 1.1rem; margin: 0; }
+  .overlay-actions { display: flex; gap: 0.75rem; }
+  .overlay-body {
+    display: grid; grid-template-columns: 320px 1fr; gap: 0; flex: 1;
+    min-height: 0;
+  }
+  .overlay-meta {
+    padding: 1.5rem; border-right: 1px solid rgba(14,165,233,0.1);
+    display: flex; flex-direction: column; gap: 1rem; overflow-y: auto;
+  }
+  .overlay-editor-col { padding: 1.5rem; display: flex; flex-direction: column; gap: 0.75rem; }
+
+  .field-label { display: flex; flex-direction: column; gap: 0.4rem; font-size: 0.8rem; color: #7ea3c8; font-family: "Space Mono", monospace; letter-spacing: 0.08em; text-transform: uppercase; }
+  .field-input {
+    background: #0c1a2e; border: 1px solid rgba(14,165,233,0.2); border-radius: 0.5rem;
+    color: #e8f1ff; font-family: "DM Sans", sans-serif; font-size: 0.9rem; padding: 0.6rem 0.75rem;
+    outline: none; transition: border-color 0.2s;
+  }
+  .field-input:focus { border-color: #0ea5e9; }
+  textarea.field-input { resize: vertical; }
+
+  .img-upload-area { display: flex; flex-direction: column; gap: 0.75rem; }
+  .img-preview { width: 100%; max-height: 180px; object-fit: cover; border-radius: 0.5rem; border: 1px solid rgba(14,165,233,0.2); }
+  .img-upload-btns { display: flex; gap: 0.5rem; }
+  .upload-label { display: inline-flex; align-items: center; cursor: pointer; }
+
+  .editor-label { font-size: 0.8rem; color: #7ea3c8; font-family: "Space Mono", monospace; letter-spacing: 0.08em; text-transform: uppercase; }
+  .editor-toolbar {
+    display: flex; flex-wrap: wrap; gap: 0.25rem; padding: 0.5rem;
+    background: #071525; border: 1px solid rgba(14,165,233,0.15); border-radius: 0.5rem 0.5rem 0 0; border-bottom: none;
+  }
+  .tiptap-editor {
+    flex: 1; min-height: 320px; background: #0c1a2e; border: 1px solid rgba(14,165,233,0.2);
+    border-radius: 0 0 0.5rem 0.5rem; color: #e8f1ff; font-size: 0.95rem; line-height: 1.7;
+    padding: 1rem; outline: none; overflow-y: auto;
+  }
+  .tiptap-editor:focus-within { border-color: #0ea5e9; }
+  .editor-img-upload { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+
+  .form-error { color: #f87171; font-size: 0.85rem; margin: 0.5rem 0 0; }
+
   @media (max-width: 900px) { .posts-grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 560px) { .posts-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 560px) { .posts-grid { grid-template-columns: 1fr; } .overlay-body { grid-template-columns: 1fr; } .hero-inner { flex-direction: column; } }
 </style>
+
+<script>
+  import { Editor } from '@tiptap/core';
+  import StarterKit from '@tiptap/starter-kit';
+  import Image from '@tiptap/extension-image';
+  import Link from '@tiptap/extension-link';
+  import Youtube from '@tiptap/extension-youtube';
+
+  const API = '/assets/php/updates-api.php';
+
+  // ── Auth state ────────────────────────────────────────────────────────────
+
+  const staffLoginBtn  = document.getElementById('staff-login-btn')!;
+  const staffControls  = document.getElementById('staff-controls')!;
+  const staffLogoutBtn = document.getElementById('staff-logout-btn')!;
+  const newUpdateBtn   = document.getElementById('new-update-btn')!;
+
+  async function checkAuth() {
+    const r = await fetch(`${API}?action=me`).then(r => r.json());
+    if (r.logged_in) {
+      staffLoginBtn.style.display  = 'none';
+      staffControls.style.display  = 'flex';
+    } else {
+      staffLoginBtn.style.display  = 'inline-block';
+      staffControls.style.display  = 'none';
+    }
+  }
+
+  checkAuth();
+
+  // ── Login modal ───────────────────────────────────────────────────────────
+
+  const loginModal   = document.getElementById('login-modal')!;
+  const loginForm    = document.getElementById('login-form') as HTMLFormElement;
+  const loginError   = document.getElementById('login-error')!;
+  const loginClose   = document.getElementById('login-close')!;
+
+  staffLoginBtn.addEventListener('click', () => { loginModal.style.display = 'flex'; });
+  loginClose.addEventListener('click',    () => { loginModal.style.display = 'none'; });
+  loginModal.addEventListener('click', (e) => { if (e.target === loginModal) loginModal.style.display = 'none'; });
+
+  loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    loginError.style.display = 'none';
+    const fd = new FormData(loginForm);
+    const r = await fetch(`${API}?action=login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username: fd.get('username'), password: fd.get('password') }),
+    }).then(r => r.json());
+
+    if (r.logged_in) {
+      loginModal.style.display = 'none';
+      loginForm.reset();
+      checkAuth();
+    } else {
+      loginError.textContent = r.error ?? 'Login failed';
+      loginError.style.display = 'block';
+    }
+  });
+
+  staffLogoutBtn.addEventListener('click', async () => {
+    await fetch(`${API}?action=logout`, { method: 'POST' });
+    checkAuth();
+  });
+
+  // ── Editor helpers ────────────────────────────────────────────────────────
+
+  function buildToolbar(container: HTMLElement, editor: Editor) {
+    const btns: Array<[string, () => void, () => boolean]> = [
+      ['B',       () => editor.chain().focus().toggleBold().run(),        () => editor.isActive('bold')],
+      ['I',       () => editor.chain().focus().toggleItalic().run(),      () => editor.isActive('italic')],
+      ['H2',      () => editor.chain().focus().toggleHeading({ level: 2 }).run(), () => editor.isActive('heading', { level: 2 })],
+      ['H3',      () => editor.chain().focus().toggleHeading({ level: 3 }).run(), () => editor.isActive('heading', { level: 3 })],
+      ['• List',  () => editor.chain().focus().toggleBulletList().run(),   () => editor.isActive('bulletList')],
+      ['1. List', () => editor.chain().focus().toggleOrderedList().run(),  () => editor.isActive('orderedList')],
+      ['" "',     () => editor.chain().focus().toggleBlockquote().run(),   () => editor.isActive('blockquote')],
+      ['—',       () => editor.chain().focus().setHorizontalRule().run(), () => false],
+    ];
+
+    btns.forEach(([label, action, isActive]) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.textContent = label;
+      btn.style.cssText = 'background:none;border:1px solid rgba(14,165,233,0.2);border-radius:0.3rem;color:#7ea3c8;font-size:0.75rem;padding:0.25rem 0.5rem;cursor:pointer;font-family:inherit;';
+      btn.addEventListener('mousedown', (e) => { e.preventDefault(); action(); updateToolbar(); });
+      container.appendChild(btn);
+    });
+
+    function updateToolbar() {
+      container.querySelectorAll('button').forEach((btn, i) => {
+        const active = btns[i]?.[2]();
+        btn.style.background = active ? 'rgba(14,165,233,0.15)' : 'none';
+        btn.style.color = active ? '#0ea5e9' : '#7ea3c8';
+      });
+    }
+
+    editor.on('selectionUpdate', updateToolbar);
+    editor.on('transaction', updateToolbar);
+  }
+
+  async function uploadImageFile(file: File): Promise<string | null> {
+    const fd = new FormData();
+    fd.append('file', file);
+    const r = await fetch(`${API}?action=upload_image`, { method: 'POST', body: fd }).then(r => r.json());
+    return r.url ?? null;
+  }
+
+  // ── Create overlay ────────────────────────────────────────────────────────
+
+  const createOverlay   = document.getElementById('create-overlay')!;
+  const createSaveBtn   = document.getElementById('create-save-btn')!;
+  const createCancelBtn = document.getElementById('create-cancel-btn')!;
+  const createError     = document.getElementById('create-error')!;
+
+  let createEditor: Editor | null = null;
+  let createImageFilename = '';
+
+  function openCreateOverlay() {
+    createOverlay.style.display = 'block';
+    (document.getElementById('c-date') as HTMLInputElement).value = new Date().toISOString().slice(0, 10);
+
+    if (!createEditor) {
+      createEditor = new Editor({
+        element: document.getElementById('c-editor')!,
+        extensions: [
+          StarterKit,
+          Image.configure({ inline: false }),
+          Link.configure({ openOnClick: false }),
+          Youtube.configure({ controls: true }),
+        ],
+        content: '',
+      });
+      buildToolbar(document.getElementById('c-toolbar')!, createEditor);
+    } else {
+      createEditor.commands.setContent('');
+    }
+  }
+
+  newUpdateBtn.addEventListener('click', openCreateOverlay);
+
+  createCancelBtn.addEventListener('click', () => {
+    createOverlay.style.display = 'none';
+    createError.style.display = 'none';
+  });
+
+  // Featured image upload
+  const cImgFile    = document.getElementById('c-img-file') as HTMLInputElement;
+  const cImgPreview = document.getElementById('c-img-preview') as HTMLImageElement;
+  const cImgClear   = document.getElementById('c-img-clear')!;
+
+  cImgFile.addEventListener('change', async () => {
+    if (!cImgFile.files?.[0]) return;
+    const url = await uploadImageFile(cImgFile.files[0]);
+    if (url) {
+      createImageFilename = url.split('/').pop()!;
+      cImgPreview.src = url;
+      cImgPreview.style.display = 'block';
+      cImgClear.style.display = 'inline-flex';
+    }
+  });
+
+  cImgClear.addEventListener('click', () => {
+    createImageFilename = '';
+    cImgPreview.src = '';
+    cImgPreview.style.display = 'none';
+    cImgClear.style.display = 'none';
+    cImgFile.value = '';
+  });
+
+  // Content image insert
+  const cContentImg = document.getElementById('c-content-img') as HTMLInputElement;
+  cContentImg.addEventListener('change', async () => {
+    if (!cContentImg.files?.[0] || !createEditor) return;
+    const url = await uploadImageFile(cContentImg.files[0]);
+    if (url) createEditor.chain().focus().setImage({ src: url }).run();
+    cContentImg.value = '';
+  });
+
+  // YouTube embed
+  const cYoutubeBtn = document.getElementById('c-youtube-btn')!;
+  cYoutubeBtn.addEventListener('click', () => {
+    if (!createEditor) return;
+    const url = prompt('YouTube URL or video ID:');
+    if (url) createEditor.chain().focus().setYoutubeVideo({ src: url }).run();
+  });
+
+  // Save
+  createSaveBtn.addEventListener('click', async () => {
+    createError.style.display = 'none';
+    const title      = (document.getElementById('c-title') as HTMLInputElement).value.trim();
+    const date       = (document.getElementById('c-date') as HTMLInputElement).value.trim();
+    const author     = (document.getElementById('c-author') as HTMLInputElement).value.trim();
+    const excerpt    = (document.getElementById('c-excerpt') as HTMLTextAreaElement).value.trim();
+    const catRaw     = (document.getElementById('c-categories') as HTMLInputElement).value;
+    const categories = catRaw.split(',').map(s => s.trim()).filter(Boolean);
+
+    if (!title || !date) {
+      createError.textContent = 'Title and date are required';
+      createError.style.display = 'block';
+      return;
+    }
+
+    const r = await fetch(`${API}?action=create`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        title, date, author, excerpt, categories,
+        image: createImageFilename || null,
+        content_html: createEditor!.getHTML(),
+      }),
+    }).then(r => r.json());
+
+    if (r.update) {
+      createOverlay.style.display = 'none';
+      // Show confirmation — page needs redeploy to appear in grid
+      alert(`Update "${r.update.title}" saved with slug "${r.update.slug}".\n\nRun "make deploy" to publish it.`);
+    } else {
+      createError.textContent = (r.errors ?? [r.error]).join(', ');
+      createError.style.display = 'block';
+    }
+  });
+</script>

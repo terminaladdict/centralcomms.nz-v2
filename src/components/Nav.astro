@@ -1,5 +1,6 @@
 ---
 const pathname = Astro.url.pathname;
+const phoneNumber = '0800848038';
 
 const services = [
   { href: '/voip.html',                   label: 'VoIP',                  sub: 'Cloud & onsite phone systems' },
@@ -74,6 +75,7 @@ const support = [
     </ul>
 
     <!-- CTA -->
+    <a href={`tel:${phoneNumber}`} class="nav-call btn btn-outline">Call Now</a>
     <a href="/support.html#contact" class="nav-cta btn btn-primary">Get in Touch</a>
 
     <!-- Mobile toggle -->
@@ -95,7 +97,8 @@ const support = [
     </div>
     <a href="/about.html" class="mobile-link">About</a>
     <a href="/updates.html" class="mobile-link">Updates</a>
-    <a href="/support.html#contact" class="btn btn-primary" style="margin-top:1rem;display:block;text-align:center;">Get in Touch</a>
+    <a href={`tel:${phoneNumber}`} class="btn btn-outline" style="margin-top:1rem;display:block;text-align:center;">Call Now</a>
+    <a href="/support.html#contact" class="btn btn-primary" style="margin-top:0.5rem;display:block;text-align:center;">Get in Touch</a>
   </div>
 </nav>
 
@@ -223,7 +226,17 @@ const support = [
     color: #4a6a9a;
   }
 
-  .nav-cta { margin-left: auto; flex-shrink: 0; font-size: 0.85rem; padding: 0.6rem 1.25rem; }
+  .nav-call { margin-left: auto; flex-shrink: 0; font-size: 0.85rem; padding: 0.6rem 1.25rem; }
+  #main-nav:not(.scrolled) .nav-call {
+    color: rgba(255,255,255,0.85);
+    border-color: rgba(255,255,255,0.35);
+  }
+  #main-nav:not(.scrolled) .nav-call:hover {
+    color: #ffffff;
+    border-color: rgba(255,255,255,0.7);
+    background: rgba(255,255,255,0.08);
+  }
+  .nav-cta { flex-shrink: 0; font-size: 0.85rem; padding: 0.6rem 1.25rem; }
 
   /* Mobile toggle */
   .mobile-toggle {
@@ -281,7 +294,7 @@ const support = [
   }
 
   @media (max-width: 900px) {
-    .nav-links, .nav-cta { display: none; }
+    .nav-links, .nav-cta, .nav-call { display: none; }
     .mobile-toggle { display: flex; }
   }
 </style>
