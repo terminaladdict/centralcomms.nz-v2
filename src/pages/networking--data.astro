@@ -44,7 +44,7 @@ import Layout from '../layouts/Layout.astro';
           <div class="brands-grid">
             <img src="/assets/images/mikrotik.svg"  alt="MikroTik" width="120" height="40" />
             <img src="/assets/images/unifi.svg"     alt="Unifi"    width="120" height="40" />
-            <img src="/assets/images/netgear.svg"   alt="Netgear"  width="120" height="40" />
+            <img src="/assets/images/grandstream.svg" alt="Grandstream" width="120" height="40" />
             <img src="/assets/images/legrand.svg"   alt="Legrand"  width="120" height="40" />
           </div>
 
@@ -78,9 +78,9 @@ import Layout from '../layouts/Layout.astro';
   .page-title em { font-style: normal; color: #0ea5e9; }
   .page-sub { font-size: 1.1rem; color: #7ea3c8; max-width: 520px; }
   .content-grid { display: grid; grid-template-columns: 1fr 340px; gap: 4rem; align-items: start; }
-  .brands-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: center; padding: 1.5rem; background: rgba(14,165,233,0.04); border: 1px solid rgba(14,165,233,0.1); border-radius: 0.75rem; margin: 1.5rem 0; }
+  .brands-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: center; margin: 1.5rem 0; }
   .brands-grid img { height: 32px; width: auto; filter: brightness(0) invert(0.6); transition: filter 0.2s; }
-  .brands-grid img:hover { filter: brightness(0) invert(1); }
+  .brands-grid img:hover { filter: none; }
   .feature-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.6rem; }
   .feature-list li { padding-left: 1.5rem; position: relative; color: #1e3a5f; font-size: 0.95rem; line-height: 1.6; }
   .feature-list li::before { content: ''; position: absolute; left: 0; top: 0.6rem; width: 6px; height: 6px; background: #0ea5e9; border-radius: 50%; }
