@@ -45,4 +45,6 @@ All public-facing pages are pre-rendered static HTML (fast, SEO-friendly, no dat
 
 Full development, deployment, and CMS documentation lives in [`docs/README.md`](docs/README.md).
 
+Screenshots of the Notifications system and Updates CMS staff interface: [`docs/Screenshots/README.md`](docs/Screenshots/README.md)
+
 Changelog: [`docs/CHANGELOG.md`](docs/CHANGELOG.md)

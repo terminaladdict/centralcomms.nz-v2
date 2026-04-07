@@ -2,6 +2,8 @@
 
 Complete reference for developing, building, deploying, and managing the Central Communications website.
 
+**Navigation:** [Main README](../README.md) · [Screenshots](Screenshots/README.md) · [Changelog](CHANGELOG.md)
+
 ---
 
 ## Table of contents
@@ -22,6 +24,7 @@ Complete reference for developing, building, deploying, and managing the Central
 14. [Fonts and assets](#fonts-and-assets)
 15. [CSS conventions](#css-conventions)
 16. [Environment details](#environment-details)
+17. [Screenshots](Screenshots/README.md)
 
 ---
 
