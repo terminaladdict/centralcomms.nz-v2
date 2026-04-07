@@ -8,6 +8,51 @@ All notable changes to centralcomms.nz v2.
 
 ---
 
+## 2026-04-07 (post-security-review UI/UX fixes)
+
+### Remote support: RustDesk → HelpWire
+
+- `support.astro`: full rewrite of the remote support section — replaced RustDesk box, screenshot, and pre-configured `.exe` download with a HelpWire explainer box
+- Updated workflow steps: call us → we send the app → we take over (no self-serve download)
+- Removed `public/assets/rustdesk-host=...exe`, `public/assets/images/RustDesk_image.jpg`, and `public/assets/images/rustdesk.svg`
+- Fixed stale copy: removed "below" reference to a download button that no longer exists
+
+### Light-mode readability fixes
+
+All service pages (voip, cctv, networking--data, wireless, ultra-fast-broadband, websites-and-hosting) and content pages had colours designed for dark backgrounds that were unreadable on the light section backgrounds (`#f4f8fd`, `#ffffff`):
+
+- `.feature-list li` colour: `#b8cce0` → `#1e3a5f` (dark navy, readable on white)
+- `.cta-box .btn-outline` scoped override added — global `.btn-outline` uses `color:#0c1a2e` (dark, for light backgrounds) which was unreadable inside the dark `.cta-box`; fixed with a scoped `color:#e8f1ff` override and a `#38bdf8` hover
+
+`about.astro`:
+- `.section-heading`: `#e8f1ff` → `#1e3a5f`
+- `.body-text`: `#7ea3c8` → `#334e68`
+- `.team-name`: `#e8f1ff` → `#1e3a5f`
+- `.team-role`: `#0ea5e9` → `#0369a1`
+- `.team-bio`: `#7ea3c8` → `#334e68`
+- `.info-row dt`: `#7ea3c8` → `#486581`
+- `.info-row dd`: `#e8f1ff` → `#1e3a5f`
+
+`updates/index.astro`:
+- `.post-title`: `#e8f1ff` → `#1e3a5f`; hover `#0ea5e9` → `#0369a1`
+- `.post-excerpt`: `#7ea3c8` → `#334e68`
+- `.post-date`: `#7ea3c8` → `#486581`
+
+### Other fixes
+
+- `index.astro`: hero heading `.hero-heading` `font-size` clamp minimum reduced `2.8rem` → `2rem` so the title scales down correctly on narrow mobile screens
+- `cctv.astro`: PSPLA licence image was 420 px wide on narrow phones, causing horizontal page scroll — added `width:100%` to the inline style and `min-width:0` to `.prose` (CSS grid child `min-width` defaults to `auto`, allowing content to overflow its track)
+- `about.astro`: PSPLA licence image wrapped in `<a href="..." target="_blank" rel="noopener">` with `cursor:zoom-in` so visitors can open the full-size image
+- `support.astro`: `24/7 emergency service` strong tag colour updated to `#27448f` for readability on the light section background
+
+### Documentation
+
+- `docs/Screenshots/README.md`: added full walkthrough of all 9 CMS screenshots (Notifications and Updates systems), explaining each screen and the underlying functionality
+- `docs/README.md`: added navigation bar, Screenshots link in table of contents
+- `README.md`: added Screenshots link in Docs section
+
+---
+
 ## 2026-04-07 (security review)
 
 ### Security hardening — notifications, contact form, updates API

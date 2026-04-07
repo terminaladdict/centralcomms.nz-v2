@@ -76,7 +76,7 @@ centralcomms.nz-v2/
 │   ├── pages/
 │   │   ├── index.astro        # Home page
 │   │   ├── about.astro
-│   │   ├── support.astro      # Support page + contact form
+│   │   ├── support.astro      # Support page — HelpWire remote support explainer + contact form
 │   │   ├── notifications.astro # Live service notifications
 │   │   ├── voip.astro
 │   │   ├── cctv.astro
@@ -540,6 +540,9 @@ Global styles live in `src/styles/global.css` and apply to all pages. Page-speci
 | `.prose` | Rich text content area (headings, paragraphs, images from TipTap output) |
 
 ### Colour palette (key values)
+
+**Dark-background palette** (hero, cards, CMS overlays):
+
 | Token | Value | Usage |
 |---|---|---|
 | Dark navy | `#0c1a2e` | Page backgrounds, dark sections |
@@ -548,7 +551,22 @@ Global styles live in `src/styles/global.css` and apply to all pages. Page-speci
 | Sky blue | `#0ea5e9` | Hover states, accents |
 | Body text | `#e8f1ff` | Text on dark backgrounds |
 | Muted text | `#7ea3c8` | Secondary text on dark backgrounds |
-| Section light bg | `#f4f8fd` | Light sections (notifications, contact) |
+
+**Light-background palette** (`.section`, `.section-alt`, `.card` — backgrounds `#f4f8fd` / `#ffffff`):
+
+| Token | Value | Usage |
+|---|---|---|
+| Section light bg | `#f4f8fd` | `.section-alt` background |
+| Heading | `#1e3a5f` | `h2`, `h3`, list items, bold values |
+| Body copy | `#334e68` | Paragraph text, bios, excerpts |
+| Label / secondary | `#486581` | `<dt>` labels, dates, muted meta |
+| Link / role | `#0369a1` | Links, job titles, hover on post titles |
+
+> **Important:** The global `.btn-outline` class uses `color: #0c1a2e` (dark text) — it is designed for use on light backgrounds. If you place a `.btn-outline` inside a dark container (e.g. `.cta-box`), you must add a scoped override:
+> ```css
+> .cta-box .btn-outline { color: #e8f1ff; border-color: rgba(232,241,255,0.35); }
+> .cta-box .btn-outline:hover { color: #38bdf8; border-color: #38bdf8; }
+> ```
 
 ---
 
