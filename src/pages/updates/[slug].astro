@@ -261,10 +261,6 @@ const categoryColors: Record<string, string> = {
   }
 </style>
 
-<script define:vars={{ slug: post.slug, postDate: post.date, postAuthor: post.author, postExcerpt: post.excerpt, postCategories: post.categories, postImage: post.image }}>
-  // Note: TipTap imports happen below — split into a separate module block
-</script>
-
 <script>
   import { Editor } from '@tiptap/core';
   import StarterKit from '@tiptap/starter-kit';
@@ -273,8 +269,7 @@ const categoryColors: Record<string, string> = {
   import Youtube from '@tiptap/extension-youtube';
 
   const API  = '/assets/php/updates-api.php';
-  const SLUG = document.currentScript?.dataset?.slug
-    ?? window.location.pathname.replace('/updates/', '').replace('.html', '');
+  const SLUG = window.location.pathname.replace('/updates/', '').replace('.html', '');
 
   // ── Auth check ────────────────────────────────────────────────────────────
 

@@ -264,6 +264,8 @@ Once logged in, staff can:
 - Add/edit/delete comments on a notification
 - Mark a notification as resolved
 
+Staff action buttons are rendered inside dynamically-built card HTML. Because Astro `<script>` blocks run as ES modules (not in global scope), inline `onclick="fn()"` attributes cannot call module-scoped functions. All card buttons use `data-action`/`data-id`/`data-id2` attributes and a single delegated `click` listener on `#notifications-list`.
+
 ### API endpoint
 `/assets/php/notifications-api.php`
 
@@ -388,7 +390,8 @@ Both share the same PHP session (same cookie), but auth state is tracked indepen
 - Constant-time comparison prevents username enumeration (a dummy hash is always checked even for unknown usernames)
 - `session_regenerate_id(true)` is called on login to prevent session fixation
 - All write actions require authentication
-- Image uploads validate MIME type via `mime_content_type()` and enforce a 10 MB size limit
+- Image uploads validate MIME type via `mime_content_type()` and enforce a 10 MB size limit; filenames use a `bin2hex(random_bytes(3))` random suffix to prevent collisions without a TOCTOU race
+- `delete_image` resolves the target path via `realpath()` and confirms it is inside the images directory before unlinking (path traversal defence)
 - Output buffering (`ob_start()` / `ob_clean()`) prevents PHP notices/warnings from corrupting JSON responses
 
 ### JSON data safety
@@ -461,7 +464,7 @@ To change the recipient address, edit line 39 of `public/assets/php/contact.php`
 $to = 'support@smtp.centralcomms.nz';
 ```
 
-The `From` header is set to `noreply@centralcomms.nz`. The `Reply-To` is set to the sender's email address so replies go directly to the enquirer.
+The `From` header is set to `noreply@centralcomms.nz`. The `Reply-To` is set to the sender's email address so replies go directly to the enquirer. `\r\n` characters are stripped from the validated email before it is inserted into the header to prevent email header injection.
 
 ---
 

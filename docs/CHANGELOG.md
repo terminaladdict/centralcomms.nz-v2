@@ -8,6 +8,18 @@ All notable changes to centralcomms.nz v2.
 
 ---
 
+## 2026-04-07 (security review)
+
+### Security hardening — notifications, contact form, updates API
+
+- `notifications.astro`: replaced all inline `onclick="fn(id)"` attributes with `data-action`/`data-id`/`data-id2` data attributes and a single event delegation listener on `#notifications-list`; removed `window.*` global function assignments
+- `contact.php`: strip `\r\n` from the validated email address before inserting it into the `Reply-To` header (email header injection hardening)
+- `updates-api.php` (`upload_image`): replaced sequential `file_exists` loop with a `bin2hex(random_bytes(3))` random suffix, eliminating the TOCTOU race condition between the existence check and `move_uploaded_file`
+- `updates-api.php` (`delete_image`): added `realpath()` guard — resolves both the target path and `$imagesDir` and confirms the file is inside the images directory before unlinking (path-traversal defence-in-depth)
+- `updates/[slug].astro`: removed dead `<script define:vars>` block (variables injected by Astro are inaccessible from ES module scripts); simplified `SLUG` derivation to always use `window.location.pathname`
+
+---
+
 ## 2026-04-07
 
 ### c87571e — Various fixes and improvements

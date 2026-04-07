@@ -633,14 +633,14 @@ import Layout from '../layouts/Layout.astro';
       ? ` <span class="edited">(edited ${fmt(n.updated_at)})</span>` : '';
 
     const resolveBtn = (isLoggedIn && n.status !== 'resolved')
-      ? `<button class="action-btn resolve" onclick="resolveNotif('${n.id}')">✓ Mark Resolved</button>`
+      ? `<button class="action-btn resolve" data-action="resolve" data-id="${esc(n.id)}">✓ Mark Resolved</button>`
       : '';
     const staffActions = isLoggedIn ? `
       <div class="notif-staff-actions">
         ${resolveBtn}
         <span class="spacer"></span>
-        <button class="action-btn edit"   onclick="startEditNotif('${n.id}')">Edit</button>
-        <button class="action-btn danger" onclick="deleteNotif('${n.id}')">Delete</button>
+        <button class="action-btn edit"   data-action="edit-notif"   data-id="${esc(n.id)}">Edit</button>
+        <button class="action-btn danger" data-action="delete-notif" data-id="${esc(n.id)}">Delete</button>
       </div>` : '';
 
     const commentsHtml = renderComments(n);
@@ -669,9 +669,9 @@ import Layout from '../layouts/Layout.astro';
     const addForm = isLoggedIn ? `
       <div class="add-comment-form">
         <span class="add-comment-label">Add Staff Update</span>
-        <textarea id="comment-input-${n.id}" rows="3" placeholder="Add an update, workaround, or resolution note…"></textarea>
+        <textarea id="comment-input-${esc(n.id)}" rows="3" placeholder="Add an update, workaround, or resolution note…"></textarea>
         <div class="add-comment-actions">
-          <button class="action-btn primary" onclick="submitComment('${n.id}')">Post Update</button>
+          <button class="action-btn primary" data-action="submit-comment" data-id="${esc(n.id)}">Post Update</button>
         </div>
       </div>` : '';
 
@@ -689,8 +689,8 @@ import Layout from '../layouts/Layout.astro';
 
     const actions = isLoggedIn ? `
       <div class="comment-actions">
-        <button class="action-btn" onclick="startEditComment('${notifId}','${c.id}')">Edit</button>
-        <button class="action-btn danger" onclick="deleteComment('${notifId}','${c.id}')">Delete</button>
+        <button class="action-btn" data-action="edit-comment"   data-id="${esc(notifId)}" data-id2="${esc(c.id)}">Edit</button>
+        <button class="action-btn danger" data-action="delete-comment" data-id="${esc(notifId)}" data-id2="${esc(c.id)}">Delete</button>
       </div>` : '';
 
     return `
@@ -840,10 +840,10 @@ import Layout from '../layouts/Layout.astro';
 
     bodyEl.innerHTML = `
       <div class="comment-edit-wrap">
-        <textarea class="comment-edit-textarea" id="cedit-${commentId}" rows="4">${esc(c.body)}</textarea>
+        <textarea class="comment-edit-textarea" id="cedit-${esc(commentId)}" rows="4">${esc(c.body)}</textarea>
         <div class="comment-edit-actions">
-          <button class="action-btn save" onclick="saveEditComment('${notifId}','${commentId}')">Save</button>
-          <button class="action-btn cancel-btn" onclick="cancelEditComment()">Cancel</button>
+          <button class="action-btn save"       data-action="save-edit-comment"   data-id="${esc(notifId)}" data-id2="${esc(commentId)}">Save</button>
+          <button class="action-btn cancel-btn" data-action="cancel-edit-comment">Cancel</button>
         </div>
       </div>`;
     document.getElementById(`cedit-${commentId}`)?.focus();
@@ -962,13 +962,24 @@ import Layout from '../layouts/Layout.astro';
       document.getElementById('login-panel').hidden = true;
     });
 
-  // Expose functions called from inline onclick handlers
-  window.resolveNotif     = resolveNotif;
-  window.startEditNotif   = startEditNotif;
-  window.deleteNotif      = deleteNotif;
-  window.submitComment    = submitComment;
-  window.startEditComment = startEditComment;
-  window.saveEditComment  = saveEditComment;
-  window.cancelEditComment = cancelEditComment;
-  window.deleteComment    = deleteComment;
+  // ── Event delegation (handles buttons in dynamically rendered cards) ─────────
+
+  document.getElementById('notifications-list')
+    ?.addEventListener('click', e => {
+      const btn = (e.target as HTMLElement).closest('[data-action]') as HTMLElement | null;
+      if (!btn) return;
+      const action = btn.dataset.action!;
+      const id     = btn.dataset.id  ?? '';
+      const id2    = btn.dataset.id2 ?? '';
+      switch (action) {
+        case 'resolve':             resolveNotif(id);              break;
+        case 'edit-notif':          startEditNotif(id);            break;
+        case 'delete-notif':        deleteNotif(id);               break;
+        case 'submit-comment':      submitComment(id);             break;
+        case 'edit-comment':        startEditComment(id, id2);     break;
+        case 'delete-comment':      deleteComment(id, id2);        break;
+        case 'save-edit-comment':   saveEditComment(id, id2);      break;
+        case 'cancel-edit-comment': cancelEditComment();           break;
+      }
+    });
 </script>

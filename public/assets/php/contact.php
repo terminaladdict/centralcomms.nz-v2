@@ -22,11 +22,20 @@ if (empty($name) || empty($email) || empty($message)) {
     exit;
 }
 
+if (mb_strlen($name) < 2) {
+    http_response_code(400);
+    echo json_encode(['success' => false, 'message' => 'Please enter your name (at least 2 characters).']);
+    exit;
+}
+
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     http_response_code(400);
     echo json_encode(['success' => false, 'message' => 'Please enter a valid email address.']);
     exit;
 }
+
+// Strip newlines to prevent email header injection via Reply-To
+$email = str_replace(["\r", "\n"], '', $email);
 
 // Simple spam check
 if (preg_match('/\b(http|https|www\.)\b/i', $message)) {
@@ -36,7 +45,7 @@ if (preg_match('/\b(http|https|www\.)\b/i', $message)) {
 }
 
 // Compose email
-$to      = 'support@centralcomms.nz';
+$to      = 'support@smtp.centralcomms.nz';
 $subject = "Website Enquiry from {$name}";
 $body    = implode("\n", [
     "Name:    {$name}",

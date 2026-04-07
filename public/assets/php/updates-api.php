@@ -216,15 +216,10 @@ switch ($action) {
         $original = pathinfo($file['name'], PATHINFO_FILENAME);
         $original = preg_replace('/[^a-zA-Z0-9_\-]/', '-', $original);
         $original = trim($original, '-') ?: 'image';
-        $filename = $original . '.' . $ext;
-        $dest = $imagesDir . $filename;
 
-        // Avoid overwriting — append counter
-        if (file_exists($dest)) {
-            $i = 1;
-            do { $filename = $original . '-' . $i . '.' . $ext; $dest = $imagesDir . $filename; $i++; }
-            while (file_exists($dest));
-        }
+        // Append a random suffix to avoid collisions without a TOCTOU race
+        $filename = $original . '-' . bin2hex(random_bytes(3)) . '.' . $ext;
+        $dest = $imagesDir . $filename;
 
         if (!move_uploaded_file($file['tmp_name'], $dest)) respond(500, ['error' => 'Failed to save file']);
 
@@ -239,7 +234,11 @@ switch ($action) {
         $filename = basename($body['filename'] ?? '');
         if ($filename === '') respond(400, ['error' => 'Filename required']);
 
-        $path = $imagesDir . $filename;
+        $path = realpath($imagesDir . $filename);
+        $base = realpath($imagesDir);
+        if ($path === false || $base === false || strpos($path, $base . DIRECTORY_SEPARATOR) !== 0) {
+            respond(400, ['error' => 'Invalid filename']);
+        }
         if (!file_exists($path)) respond(404, ['error' => 'File not found']);
         if (!unlink($path)) respond(500, ['error' => 'Failed to delete file']);
         respond(200, ['success' => true]);

@@ -68,10 +68,12 @@ import Layout from '../layouts/Layout.astro';
               <div class="form-field">
                 <label for="s-name">Name *</label>
                 <input type="text" id="s-name" name="name" required autocomplete="name" placeholder="Your name" />
+                <span class="field-error" aria-live="polite"></span>
               </div>
               <div class="form-field">
                 <label for="s-email">Email *</label>
                 <input type="email" id="s-email" name="email" required autocomplete="email" placeholder="you@company.co.nz" />
+                <span class="field-error" aria-live="polite"></span>
               </div>
               <div class="form-field">
                 <label for="s-phone">Phone</label>
@@ -154,6 +156,10 @@ import Layout from '../layouts/Layout.astro';
   #support-status.success { color: #4ade80; }
   #support-status.error   { color: #f87171; }
 
+  .field-error { display: block; font-size: 0.78rem; color: #f87171; margin-top: 0.2rem; min-height: 1em; }
+  .form-field.has-error input,
+  .form-field.has-error textarea { border-color: #ef4444; outline: none; }
+
   @media (max-width: 900px) {
     .support-grid { grid-template-columns: 1fr; }
     .contact-card { position: static; }
@@ -165,8 +171,33 @@ import Layout from '../layouts/Layout.astro';
   const status = document.getElementById('support-status')!;
   const btn = form?.querySelector('[type="submit"]') as HTMLButtonElement;
 
+  function validateForm(): boolean {
+    let valid = true;
+    form.querySelectorAll('.field-error').forEach(el => (el.textContent = ''));
+    form.querySelectorAll('.form-field').forEach(el => el.classList.remove('has-error'));
+
+    const nameEl  = form.querySelector('[name="name"]')  as HTMLInputElement;
+    const emailEl = form.querySelector('[name="email"]') as HTMLInputElement;
+
+    if (nameEl.value.trim().length < 2) {
+      nameEl.closest('.form-field')!.classList.add('has-error');
+      nameEl.closest('.form-field')!.querySelector('.field-error')!.textContent = 'Please enter your name (at least 2 characters).';
+      valid = false;
+    }
+
+    const emailVal = emailEl.value.trim();
+    if (!emailVal || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) {
+      emailEl.closest('.form-field')!.classList.add('has-error');
+      emailEl.closest('.form-field')!.querySelector('.field-error')!.textContent = 'Please enter a valid email address.';
+      valid = false;
+    }
+
+    return valid;
+  }
+
   form?.addEventListener('submit', async (e) => {
     e.preventDefault();
+    if (!validateForm()) return;
     btn.disabled = true;
     btn.textContent = 'Sending…';
     status.className = '';
