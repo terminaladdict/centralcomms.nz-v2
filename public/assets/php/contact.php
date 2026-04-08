@@ -9,6 +9,33 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
+// reCAPTCHA v3 verification
+$token  = $_POST['token']  ?? '';
+$action = $_POST['action'] ?? '';
+
+if (empty($token)) {
+    http_response_code(400);
+    echo json_encode(['success' => false, 'message' => 'reCAPTCHA token missing.']);
+    exit;
+}
+
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, 'https://www.google.com/recaptcha/api/siteverify');
+curl_setopt($ch, CURLOPT_POST, 1);
+curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query([
+    'secret'   => '6LdRnncaAAAAAAehSt5CfJ8DxPDDqusdNFtmudDq',
+    'response' => $token,
+]));
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+$recaptcha  = json_decode(curl_exec($ch), true);
+curl_close($ch);
+
+if (!$recaptcha['success'] || $recaptcha['action'] !== $action || $recaptcha['score'] < 0.5) {
+    http_response_code(400);
+    echo json_encode(['success' => false, 'message' => 'reCAPTCHA verification failed. Please try again.']);
+    exit;
+}
+
 // Sanitise inputs
 $name    = trim(filter_input(INPUT_POST, 'name',    FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '');
 $email   = trim(filter_input(INPUT_POST, 'email',   FILTER_SANITIZE_EMAIL)               ?? '');

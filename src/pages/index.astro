@@ -481,7 +481,15 @@ const stats = [
     status.textContent = '';
 
     try {
+      const token = await new Promise<string>(resolve => {
+        (window as any).grecaptcha.ready(() => {
+          (window as any).grecaptcha.execute('6LdRnncaAAAAAEFm9NdFYNZ4v7HooLGMqw0jdEiV', { action: 'contact' }).then(resolve);
+        });
+      });
+
       const data = new FormData(form);
+      data.append('token', token);
+      data.append('action', 'contact');
       const res  = await fetch('/assets/php/contact.php', { method: 'POST', body: data });
       const json = await res.json();
 
@@ -501,6 +509,8 @@ const stats = [
     }
   });
   </script>
+
+  <script src="https://www.google.com/recaptcha/api.js?render=6LdRnncaAAAAAEFm9NdFYNZ4v7HooLGMqw0jdEiV" async defer></script>
 
 </Layout>
 

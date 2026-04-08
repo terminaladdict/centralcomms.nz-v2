@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+.grecaptcha-badge { visibility: hidden !important; }
+
 /* ─── Custom font ──────────────────────────────────── */
 @font-face {
   font-family: 'CentralComms';
