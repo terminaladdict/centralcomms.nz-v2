@@ -1,5 +1,5 @@
 REMOTE_HOST := centralcomms.netent.co.nz
-REMOTE_PATH := /var/www/dev
+REMOTE_PATH := /var/www/html
 REMOTE_USER := paul
 
 .PHONY: sync-data sync-updates build push deploy
