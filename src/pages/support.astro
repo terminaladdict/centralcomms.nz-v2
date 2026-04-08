@@ -102,6 +102,59 @@ import Layout from '../layouts/Layout.astro';
       </div>
     </div>
   </section>
+<script>
+  const form = document.getElementById('support-form') as HTMLFormElement;
+  const status = document.getElementById('support-status')!;
+  const btn = form?.querySelector('[type="submit"]') as HTMLButtonElement;
+
+  function validateForm(): boolean {
+    let valid = true;
+    form.querySelectorAll('.field-error').forEach(el => (el.textContent = ''));
+    form.querySelectorAll('.form-field').forEach(el => el.classList.remove('has-error'));
+
+    const nameEl  = form.querySelector('[name="name"]')  as HTMLInputElement;
+    const emailEl = form.querySelector('[name="email"]') as HTMLInputElement;
+
+    if (nameEl.value.trim().length < 2) {
+      nameEl.closest('.form-field')!.classList.add('has-error');
+      nameEl.closest('.form-field')!.querySelector('.field-error')!.textContent = 'Please enter your name (at least 2 characters).';
+      valid = false;
+    }
+
+    const emailVal = emailEl.value.trim();
+    if (!emailVal || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) {
+      emailEl.closest('.form-field')!.classList.add('has-error');
+      emailEl.closest('.form-field')!.querySelector('.field-error')!.textContent = 'Please enter a valid email address.';
+      valid = false;
+    }
+
+    return valid;
+  }
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!validateForm()) return;
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+    status.className = '';
+    status.textContent = '';
+    try {
+      const res  = await fetch('/assets/php/contact.php', { method: 'POST', body: new FormData(form) });
+      const json = await res.json();
+      if (json.success) {
+        status.className = 'success';
+        status.textContent = json.message || 'Request sent! We\'ll be in touch soon.';
+        form.reset();
+      } else { throw new Error(json.message); }
+    } catch (err: any) {
+      status.className = 'error';
+      status.textContent = err.message || 'Something went wrong. Please call 0800 848 0038.';
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Send Support Request';
+    }
+  });
+</script>
 </Layout>
 
 <style>
@@ -221,56 +274,3 @@ import Layout from '../layouts/Layout.astro';
   }
 </style>
 
-<script>
-  const form = document.getElementById('support-form') as HTMLFormElement;
-  const status = document.getElementById('support-status')!;
-  const btn = form?.querySelector('[type="submit"]') as HTMLButtonElement;
-
-  function validateForm(): boolean {
-    let valid = true;
-    form.querySelectorAll('.field-error').forEach(el => (el.textContent = ''));
-    form.querySelectorAll('.form-field').forEach(el => el.classList.remove('has-error'));
-
-    const nameEl  = form.querySelector('[name="name"]')  as HTMLInputElement;
-    const emailEl = form.querySelector('[name="email"]') as HTMLInputElement;
-
-    if (nameEl.value.trim().length < 2) {
-      nameEl.closest('.form-field')!.classList.add('has-error');
-      nameEl.closest('.form-field')!.querySelector('.field-error')!.textContent = 'Please enter your name (at least 2 characters).';
-      valid = false;
-    }
-
-    const emailVal = emailEl.value.trim();
-    if (!emailVal || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) {
-      emailEl.closest('.form-field')!.classList.add('has-error');
-      emailEl.closest('.form-field')!.querySelector('.field-error')!.textContent = 'Please enter a valid email address.';
-      valid = false;
-    }
-
-    return valid;
-  }
-
-  form?.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    if (!validateForm()) return;
-    btn.disabled = true;
-    btn.textContent = 'Sending…';
-    status.className = '';
-    status.textContent = '';
-    try {
-      const res  = await fetch('/assets/php/contact.php', { method: 'POST', body: new FormData(form) });
-      const json = await res.json();
-      if (json.success) {
-        status.className = 'success';
-        status.textContent = json.message || 'Request sent! We\'ll be in touch soon.';
-        form.reset();
-      } else { throw new Error(json.message); }
-    } catch (err: any) {
-      status.className = 'error';
-      status.textContent = err.message || 'Something went wrong. Please call 0800 848 0038.';
-    } finally {
-      btn.disabled = false;
-      btn.textContent = 'Send Support Request';
-    }
-  });
-</script>

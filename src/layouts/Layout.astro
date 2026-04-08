@@ -63,29 +63,29 @@ const fullTitle = title === "Home"
   />
 
   <!-- Schema.org -->
-  <script type="application/ld+json">
-    {JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "LocalBusiness",
-      "name": "Central Communications Ltd",
-      "url": "https://www.centralcomms.nz",
-      "telephone": "+6480084800038",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "Unit 3/103C Greenwood Street, Frankton",
-        "addressLocality": "Hamilton",
-        "postalCode": "3204",
-        "addressCountry": "NZ"
-      },
-      "geo": {
-        "@type": "GeoCoordinates",
-        "latitude": -37.7870,
-        "longitude": 175.2793
-      },
-      "description": "Smart solutions for VoIP, CCTV, data networking, wireless, UFB and web hosting in the Waikato.",
-      "areaServed": ["Hamilton", "Waikato", "Bay of Plenty", "South Auckland"]
-    })}
-  </script>
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Central Communications Ltd",
+    "url": "https://www.centralcomms.nz",
+    "telephone": "+648008480038",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Unit 3/103C Greenwood Street, Frankton",
+      "addressLocality": "Hamilton",
+      "postalCode": "3204",
+      "addressCountry": "NZ"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": -37.7870,
+      "longitude": 175.2793
+    },
+    "image": "https://www.centralcomms.nz/assets/images/centralcomms.svg",
+    "priceRange": "$50 - $50,000",
+    "description": "Smart solutions for VoIP, CCTV, data networking, wireless, UFB and web hosting in the Waikato.",
+    "areaServed": ["Hamilton", "Waikato", "Bay of Plenty", "South Auckland"]
+  })}></script>
 </head>
 <body>
   <Nav />

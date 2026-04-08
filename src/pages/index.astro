@@ -350,6 +350,138 @@ const stats = [
     </div>
   </section>
 
+  <script>
+  const canvas = document.getElementById('network-canvas') as HTMLCanvasElement;
+  const ctx = canvas.getContext('2d')!;
+
+  interface Node {
+    x: number; y: number;
+    vx: number; vy: number;
+    r: number; opacity: number;
+  }
+
+  let nodes: Node[] = [];
+  const COUNT = 55;
+  const DIST = 160;
+
+  function resize() {
+    canvas.width  = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+  }
+
+  function init() {
+    resize();
+    nodes = Array.from({ length: COUNT }, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      vx: (Math.random() - 0.5) * 0.35,
+      vy: (Math.random() - 0.5) * 0.35,
+      r: Math.random() * 1.8 + 0.8,
+      opacity: Math.random() * 0.4 + 0.2,
+    }));
+  }
+
+  function frame() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    for (let i = 0; i < nodes.length; i++) {
+      for (let j = i + 1; j < nodes.length; j++) {
+        const dx = nodes[i].x - nodes[j].x;
+        const dy = nodes[i].y - nodes[j].y;
+        const d  = Math.hypot(dx, dy);
+        if (d < DIST) {
+          const alpha = (1 - d / DIST) * 0.25;
+          ctx.beginPath();
+          ctx.moveTo(nodes[i].x, nodes[i].y);
+          ctx.lineTo(nodes[j].x, nodes[j].y);
+          ctx.strokeStyle = `rgba(14,165,233,${alpha})`;
+          ctx.lineWidth = 0.6;
+          ctx.stroke();
+        }
+      }
+    }
+
+    nodes.forEach((n) => {
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(14,165,233,${n.opacity})`;
+      ctx.fill();
+    });
+
+    nodes.forEach((n) => {
+      n.x += n.vx;
+      n.y += n.vy;
+      if (n.x < 0 || n.x > canvas.width)  n.vx *= -1;
+      if (n.y < 0 || n.y > canvas.height) n.vy *= -1;
+    });
+
+    requestAnimationFrame(frame);
+  }
+
+  window.addEventListener('resize', () => { resize(); }, { passive: true });
+  init();
+  frame();
+  </script>
+
+  <script>
+  const form = document.getElementById('contact-form') as HTMLFormElement;
+  const status = document.getElementById('form-status')!;
+  const submitBtn = form?.querySelector('[type="submit"]') as HTMLButtonElement;
+
+  function validateForm(): boolean {
+    let valid = true;
+    form.querySelectorAll('.field-error').forEach(el => (el.textContent = ''));
+    form.querySelectorAll('.form-field').forEach(el => el.classList.remove('has-error'));
+
+    const nameEl  = form.querySelector('[name="name"]')  as HTMLInputElement;
+    const emailEl = form.querySelector('[name="email"]') as HTMLInputElement;
+
+    if (nameEl.value.trim().length < 2) {
+      nameEl.closest('.form-field')!.classList.add('has-error');
+      nameEl.closest('.form-field')!.querySelector('.field-error')!.textContent = 'Please enter your name (at least 2 characters).';
+      valid = false;
+    }
+
+    const emailVal = emailEl.value.trim();
+    if (!emailVal || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) {
+      emailEl.closest('.form-field')!.classList.add('has-error');
+      emailEl.closest('.form-field')!.querySelector('.field-error')!.textContent = 'Please enter a valid email address.';
+      valid = false;
+    }
+
+    return valid;
+  }
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!validateForm()) return;
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending…';
+    status.className = '';
+    status.textContent = '';
+
+    try {
+      const data = new FormData(form);
+      const res  = await fetch('/assets/php/contact.php', { method: 'POST', body: data });
+      const json = await res.json();
+
+      if (json.success) {
+        status.className = 'success';
+        status.textContent = json.message || 'Message sent! We\'ll be in touch shortly.';
+        form.reset();
+      } else {
+        throw new Error(json.message || 'Unknown error');
+      }
+    } catch (err: any) {
+      status.className = 'error';
+      status.textContent = err.message || 'Sorry, something went wrong. Please call us on 0800 848 0038.';
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Send Message';
+    }
+  });
+  </script>
+
 </Layout>
 
 <style>
@@ -737,140 +869,3 @@ const stats = [
     .stats-grid { grid-template-columns: repeat(2, 1fr); }
   }
 </style>
-
-<!-- Canvas network animation -->
-<script>
-  const canvas = document.getElementById('network-canvas') as HTMLCanvasElement;
-  const ctx = canvas.getContext('2d')!;
-
-  interface Node {
-    x: number; y: number;
-    vx: number; vy: number;
-    r: number; opacity: number;
-  }
-
-  let nodes: Node[] = [];
-  const COUNT = 55;
-  const DIST = 160;
-
-  function resize() {
-    canvas.width  = canvas.offsetWidth;
-    canvas.height = canvas.offsetHeight;
-  }
-
-  function init() {
-    resize();
-    nodes = Array.from({ length: COUNT }, () => ({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      vx: (Math.random() - 0.5) * 0.35,
-      vy: (Math.random() - 0.5) * 0.35,
-      r: Math.random() * 1.8 + 0.8,
-      opacity: Math.random() * 0.4 + 0.2,
-    }));
-  }
-
-  function frame() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // Draw connections
-    for (let i = 0; i < nodes.length; i++) {
-      for (let j = i + 1; j < nodes.length; j++) {
-        const dx = nodes[i].x - nodes[j].x;
-        const dy = nodes[i].y - nodes[j].y;
-        const d  = Math.hypot(dx, dy);
-        if (d < DIST) {
-          const alpha = (1 - d / DIST) * 0.25;
-          ctx.beginPath();
-          ctx.moveTo(nodes[i].x, nodes[i].y);
-          ctx.lineTo(nodes[j].x, nodes[j].y);
-          ctx.strokeStyle = `rgba(14,165,233,${alpha})`;
-          ctx.lineWidth = 0.6;
-          ctx.stroke();
-        }
-      }
-    }
-
-    // Draw nodes
-    nodes.forEach((n) => {
-      ctx.beginPath();
-      ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(14,165,233,${n.opacity})`;
-      ctx.fill();
-    });
-
-    // Update positions
-    nodes.forEach((n) => {
-      n.x += n.vx;
-      n.y += n.vy;
-      if (n.x < 0 || n.x > canvas.width)  n.vx *= -1;
-      if (n.y < 0 || n.y > canvas.height) n.vy *= -1;
-    });
-
-    requestAnimationFrame(frame);
-  }
-
-  window.addEventListener('resize', () => { resize(); }, { passive: true });
-  init();
-  frame();
-</script>
-
-<!-- Contact form AJAX -->
-<script>
-  const form = document.getElementById('contact-form') as HTMLFormElement;
-  const status = document.getElementById('form-status')!;
-  const submitBtn = form?.querySelector('[type="submit"]') as HTMLButtonElement;
-
-  function validateForm(): boolean {
-    let valid = true;
-    form.querySelectorAll('.field-error').forEach(el => (el.textContent = ''));
-    form.querySelectorAll('.form-field').forEach(el => el.classList.remove('has-error'));
-
-    const nameEl  = form.querySelector('[name="name"]')  as HTMLInputElement;
-    const emailEl = form.querySelector('[name="email"]') as HTMLInputElement;
-
-    if (nameEl.value.trim().length < 2) {
-      nameEl.closest('.form-field')!.classList.add('has-error');
-      nameEl.closest('.form-field')!.querySelector('.field-error')!.textContent = 'Please enter your name (at least 2 characters).';
-      valid = false;
-    }
-
-    const emailVal = emailEl.value.trim();
-    if (!emailVal || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) {
-      emailEl.closest('.form-field')!.classList.add('has-error');
-      emailEl.closest('.form-field')!.querySelector('.field-error')!.textContent = 'Please enter a valid email address.';
-      valid = false;
-    }
-
-    return valid;
-  }
-
-  form?.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    if (!validateForm()) return;
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Sending…';
-    status.className = '';
-    status.textContent = '';
-
-    try {
-      const data = new FormData(form);
-      const res  = await fetch('/assets/php/contact.php', { method: 'POST', body: data });
-      const json = await res.json();
-
-      if (json.success) {
-        status.className = 'success';
-        status.textContent = json.message || 'Message sent! We\'ll be in touch shortly.';
-        form.reset();
-      } else {
-        throw new Error(json.message || 'Unknown error');
-      }
-    } catch (err: any) {
-      status.className = 'error';
-      status.textContent = err.message || 'Sorry, something went wrong. Please call us on 0800 848 0038.';
-    } finally {
-      submitBtn.disabled = false;
-      submitBtn.textContent = 'Send Message';
-    }
-  });
-</script>
