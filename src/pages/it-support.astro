@@ -1,0 +1,85 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+<Layout
+  title="IT Support &amp; Solutions — Hamilton &amp; Waikato"
+  description="Complete IT support and solutions tailored for your business. Servers, desktops, custom builds, repairs and remote hands — Central Communications Ltd, Hamilton."
+>
+  <div class="page-hero">
+    <div class="container">
+      <span class="section-tag">Services — IT Support</span>
+      <h1 class="page-title">Complete IT Support<br />&amp; <em>Solutions</em></h1>
+      <p class="page-sub">Tailored IT support for your business — from the desk to the cloud.</p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="content-grid">
+        <div class="prose">
+          <h2>Your Local IT Partner Since 1989</h2>
+          <p>
+            We've had our customers' backs since 1989. For us, it's all about building long-term
+            trust and delivering exactly what we promise.
+          </p>
+          <p>
+            Our team specialises in migrating businesses to private cloud environments — delivering
+            the custom control, high performance, and robust security your data deserves.
+          </p>
+          <p>
+            Based right here in the Waikato, we help businesses everywhere succeed. Think of us as
+            your local partners with global capabilities.
+          </p>
+
+          <h2>What We Offer</h2>
+          <ul class="feature-list">
+            <li><strong>The Latest Gear:</strong> Servers, desktops, laptops — all the latest tech for your business.</li>
+            <li><strong>Custom Builds:</strong> Dreaming of solving a specific tech problem? We build systems tailored to exactly what you need.</li>
+            <li><strong>Expert Repairs:</strong> Our in-house repair technicians are fully equipped to handle any tech headache.</li>
+            <li><strong>Remote Hands:</strong> Do you need experienced IT technicians working for you? We offer support services to global IT providers.</li>
+          </ul>
+
+          <h2>Why Choose Us?</h2>
+          <p>We know how frustrating it is when your tech lets you down, so we focus on keeping you up and running.</p>
+          <ul class="feature-list">
+            <li><strong>We'll Come to You:</strong> We'll happily visit your home office, retail shop, or office to fix things on-site.</li>
+            <li><strong>Just a Phone Call Away:</strong> Sometimes you just need a little guidance. Give us a ring — we're happy to chat through a problem over the phone or even jump on a remote session to solve it instantly.</li>
+            <li><strong>Network Engineering:</strong> Senior-level expertise in ISP infrastructure, high-speed wireless, and VoIP solutions.</li>
+            <li><strong>Enterprise Infrastructure:</strong> Deep technical mastery of servers, databases, and network topology.</li>
+            <li><strong>Client-Focused Solutions:</strong> Proven track record of migrating businesses to private cloud for better control and security.</li>
+            <li><strong>Local Heart, Global Reach:</strong> Proudly Waikato-based, delivering world-class IT services with local transparency and integrity.</li>
+            <li><strong>Operational Excellence:</strong> Expert in streamlining ISP operations, network capacity management, technology resources, and technical team leadership.</li>
+          </ul>
+        </div>
+
+        <div class="sidebar">
+          <div class="cta-box">
+            <h3>Give us a call — we're here to help!</h3>
+            <p>Whether it's a quick question or a full IT overhaul, we're ready to help.</p>
+            <a href="tel:+6480084800038" class="btn btn-ember">0800 848 0038</a>
+            <a href="/#contact" class="btn btn-outline" style="margin-top:0.75rem;">Send a message</a>
+          </div>
+          <img src="/assets/images/posts/cloud-computer-graphic.jpg" alt="IT support and cloud solutions" class="sidebar-img" loading="lazy" />
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-title { font-size: clamp(2rem, 5vw, 3.5rem); color: #e8f1ff; margin: 0.5rem 0 1rem; }
+  .page-title em { font-style: normal; color: #0ea5e9; }
+  .page-sub { font-size: 1.1rem; color: #7ea3c8; max-width: 520px; }
+  .content-grid { display: grid; grid-template-columns: 1fr 340px; gap: 4rem; align-items: start; }
+  .feature-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.6rem; }
+  .feature-list li { padding-left: 1.5rem; position: relative; color: #1e3a5f; font-size: 0.95rem; line-height: 1.6; }
+  .feature-list li::before { content: ''; position: absolute; left: 0; top: 0.6rem; width: 6px; height: 6px; background: #0ea5e9; border-radius: 50%; }
+  .sidebar { display: flex; flex-direction: column; gap: 1.5rem; position: sticky; top: 6rem; }
+  .cta-box { background: #0c1d35; border: 1px solid rgba(14,165,233,0.15); border-radius: 1rem; padding: 1.75rem; display: flex; flex-direction: column; gap: 0.75rem; }
+  .cta-box h3 { font-size: 1.1rem; color: #e8f1ff; margin: 0; }
+  .cta-box p { font-size: 0.875rem; color: #7ea3c8; margin: 0; line-height: 1.6; }
+  .cta-box .btn-outline { color: #e8f1ff; border-color: rgba(232, 241, 255, 0.35); }
+  .cta-box .btn-outline:hover { color: #38bdf8; border-color: #38bdf8; }
+  .sidebar-img { border-radius: 1rem; border: 1px solid rgba(14,165,233,0.12); width: 100%; height: auto; }
+  @media (max-width: 900px) { .content-grid { grid-template-columns: 1fr; } .sidebar { position: static; } }
+</style>
