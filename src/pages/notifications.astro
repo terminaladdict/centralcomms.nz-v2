@@ -374,6 +374,9 @@ import Layout from '../layouts/Layout.astro';
             <div class="notif-title">${esc(n.title)}</div>
             <div class="notif-meta">${esc(n.author)} &mdash; ${fmt(n.created_at)}${edited}</div>
           </div>
+          <a href="#card-${esc(n.id)}" class="notif-share-btn" data-action="share" data-id="${esc(n.id)}" title="Copy link to this notification" aria-label="Copy direct link to this notification">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+          </a>
         </div>
         <div class="notif-body">${escLines(n.body)}</div>
         ${staffActions}
@@ -601,6 +604,16 @@ import Layout from '../layouts/Layout.astro';
     render();
   }
 
+  // ── Share ────────────────────────────────────────────────────────────────────
+
+  function shareNotif(id, btn) {
+    const url = `${location.origin}/notifications.html#card-${id}`;
+    navigator.clipboard?.writeText(url).then(() => {
+      btn.classList.add('copied');
+      setTimeout(() => btn.classList.remove('copied'), 2000);
+    });
+  }
+
   // ── Auth ─────────────────────────────────────────────────────────────────────
 
   async function submitLogin(e) {
@@ -654,7 +667,17 @@ import Layout from '../layouts/Layout.astro';
   // Note: Astro injects this module after </html>, so DOMContentLoaded has
   // already fired. Run setup directly instead of waiting for that event.
 
-  init().then(setupIntersectionObserver);
+  function scrollToHash() {
+    const hash = location.hash;
+    if (!hash.startsWith('#card-')) return;
+    const el = document.getElementById(hash.slice(1));
+    if (!el) return;
+    setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'center' }), 80);
+    el.classList.add('card-highlighted');
+    setTimeout(() => el.classList.remove('card-highlighted'), 3000);
+  }
+
+  init().then(() => { setupIntersectionObserver(); scrollToHash(); });
 
   document.getElementById('notif-form')
     ?.addEventListener('submit', submitNotifForm);
@@ -693,6 +716,7 @@ import Layout from '../layouts/Layout.astro';
       const id     = btn.dataset.id  ?? '';
       const id2    = btn.dataset.id2 ?? '';
       switch (action) {
+        case 'share':               e.preventDefault(); shareNotif(id, btn); break;
         case 'resolve':             resolveNotif(id);              break;
         case 'edit-notif':          startEditNotif(id);            break;
         case 'delete-notif':        deleteNotif(id);               break;
@@ -869,6 +893,43 @@ import Layout from '../layouts/Layout.astro';
   .notif-title { font-family:"Syne",sans-serif; font-size:1.05rem; font-weight:700; color:#0f172a; margin:0 0 0.3rem; }
   .notif-meta  { font-size:0.78rem; color:#64748b; }
   .notif-meta .edited { color:#94a3b8; font-style:italic; }
+
+  .notif-share-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    border-radius: 0.375rem;
+    color: #94a3b8;
+    text-decoration: none;
+    transition: color 0.15s, background 0.15s;
+    position: relative;
+    margin-top: 1px;
+  }
+  .notif-share-btn:hover { color: #0284c7; background: rgba(2,132,199,0.08); }
+  .notif-share-btn.copied { color: #16a34a; }
+  .notif-share-btn.copied::after {
+    content: 'Copied!';
+    position: absolute;
+    bottom: calc(100% + 4px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: #16a34a;
+    color: #fff;
+    font-size: 0.68rem;
+    font-family: "Space Mono", monospace;
+    padding: 2px 7px;
+    border-radius: 4px;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  .notif-card.card-highlighted {
+    box-shadow: 0 0 0 2px #0284c7, 0 4px 20px rgba(2,132,199,0.15);
+    transition: box-shadow 0.3s ease;
+  }
 
   .notif-body { color:#334155; line-height:1.8; font-size:0.95rem; white-space:pre-wrap; word-break:break-word; }
 
