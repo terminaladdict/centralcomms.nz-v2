@@ -31,9 +31,11 @@ const categoryColors: Record<string, string> = {
 };
 ---
 <Layout
-  title={`${post.title} — Central Communications Ltd`}
+  title={post.title}
   description={post.excerpt ?? `${post.title} — a project update from Central Communications Ltd.`}
   image={post.image ? `/assets/images/posts/${post.image}` : undefined}
+  ogType="article"
+  articleDate={post.date}
 >
   <!-- Post hero -->
   <div class="post-hero">
