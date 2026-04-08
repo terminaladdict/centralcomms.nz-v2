@@ -95,11 +95,11 @@ img { max-width: 100%; height: auto; }
 }
 
 .btn-primary {
-  background: #0284c7;
+  background: #0369a1;
   color: #ffffff;
 }
 .btn-primary:hover {
-  background: #0ea5e9;
+  background: #0284c7;
   transform: translateY(-2px);
   box-shadow: 0 8px 32px rgba(2, 132, 199, 0.3);
 }

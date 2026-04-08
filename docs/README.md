@@ -25,6 +25,7 @@ Complete reference for developing, building, deploying, and managing the Central
 15. [CSS conventions](#css-conventions)
 16. [Environment details](#environment-details)
 17. [Screenshots](Screenshots/README.md)
+18. [Performance and PageSpeed](#webp-images)
 
 ---
 
@@ -510,10 +511,69 @@ The `From` header is set to `noreply@centralcomms.nz`. The `Reply-To` is set to 
 ### Static assets
 All files in `public/` are copied to `dist/` unchanged during build:
 - `public/assets/images/` — site images, post images, icons
+- `public/assets/images/testimonials/` — avatar images in JPG/PNG and WebP (1x and 2x)
 - `public/assets/fonts/` — self-hosted web fonts
 - `public/assets/php/` — PHP scripts (copied as-is; Astro does not process PHP)
 - `public/assets/data/` — JSON data files
-- `public/.htaccess` — Apache rewrite rules (if any)
+- `public/.htaccess` — Apache rewrite rules, caching, and security headers
+
+### WebP images
+Performance-critical images are provided in WebP format alongside the original JPG/PNG as fallbacks. All `<img>` tags for these images are wrapped in `<picture>` elements:
+
+```html
+<picture>
+  <source srcset="/assets/images/foo.webp" type="image/webp" />
+  <img src="/assets/images/foo.jpg" alt="…" width="520" height="420" loading="lazy" />
+</picture>
+```
+
+For testimonial avatars, 1x and 2x srcset descriptors are used:
+
+```html
+<source srcset="avatar-160.webp 1x, avatar-320.webp 2x" type="image/webp" />
+```
+
+When adding new testimonial avatars, generate both sizes with ImageMagick:
+
+```bash
+# 1x (160×160)
+convert input.jpg -resize 160x160^ -gravity Center -extent 160x160 -quality 82 name-160.webp
+# 2x (320×320)
+convert input.jpg -resize 320x320^ -gravity Center -extent 320x320 -quality 82 name-320.webp
+```
+
+### Apache `.htaccess`
+`public/.htaccess` controls URL rewriting, caching, and security headers. Key rules:
+
+**Caching:**
+- Images, CSS, JS, fonts: `Cache-Control: public, max-age=31536000, immutable` (1 year). CSS/JS are safe to cache forever because Astro appends a content hash to filenames on each build.
+- HTML and JSON: `no-cache, no-store` — these are regenerated on each deploy or updated by the CMS.
+
+**Security headers:**
+| Header | Value | Purpose |
+|---|---|---|
+| `X-Frame-Options` | `DENY` | Prevents this site being embedded in an iframe |
+| `X-Content-Type-Options` | `nosniff` | Prevents MIME-type sniffing |
+| `Referrer-Policy` | `strict-origin-when-cross-origin` | Limits referrer data sent to third parties |
+| `Strict-Transport-Security` | `max-age=31536000; includeSubDomains; preload` | HTTPS-only, eligible for browser preload list |
+| `Cross-Origin-Opener-Policy` | `same-origin` | Isolates browsing context |
+| `Content-Security-Policy` | See below | Restricts resource origins |
+
+**Content Security Policy:**
+```
+default-src 'self'
+script-src 'self' 'unsafe-inline'        ← unsafe-inline required by Astro's runtime module loader
+style-src 'self' 'unsafe-inline' https://fonts.googleapis.com
+font-src 'self' https://fonts.gstatic.com
+img-src 'self' data:                     ← data: needed for transparent pixel placeholder
+connect-src 'self'                       ← AJAX calls to PHP APIs (same-origin)
+form-action 'self'
+object-src 'none'                        ← blocks Flash/plugin content
+base-uri 'self'                          ← prevents <base href> injection
+frame-ancestors 'none'                   ← aligned with X-Frame-Options: DENY
+```
+
+> **Note on `unsafe-inline` in script-src:** Astro's static output includes an inline module bootstrapper script that cannot be hashed at build time. Removing `unsafe-inline` will break the site. A nonce-based approach would require server-side rendering (SSR mode), which is not used here.
 
 ---
 
@@ -547,10 +607,11 @@ Global styles live in `src/styles/global.css` and apply to all pages. Page-speci
 |---|---|---|
 | Dark navy | `#0c1a2e` | Page backgrounds, dark sections |
 | Mid navy | `#071525` | Card backgrounds, hero gradients |
-| Brand blue | `#0284c7` | Primary buttons, links |
-| Sky blue | `#0ea5e9` | Hover states, accents |
+| Primary button | `#0369a1` | `.btn-primary` background (5.5:1 contrast with white, WCAG AA) |
+| Primary button hover | `#0284c7` | `.btn-primary:hover` (lighter on hover) |
+| Sky blue | `#0ea5e9` | Accents, icon colour |
 | Body text | `#e8f1ff` | Text on dark backgrounds |
-| Muted text | `#7ea3c8` | Secondary text on dark backgrounds |
+| Muted text | `#7ea3c8` | Secondary text on dark backgrounds, footer copy |
 
 **Light-background palette** (`.section`, `.section-alt`, `.card` — backgrounds `#f4f8fd` / `#ffffff`):
 

@@ -132,7 +132,7 @@ const stats = [
     <div class="hero-content">
       <span class="section-tag reveal" style="animation-delay:0s;">Central Communications Ltd — Hamilton, NZ</span>
 
-      <h1 class="hero-heading reveal reveal-delay-1">
+      <h1 class="hero-heading">
         Building Better<br />
         <em>Business</em> Infrastructure
       </h1>
@@ -144,7 +144,7 @@ const stats = [
 
       <div class="hero-ctas reveal reveal-delay-3">
         <a href="#services" class="btn btn-primary">Our Services</a>
-        <a href="#contact" class="btn btn-outline-light">Get in Touch</a>
+        <a href="#contact" class="btn btn-outline-light" aria-label="Contact us via the form below">Contact Us</a>
       </div>
     </div>
 
@@ -242,21 +242,28 @@ const stats = [
         </div>
         <div class="about-visual reveal reveal-delay-2">
           <div class="about-image-wrap">
-            <img
-              src="/assets/images/central_comms_montage.jpg"
-              alt="Central Communications team at work"
-              width="520"
-              height="420"
-              loading="lazy"
-            />
+            <picture>
+              <source srcset="/assets/images/central_comms_montage.webp" type="image/webp" />
+              <img
+                src="/assets/images/central_comms_montage.jpg"
+                alt="Central Communications team at work"
+                width="520"
+                height="420"
+                loading="lazy"
+              />
+            </picture>
           </div>
           <div class="about-license-badge">
-            <img
-              src="/assets/images/pspla-license-2026.png"
-              alt="PSPLA Licensed — Private Security Personnel Licensing Authority"
-              width="180"
-              loading="lazy"
-            />
+            <picture>
+              <source srcset="/assets/images/pspla-license-2026.webp" type="image/webp" />
+              <img
+                src="/assets/images/pspla-license-2026.png"
+                alt="PSPLA Licensed — Private Security Personnel Licensing Authority"
+                width="140"
+                height="97"
+                loading="lazy"
+              />
+            </picture>
           </div>
         </div>
       </div>
@@ -272,26 +279,38 @@ const stats = [
       </div>
 
       <div class="testimonials-grid">
-        {testimonials.map((t, i) => (
+        {testimonials.map((t, i) => {
+          const base = t.img.replace(/\.(jpg|jpeg|png)$/, '');
+          const webp1x = `${base}-160.webp`;
+          const webp2x = `${base}-320.webp`;
+          return (
           <div class={`testimonial-card reveal reveal-delay-${(i % 3) + 1}`}>
             <p class="testimonial-quote">{t.quote}</p>
             <div class="testimonial-author">
               <div class="testimonial-avatar-wrap">
-                <img
-                  src={t.img}
-                  alt={t.name}
-                  width="44"
-                  height="44"
-                  loading="lazy"
-                  class="testimonial-avatar"
-                />
-                <img
-                  src={t.img}
-                  alt=""
-                  aria-hidden="true"
-                  class="testimonial-avatar-zoom"
-                  loading="lazy"
-                />
+                <picture>
+                  <source srcset={`${webp1x} 1x, ${webp2x} 2x`} type="image/webp" />
+                  <img
+                    src={t.img}
+                    alt={t.name}
+                    width="44"
+                    height="44"
+                    loading="lazy"
+                    class="testimonial-avatar"
+                  />
+                </picture>
+                <picture>
+                  <source srcset={`${webp1x} 1x, ${webp2x} 2x`} type="image/webp" />
+                  <img
+                    src={t.img}
+                    alt=""
+                    aria-hidden="true"
+                    class="testimonial-avatar-zoom"
+                    width="160"
+                    height="160"
+                    loading="lazy"
+                  />
+                </picture>
               </div>
               <div>
                 <div class="testimonial-name">{t.name}</div>
@@ -299,7 +318,8 @@ const stats = [
               </div>
             </div>
           </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   </section>

@@ -8,6 +8,50 @@ All notable changes to centralcomms.nz v2.
 
 ---
 
+## 2026-04-08 (PageSpeed / performance / security hardening)
+
+### W3C HTML validation fixes
+
+- `Layout.astro`: fixed JSON-LD `<script type="application/ld+json">` — was rendering `{JSON.stringify(...)}` as literal text; fixed with `set:html` directive. Corrected telephone to E.164 format (`+648008480038`). Added `priceRange` and `image` fields to `LocalBusiness` schema.
+- `Nav.astro`, `Footer.astro`: removed redundant `role="list"` from `<ul>` elements.
+- `index.astro`, `support.astro`, `notifications.astro`, `updates/index.astro`, `updates/[slug].astro`: moved all `<script>` blocks to inside `</Layout>` — scripts placed after `</Layout>` were rendering after `</html>` causing "stray start tag script" errors.
+- `updates/index.astro`, `updates/[slug].astro`: hidden preview `<img>` had `src=""` (invalid); replaced with a 1×1 transparent GIF data URI.
+- `updates/[slug].astro`: changed content wrapper from `<article>` → `<div>` (article/section without internal heading triggers W3C warning; the post title is in the hero above the wrapper).
+
+### PageSpeed Insights — 90 → 98/100 desktop, 91/100 mobile
+
+#### Apache caching and security headers (`.htaccess`)
+- `mod_expires` + `Cache-Control: immutable` for images, CSS, JS, and fonts (1 year) — CSS/JS are safe to cache because Astro hashes filenames
+- `no-cache, no-store` for HTML and JSON — prevents caching of regenerated pages and live data files
+- Security headers added: `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, `Strict-Transport-Security` (with `preload`), `Cross-Origin-Opener-Policy: same-origin`
+- CSP: `default-src 'self'`; `script-src 'self' 'unsafe-inline'` (required for Astro's runtime module loader); `style-src` allows Google Fonts; `font-src` allows gstatic; `object-src 'none'`; `base-uri 'self'`; `frame-ancestors 'none'`
+- `X-Frame-Options: DENY` aligned with `frame-ancestors 'none'` in CSP (previously SAMEORIGIN/none were contradictory)
+
+#### Image optimisation
+- All testimonial avatars, `central_comms_montage.jpg`, and `pspla-license-2026.png` converted to WebP
+- Testimonials: generated both `{name}-160.webp` (1x, 160×160) and `{name}-320.webp` (2x, 320×320)
+- Static images wrapped in `<picture>` with `<source type="image/webp">` and original JPG/PNG fallback
+- Testimonial `<picture srcset="{name}-160.webp 1x, {name}-320.webp 2x">` — standard screens get the smaller file; retina screens get 2x
+- Fixed pspla badge dimensions: `width="140" height="97"` (was `width="180"` with no height — CSS forces 140px; missing height was causing CLS)
+- Added `width="160" height="160"` to `.testimonial-avatar-zoom` images (previously no explicit size on the hover-popup image)
+
+#### LCP fix — hero `<h1>`
+- Removed `reveal reveal-delay-1` classes from `<h1 class="hero-heading">` — the reveal animation started with `opacity: 0` which delayed the LCP element until the IntersectionObserver fired (~2,550ms). The `<h1>` now paints immediately on first render. Other hero elements (tagline, sub, CTAs) retain their staggered reveal.
+
+#### Contrast fixes (WCAG AA)
+- `btn-primary` background: `#0284c7` → `#0369a1` (white text contrast: 3.9:1 → 5.5:1, passes AA)
+- `btn-primary:hover` background: `#0ea5e9` → `#0284c7` (hover is a lighter shade now)
+- `Footer.astro` `.footer-coverage`, `.footer-copy`, `.footer-legal a`: `#2a4a6e` → `#7ea3c8` (contrast on `#071525`: 2.3:1 → 7.5:1, passes AA)
+- `.footer-legal a:hover`: `#7ea3c8` → `#e8f1ff`
+
+#### Duplicate link label fix
+- Hero "Get in Touch" button renamed to "Contact Us" and given `aria-label="Contact us via the form below"` — was identical to the nav "Get in Touch" button pointing to a different URL, which caused an accessibility warning
+
+#### Font loading
+- Google Fonts `display=swap` retained (reverted from `display=optional` which prevented custom fonts from loading on first visit and all subsequent visits in many cases)
+
+---
+
 ## 2026-04-07 (post-security-review UI/UX fixes)
 
 ### Remote support: RustDesk → HelpWire
