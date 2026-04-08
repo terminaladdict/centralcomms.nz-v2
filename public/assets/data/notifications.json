@@ -1,114 +1,124 @@
 {
-  "notifications": [
-    {
-      "id": "7c3e1a28-b4d4-4e5f-9c6d-7a8b9c0d1e2f",
-      "title": "Central Communications Christmas and New Years hours 2024/2025",
-      "body": "The company will operate under \"brown out\" status from December 20, 2024 through January 6, 2025. During this period there will be restrictions on number porting, reduced support capacity, and all project work will be frozen.\n\nA \"black out\" period runs December 23, 2024 to January 3, 2025 during which only emergency responses will be handled.\n\nIf you require holiday greeting messages for your phone system, please request these now.\n\nNormal operations resume January 6, 2025.",
-      "status": "resolved",
-      "author": "Paul Willard",
-      "created_at": "2024-12-11T19:30:00+13:00",
-      "updated_at": "2024-12-11T19:30:00+13:00",
-      "comments": []
-    },
-    {
-      "id": "a1b2c3d4-5e6f-7a8b-9c0d-e1f2a3b4c5d6",
-      "title": "iPhone users and NX Witness",
-      "body": "Some iPhone users may be experiencing problems with NX Witness. This issue has been escalated to NXVMS for investigation.",
-      "status": "resolved",
-      "author": "Paul Willard",
-      "created_at": "2024-04-03T07:20:33+13:00",
-      "updated_at": "2024-04-03T07:20:33+13:00",
-      "comments": []
-    },
-    {
-      "id": "d4e5f6a7-b8c9-0d1e-2f3a-4b5c6d7e8f9a",
-      "title": "NX Witness Cloud account issues",
-      "body": "Cloud account users are facing login problems where they authenticate successfully but experience an immediate logout. This issue has been escalated to NXVMS for investigation.",
-      "status": "resolved",
-      "author": "Paul Willard",
-      "created_at": "2024-03-20T01:28:25+13:00",
-      "updated_at": "2024-03-20T01:28:25+13:00",
-      "comments": []
-    },
-    {
-      "id": "e2f3a4b5-c6d7-8e9f-0a1b-2c3d4e5f6a7b",
-      "title": "Nx Witness Cloud Maintenance",
-      "body": "Nx Witness Cloud access is temporarily unavailable due to maintenance updates. Camera servers continue operating normally and recording functions remain intact. Customers cannot access their camera systems through the cloud interface during this period. This type of maintenance does not normally take very long and service will resume when the cloud platform returns online.",
-      "status": "resolved",
-      "author": "Paul Willard",
-      "created_at": "2023-12-08T15:43:00+13:00",
-      "updated_at": "2023-12-08T15:43:00+13:00",
-      "comments": []
-    },
-    {
-      "id": "f3a4b5c6-d7e8-9f0a-1b2c-3d4e5f6a7b8c",
-      "title": "CCL Christmas hours 2023/2024",
-      "body": "Central Communications will operate under reduced capacity from December 20, 2023 through January 8, 2024. During this period there will be no phone number porting, reduced support availability, and no system modifications.\n\nFrom December 23, 2023 to January 3, 2024, only emergency work will be undertaken. A single phone failure is not an emergency if alternatives exist, nor are offline cameras unless legally required for surveillance.\n\nPlease contact us via the main office line rather than personal mobile numbers during this period.",
-      "status": "resolved",
-      "author": "Paul Willard",
-      "created_at": "2023-11-29T10:35:00+13:00",
-      "updated_at": "2023-11-29T10:35:00+13:00",
-      "comments": []
-    },
-    {
-      "id": "a4b5c6d7-e8f9-0a1b-2c3d-4e5f6a7b8c9d",
-      "title": "Friday 13th October phone line outages",
-      "body": "We are aware of an upstream phone provider having issues. All phones and phone lines will likely be offline this morning (Friday 13th October).",
-      "status": "resolved",
-      "author": "Paul Willard",
-      "created_at": "2023-10-13T08:10:00+13:00",
-      "updated_at": "2023-10-13T08:10:00+13:00",
-      "comments": []
-    },
-    {
-      "id": "b5c6d7e8-f9a0-1b2c-3d4e-5f6a7b8c9d0e",
-      "title": "Nationwide internet issue",
-      "body": "An upstream internet provider is experiencing a malfunction causing some customers to be offline. Engineering teams are actively investigating the issue.",
-      "status": "resolved",
-      "author": "Paul Willard",
-      "created_at": "2023-05-31T08:02:00+12:00",
-      "updated_at": "2023-05-31T08:02:00+12:00",
-      "comments": []
-    },
-    {
-      "id": "c6d7e8f9-a0b1-2c3d-4e5f-6a7b8c9d0e1f",
-      "title": "2Degrees connectivity issues",
-      "body": "Incoming calls from 2Degrees mobile phones to our office are currently being blocked. As an alternative, please call from another mobile carrier or a landline while we investigate.",
-      "status": "resolved",
-      "author": "Paul Willard",
-      "created_at": "2023-02-09T10:13:00+13:00",
-      "updated_at": "2023-02-09T10:13:00+13:00",
-      "comments": []
-    },
-    {
-      "id": "d7e8f9a0-b1c2-3d4e-5f6a-7b8c9d0e1f2a",
-      "title": "Phone issues with Wanna Internet / Purelink",
-      "body": "Customers using Wanna Internet / Purelink as their provider are experiencing intermittent phone connection problems. Purelink have indicated they are experiencing widespread issues and do not have an immediate solution. If you would like to change providers, we can facilitate this quickly — please get in touch.",
-      "status": "resolved",
-      "author": "Paul Willard",
-      "created_at": "2023-02-09T08:44:00+13:00",
-      "updated_at": "2023-02-09T08:44:00+13:00",
-      "comments": []
-    },
-    {
-      "id": "e8f9a0b1-c2d3-4e5f-6a7b-8c9d0e1f2a3b",
-      "title": "Taumarunui Central outage (Internet)",
-      "body": "Customers in Taumarunui Central may be experiencing a loss of Internet service. The outage started 18th July 2022 at 01:26. Techs are working on it.",
-      "status": "resolved",
-      "author": "Paul Willard",
-      "created_at": "2022-07-18T10:34:00+12:00",
-      "updated_at": "2022-07-18T10:34:00+12:00",
-      "comments": []
-    },
-    {
-      "id": "f9a0b1c2-d3e4-5f6a-7b8c-9d0e1f2a3b4c",
-      "title": "Spark Mobile - Matamata area",
-      "body": "We have identified an ongoing issue with Spark Mobile phones being unable to make calls in the Matamata area. We believe the problem relates to VoLTE technology and have lodged a fault with Spark Corporate services.",
-      "status": "resolved",
-      "author": "Paul Willard",
-      "created_at": "2022-06-17T11:28:00+12:00",
-      "updated_at": "2022-06-17T11:28:00+12:00",
-      "comments": []
-    }
-  ]
+    "notifications": [
+        {
+            "id": "149e89e0-3b8a-402f-9a86-469cad786b5f",
+            "title": "2026 new pbx / phone systems requirements",
+            "body": "In 2026 we are expecting to retire what refer to as our \"S\" series phone platform ☎️.\nThis is as a result of new technologies in the telecommunications world, and a need to stay moving forward with our tech.\n\nOne of our technicians will likely contact you to discuss options for your future telecommunications needs.",
+            "status": "warning",
+            "author": "paul",
+            "created_at": "2026-04-08T13:22:52+12:00",
+            "updated_at": "2026-04-08T13:22:52+12:00",
+            "comments": []
+        },
+        {
+            "id": "7c3e1a28-b4d4-4e5f-9c6d-7a8b9c0d1e2f",
+            "title": "Central Communications Christmas and New Years hours 2024/2025",
+            "body": "The company will operate under \"brown out\" status from December 20, 2024 through January 6, 2025. During this period there will be restrictions on number porting, reduced support capacity, and all project work will be frozen.\n\nA \"black out\" period runs December 23, 2024 to January 3, 2025 during which only emergency responses will be handled.\n\nIf you require holiday greeting messages for your phone system, please request these now.\n\nNormal operations resume January 6, 2025.",
+            "status": "resolved",
+            "author": "Paul Willard",
+            "created_at": "2024-12-11T19:30:00+13:00",
+            "updated_at": "2024-12-11T19:30:00+13:00",
+            "comments": []
+        },
+        {
+            "id": "a1b2c3d4-5e6f-7a8b-9c0d-e1f2a3b4c5d6",
+            "title": "iPhone users and NX Witness",
+            "body": "Some iPhone users may be experiencing problems with NX Witness. This issue has been escalated to NXVMS for investigation.",
+            "status": "resolved",
+            "author": "Paul Willard",
+            "created_at": "2024-04-03T07:20:33+13:00",
+            "updated_at": "2024-04-03T07:20:33+13:00",
+            "comments": []
+        },
+        {
+            "id": "d4e5f6a7-b8c9-0d1e-2f3a-4b5c6d7e8f9a",
+            "title": "NX Witness Cloud account issues",
+            "body": "Cloud account users are facing login problems where they authenticate successfully but experience an immediate logout. This issue has been escalated to NXVMS for investigation.",
+            "status": "resolved",
+            "author": "Paul Willard",
+            "created_at": "2024-03-20T01:28:25+13:00",
+            "updated_at": "2024-03-20T01:28:25+13:00",
+            "comments": []
+        },
+        {
+            "id": "e2f3a4b5-c6d7-8e9f-0a1b-2c3d4e5f6a7b",
+            "title": "Nx Witness Cloud Maintenance",
+            "body": "Nx Witness Cloud access is temporarily unavailable due to maintenance updates. Camera servers continue operating normally and recording functions remain intact. Customers cannot access their camera systems through the cloud interface during this period. This type of maintenance does not normally take very long and service will resume when the cloud platform returns online.",
+            "status": "resolved",
+            "author": "Paul Willard",
+            "created_at": "2023-12-08T15:43:00+13:00",
+            "updated_at": "2023-12-08T15:43:00+13:00",
+            "comments": []
+        },
+        {
+            "id": "f3a4b5c6-d7e8-9f0a-1b2c-3d4e5f6a7b8c",
+            "title": "CCL Christmas hours 2023/2024",
+            "body": "Central Communications will operate under reduced capacity from December 20, 2023 through January 8, 2024. During this period there will be no phone number porting, reduced support availability, and no system modifications.\n\nFrom December 23, 2023 to January 3, 2024, only emergency work will be undertaken. A single phone failure is not an emergency if alternatives exist, nor are offline cameras unless legally required for surveillance.\n\nPlease contact us via the main office line rather than personal mobile numbers during this period.",
+            "status": "resolved",
+            "author": "Paul Willard",
+            "created_at": "2023-11-29T10:35:00+13:00",
+            "updated_at": "2023-11-29T10:35:00+13:00",
+            "comments": []
+        },
+        {
+            "id": "a4b5c6d7-e8f9-0a1b-2c3d-4e5f6a7b8c9d",
+            "title": "Friday 13th October phone line outages",
+            "body": "We are aware of an upstream phone provider having issues. All phones and phone lines will likely be offline this morning (Friday 13th October).",
+            "status": "resolved",
+            "author": "Paul Willard",
+            "created_at": "2023-10-13T08:10:00+13:00",
+            "updated_at": "2023-10-13T08:10:00+13:00",
+            "comments": []
+        },
+        {
+            "id": "b5c6d7e8-f9a0-1b2c-3d4e-5f6a7b8c9d0e",
+            "title": "Nationwide internet issue",
+            "body": "An upstream internet provider is experiencing a malfunction causing some customers to be offline. Engineering teams are actively investigating the issue.",
+            "status": "resolved",
+            "author": "Paul Willard",
+            "created_at": "2023-05-31T08:02:00+12:00",
+            "updated_at": "2023-05-31T08:02:00+12:00",
+            "comments": []
+        },
+        {
+            "id": "c6d7e8f9-a0b1-2c3d-4e5f-6a7b8c9d0e1f",
+            "title": "2Degrees connectivity issues",
+            "body": "Incoming calls from 2Degrees mobile phones to our office are currently being blocked. As an alternative, please call from another mobile carrier or a landline while we investigate.",
+            "status": "resolved",
+            "author": "Paul Willard",
+            "created_at": "2023-02-09T10:13:00+13:00",
+            "updated_at": "2023-02-09T10:13:00+13:00",
+            "comments": []
+        },
+        {
+            "id": "d7e8f9a0-b1c2-3d4e-5f6a-7b8c9d0e1f2a",
+            "title": "Phone issues with Wanna Internet / Purelink",
+            "body": "Customers using Wanna Internet / Purelink as their provider are experiencing intermittent phone connection problems. Purelink have indicated they are experiencing widespread issues and do not have an immediate solution. If you would like to change providers, we can facilitate this quickly — please get in touch.",
+            "status": "resolved",
+            "author": "Paul Willard",
+            "created_at": "2023-02-09T08:44:00+13:00",
+            "updated_at": "2023-02-09T08:44:00+13:00",
+            "comments": []
+        },
+        {
+            "id": "e8f9a0b1-c2d3-4e5f-6a7b-8c9d0e1f2a3b",
+            "title": "Taumarunui Central outage (Internet)",
+            "body": "Customers in Taumarunui Central may be experiencing a loss of Internet service. The outage started 18th July 2022 at 01:26. Techs are working on it.",
+            "status": "resolved",
+            "author": "Paul Willard",
+            "created_at": "2022-07-18T10:34:00+12:00",
+            "updated_at": "2022-07-18T10:34:00+12:00",
+            "comments": []
+        },
+        {
+            "id": "f9a0b1c2-d3e4-5f6a-7b8c-9d0e1f2a3b4c",
+            "title": "Spark Mobile - Matamata area",
+            "body": "We have identified an ongoing issue with Spark Mobile phones being unable to make calls in the Matamata area. We believe the problem relates to VoLTE technology and have lodged a fault with Spark Corporate services.",
+            "status": "resolved",
+            "author": "Paul Willard",
+            "created_at": "2022-06-17T11:28:00+12:00",
+            "updated_at": "2022-06-17T11:28:00+12:00",
+            "comments": []
+        }
+    ]
 }
