@@ -34,7 +34,7 @@ Complete reference for developing, building, deploying, and managing the Central
 This is a **static site with a thin PHP CMS layer**.
 
 ```
-Browser                     Server (centralcomms.netent.co.nz /var/www/dev)
+Browser                     Server (centralcomms.netent.co.nz /var/www/html)
   │                                │
   │  GET /index.html               │
   ├──────────────────────────────► │  Pre-built static HTML (Astro output)
@@ -105,9 +105,12 @@ centralcomms.nz-v2/
 │   │   │   └── posts/               # Images for update posts
 │   │   └── php/
 │   │       ├── contact.php                        # Contact form handler
+│   │       ├── contact-config.php                 # Contact secrets/addresses (server only, gitignored)
+│   │       ├── contact-config.php.example
 │   │       ├── notifications-api.php              # Notifications CRUD API
 │   │       ├── notifications-auth-config.php      # Credentials (server only, gitignored)
 │   │       ├── notifications-auth-config.php.example
+│   │       ├── security.php                       # Shared PHP security helpers
 │   │       ├── updates-api.php                    # Updates CRUD + image upload API
 │   │       ├── updates-auth-config.php            # Credentials (server only, gitignored)
 │   │       └── updates-auth-config.php.example
@@ -163,7 +166,7 @@ npm run build
 
 Astro compiles all `.astro` pages to static HTML in `dist/`. The build reads `updates.json` and `notifications.json` from `public/assets/data/` — these must be up to date before building.
 
-Output goes to `dist/` and is ready to serve as-is from any web server. The `astro.config.mjs` sets `build.format: 'file'` so pages are generated as `page.html` files (not `page/index.html`).
+Output goes to `dist/` and is ready to serve as-is from any web server. The `astro.config.mjs` sets `build.format: 'file'` so pages are generated as `page.html` files (not `page/index.html`). After Astro finishes, `scripts/scrub-server-config.mjs` removes server-only config files from `dist/assets/php/` so local ignored secrets are never packaged into a build artifact.
 
 To preview the built site locally:
 
@@ -193,15 +196,23 @@ Pulls the live `updates.json` and any new/updated images in `assets/images/posts
 Runs `npm run build` to generate the static site.
 
 ### 4. `make push`
-Rsyncs `dist/` to `/var/www/dev/` on the server with `--delete` (removes files no longer in the build). After rsync, sets permissions:
+Rsyncs `dist/` to `/var/www/html/` on the server with `--delete` (removes files no longer in the build). After rsync, sets permissions:
 - `notifications.json` and `updates.json` → `chmod 666` (web server must be able to write these)
+- `notifications.json.lock` and `updates.json.lock` → created if missing and set to `chmod 666` (used to serialize JSON writes)
 - `assets/images/posts/` → `chmod 777` (web server must be able to write uploaded images)
 
-Two files are **excluded** from rsync (they live only on the server):
+Three files are **excluded** from rsync (they live only on the server):
+- `assets/php/contact-config.php`
 - `assets/php/notifications-auth-config.php`
 - `assets/php/updates-auth-config.php`
 
 These are gitignored and never committed. The `.example` versions are committed as templates.
+
+The Makefile defaults can be overridden from the shell when needed:
+
+```bash
+make deploy REMOTE_USER=deploy REMOTE_HOST=example.com REMOTE_PATH=/srv/www/site
+```
 
 ---
 
@@ -317,7 +328,7 @@ The project updates section (`/updates.html`, `/updates/[slug].html`) displays a
 
 - `slug` — URL-safe identifier, used in the page URL (`/updates/ellicott-road-cctv.html`)
 - `image` — filename only (e.g. `home_cctv.jpg`), resolved to `/assets/images/posts/{image}`
-- `content_html` — full rich-text content as HTML, produced by TipTap
+- `content_html` — full rich-text content as HTML, produced by TipTap and sanitized by `updates-api.php` before it is saved
 - `categories` — array of tag strings (e.g. `["CCTV", "Infrastructure"]`)
 
 Updates are sorted newest-first by `date` (YYYY-MM-DD).
@@ -360,7 +371,7 @@ The TipTap editor (loaded only for logged-in staff) supports:
 ### Image management
 - **Featured image:** Shown as the hero image on the post page and as the card thumbnail on the index. Set via the "Upload Image" button in the meta column of the editor overlay. Click "Remove" to clear it.
 - **Content images:** Insert inline images anywhere in the body using the "Insert Image" button below the editor. These are uploaded to `/assets/images/posts/` on the server.
-- Images are stored on the server in `/var/www/dev/assets/images/posts/`. Running `make sync-updates` pulls them back to `public/assets/images/posts/` so they are included in the next build.
+- Images are stored on the server in `/var/www/html/assets/images/posts/`. Running `make sync-updates` pulls them back to `public/assets/images/posts/` so they are included in the next build.
 
 ### API endpoint
 `/assets/php/updates-api.php`
@@ -393,18 +404,28 @@ Both share the same PHP session (same cookie), but auth state is tracked indepen
 - Passwords are stored as bcrypt hashes (`password_hash(..., PASSWORD_DEFAULT)`)
 - Constant-time comparison prevents username enumeration (a dummy hash is always checked even for unknown usernames)
 - `session_regenerate_id(true)` is called on login to prevent session fixation
+- Staff session cookies are `HttpOnly`, `SameSite=Lax`, and `Secure` when served over HTTPS
+- Staff login attempts are rate-limited by IP address and username, with failures written to the PHP error log
+- Staff POST requests must be same-origin using `Origin` or `Referer`; requests without either header are rejected
+- Staff write actions require a per-session CSRF token in the `X-CSRF-Token` header. The token is returned by `me` and `login`.
 - All write actions require authentication
-- Image uploads validate MIME type via `mime_content_type()` and enforce a 10 MB size limit; filenames use a `bin2hex(random_bytes(3))` random suffix to prevent collisions without a TOCTOU race
+- Notification title/body/comment fields and update title/author/excerpt/content/category fields have server-side length caps
+- Image uploads validate MIME type via `mime_content_type()` and `getimagesize()`, enforce a 5 MB size limit, cap dimensions at 6000×6000, and rate-limit each staff user to 30 uploads per hour; filenames use a `bin2hex(random_bytes(3))` random suffix to prevent collisions without a TOCTOU race
 - `delete_image` resolves the target path via `realpath()` and confirms it is inside the images directory before unlinking (path traversal defence)
+- Featured-image filenames accepted from JSON requests are reduced to safe image basenames only (`jpg`, `jpeg`, `png`, `gif`, `webp`)
+- Update body HTML is sanitized server-side before it is stored. Only the editor tags required for posts are allowed; event-handler attributes, `javascript:` URLs, non-YouTube iframes, and unsafe image URLs are stripped.
+- `npm run build` validates `updates.json` before Astro builds and fails if stored HTML contains unsafe tags, event handlers, JavaScript URLs, bad iframe embeds, or unsafe image URLs
 - Output buffering (`ob_start()` / `ob_clean()`) prevents PHP notices/warnings from corrupting JSON responses
 
 ### JSON data safety
-Both APIs write JSON using a write-to-temp-then-rename pattern to prevent data corruption if a write is interrupted:
+Both APIs use a per-file `.lock` file around read-modify-write operations. This prevents concurrent CMS requests from overwriting each other with stale data. Writes still use a write-to-temp-then-rename pattern so an interrupted write does not leave a partial JSON file:
 
 ```php
-$tmp = $file . '.tmp.' . getmypid();
-file_put_contents($tmp, $json, LOCK_EX);
-rename($tmp, $file);
+flock($lock, LOCK_EX);
+$data = read_data_unlocked($file);
+// mutate $data
+write_data_unlocked($file, $data);
+flock($lock, LOCK_UN);
 ```
 
 ---
@@ -414,8 +435,8 @@ rename($tmp, $file);
 ### Notifications
 1. On the server, copy the example file:
    ```bash
-   cp /var/www/dev/assets/php/notifications-auth-config.php.example \
-      /var/www/dev/assets/php/notifications-auth-config.php
+   cp /var/www/html/assets/php/notifications-auth-config.php.example \
+      /var/www/html/assets/php/notifications-auth-config.php
    ```
 2. Generate a password hash:
    ```bash
@@ -432,8 +453,8 @@ rename($tmp, $file);
 Same process, but the file is `updates-auth-config.php` and the variable is `$UPDATES_STAFF_USERS`:
 
 ```bash
-cp /var/www/dev/assets/php/updates-auth-config.php.example \
-   /var/www/dev/assets/php/updates-auth-config.php
+cp /var/www/html/assets/php/updates-auth-config.php.example \
+   /var/www/html/assets/php/updates-auth-config.php
 ```
 
 ```php
@@ -459,16 +480,29 @@ Server-side (PHP backstop):
 - All three required fields (name, email, message) must be non-empty
 - Name must be ≥ 2 characters (`mb_strlen`)
 - Email validated with `FILTER_VALIDATE_EMAIL`
+- Name, email, phone, and message have server-side length caps
+- Submissions are rate-limited by IP address
 - Message must not contain URLs (basic spam filter)
 
 ### Configuration
-To change the recipient address, edit line 39 of `public/assets/php/contact.php`:
+The contact form uses a server-only config file for private values:
 
-```php
-$to = 'support@smtp.centralcomms.nz';
+```bash
+cp /var/www/html/assets/php/contact-config.php.example \
+   /var/www/html/assets/php/contact-config.php
 ```
 
-The `From` header is set to `noreply@centralcomms.nz`. The `Reply-To` is set to the sender's email address so replies go directly to the enquirer. `\r\n` characters are stripped from the validated email before it is inserted into the header to prevent email header injection.
+Then set:
+
+```php
+$CONTACT_RECAPTCHA_SECRET = '...';
+$CONTACT_RECIPIENT = 'support@smtp.centralcomms.nz';
+$CONTACT_FROM = 'noreply@centralcomms.nz';
+```
+
+`contact-config.php` is gitignored and excluded from deploy. The browser-side reCAPTCHA site key is intentionally public and remains in the static pages.
+
+The `From` header comes from `$CONTACT_FROM`. The `Reply-To` is set to the sender's validated email address so replies go directly to the enquirer. CR/LF characters are stripped from name, phone, and email before the message is composed to prevent email header injection.
 
 ---
 
@@ -545,6 +579,9 @@ convert input.jpg -resize 320x320^ -gravity Center -extent 320x320 -quality 82 n
 ### Apache `.htaccess`
 `public/.htaccess` controls URL rewriting, caching, and security headers. Key rules:
 
+**Direct access blocks:**
+- `contact-config.php`, `notifications-auth-config.php`, and `updates-auth-config.php` are denied over HTTP. PHP can still include them locally.
+
 **Caching:**
 - Images, CSS, JS, fonts: `Cache-Control: public, max-age=31536000, immutable` (1 year). CSS/JS are safe to cache forever because Astro appends a content hash to filenames on each build.
 - HTML and JSON: `no-cache, no-store` — these are regenerated on each deploy or updated by the CMS.
@@ -563,6 +600,7 @@ convert input.jpg -resize 320x320^ -gravity Center -extent 320x320 -quality 82 n
 ```
 default-src 'self'
 script-src 'self' 'unsafe-inline'        ← unsafe-inline required by Astro's runtime module loader
+script-src-attr 'none'                   ← blocks inline event handler attributes
 style-src 'self' 'unsafe-inline' https://fonts.googleapis.com
 font-src 'self' https://fonts.gstatic.com
 img-src 'self' data:                     ← data: needed for transparent pixel placeholder
@@ -636,10 +674,9 @@ Global styles live in `src/styles/global.css` and apply to all pages. Page-speci
 | Item | Value |
 |---|---|
 | Production URL | `https://www.centralcomms.nz` |
-| Dev server URL | `https://dev.centralcomms.nz` |
-| Dev server host | `centralcomms.netent.co.nz` |
-| Dev server path | `/var/www/dev` |
-| Deploy user | `paul` |
+| Production server host | `centralcomms.netent.co.nz` |
+| Production server path | `/var/www/html` |
+| Deploy user | `paul` by default; override with `make deploy REMOTE_USER=...` |
 | Site canonical origin | Defined in `astro.config.mjs` as `https://www.centralcomms.nz` |
 | Node version | 18+ |
 | PHP version | 8+ (on server) |
@@ -649,4 +686,5 @@ The following are excluded from version control (server-only):
 ```
 public/assets/php/notifications-auth-config.php
 public/assets/php/updates-auth-config.php
+public/assets/php/contact-config.php
 ```

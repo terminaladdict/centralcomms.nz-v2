@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "astro dev --host",
-    "build": "astro build",
+    "build": "node scripts/validate-updates-html.mjs && astro build && node scripts/scrub-server-config.mjs",
     "preview": "astro preview --host"
   },
   "dependencies": {

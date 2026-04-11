@@ -1,0 +1,7 @@
+<?php
+// Copy this file to contact-config.php and set the production values.
+// contact-config.php is gitignored — never commit real secrets.
+
+$CONTACT_RECAPTCHA_SECRET = 'REPLACE_WITH_RECAPTCHA_SECRET';
+$CONTACT_RECIPIENT = 'support@smtp.centralcomms.nz';
+$CONTACT_FROM = 'noreply@centralcomms.nz';

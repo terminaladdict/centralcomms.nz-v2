@@ -193,14 +193,21 @@ const categoryColors: Record<string, string> = {
   const editBtn     = document.getElementById('edit-btn')!;
   const deleteBtn   = document.getElementById('delete-btn')!;
   const barLogout   = document.getElementById('bar-logout-btn')!;
+  let csrfToken = '';
+
+  function csrfHeaders(extra: Record<string, string> = {}) {
+    return csrfToken ? { ...extra, 'X-CSRF-Token': csrfToken } : extra;
+  }
 
   (async () => {
     const r = await fetch(`${API}?action=me`).then(r => r.json());
+    csrfToken = r.csrf ?? '';
     if (r.logged_in) staffBar.style.display = 'flex';
   })();
 
   barLogout.addEventListener('click', async () => {
-    await fetch(`${API}?action=logout`, { method: 'POST' });
+    await fetch(`${API}?action=logout`, { method: 'POST', headers: csrfHeaders() });
+    csrfToken = '';
     staffBar.style.display = 'none';
   });
 
@@ -209,7 +216,7 @@ const categoryColors: Record<string, string> = {
   deleteBtn.addEventListener('click', async () => {
     const title = document.getElementById('post-title-display')?.textContent ?? 'this post';
     if (!confirm(`Delete "${title}"? This cannot be undone.`)) return;
-    const r = await fetch(`${API}?action=delete&slug=${encodeURIComponent(SLUG)}`, { method: 'POST' }).then(r => r.json());
+    const r = await fetch(`${API}?action=delete&slug=${encodeURIComponent(SLUG)}`, { method: 'POST', headers: csrfHeaders() }).then(r => r.json());
     if (r.success) {
       alert('Post deleted. Run "make deploy" to remove it from the site.');
       window.location.href = '/updates.html';
@@ -261,7 +268,7 @@ const categoryColors: Record<string, string> = {
   async function uploadImageFile(file: File): Promise<string | null> {
     const fd = new FormData();
     fd.append('file', file);
-    const r = await fetch(`${API}?action=upload_image`, { method: 'POST', body: fd }).then(r => r.json());
+    const r = await fetch(`${API}?action=upload_image`, { method: 'POST', headers: csrfHeaders(), body: fd }).then(r => r.json());
     return r.url ?? null;
   }
 
@@ -378,7 +385,7 @@ const categoryColors: Record<string, string> = {
 
     const r = await fetch(`${API}?action=update&slug=${encodeURIComponent(SLUG)}`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: csrfHeaders({ 'Content-Type': 'application/json' }),
       body: JSON.stringify({
         title, date, author, excerpt, categories,
         image: currentImageFilename || null,
@@ -488,4 +495,3 @@ const categoryColors: Record<string, string> = {
     .overlay-body { grid-template-columns: 1fr; }
   }
 </style>
-

@@ -1,6 +1,6 @@
-REMOTE_HOST := centralcomms.netent.co.nz
-REMOTE_PATH := /var/www/html
-REMOTE_USER := paul
+REMOTE_HOST ?= centralcomms.netent.co.nz
+REMOTE_PATH ?= /var/www/html
+REMOTE_USER ?= paul
 
 .PHONY: sync-data sync-updates build push deploy
 
@@ -21,15 +21,16 @@ build:
 	npm run build
 
 # Push dist/ to the server.
-# Excludes server-only auth config files.
+# Excludes server-only config files.
 # After push, ensure data files are writable by the web server.
 push:
 	rsync -avz --delete \
 		--exclude='assets/php/notifications-auth-config.php' \
 		--exclude='assets/php/updates-auth-config.php' \
+		--exclude='assets/php/contact-config.php' \
 		dist/ $(REMOTE_USER)@$(REMOTE_HOST):$(REMOTE_PATH)/
 	ssh $(REMOTE_USER)@$(REMOTE_HOST) \
-		"chmod 666 $(REMOTE_PATH)/assets/data/notifications.json $(REMOTE_PATH)/assets/data/updates.json; chmod 777 $(REMOTE_PATH)/assets/images/posts/"
+		"touch $(REMOTE_PATH)/assets/data/notifications.json.lock $(REMOTE_PATH)/assets/data/updates.json.lock; chmod 666 $(REMOTE_PATH)/assets/data/notifications.json $(REMOTE_PATH)/assets/data/updates.json $(REMOTE_PATH)/assets/data/notifications.json.lock $(REMOTE_PATH)/assets/data/updates.json.lock; chmod 777 $(REMOTE_PATH)/assets/images/posts/"
 
 # Full workflow: pull live data → build → push
 deploy: sync-data sync-updates build push

@@ -10,6 +10,12 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}.html -f
 RewriteRule ^(.*)$ $1.html [L]
 
+# Server-only PHP config files are included by API scripts and must not be
+# directly readable over HTTP.
+<FilesMatch "(^|/)(contact-config|notifications-auth-config|updates-auth-config)\.php$">
+  Require all denied
+</FilesMatch>
+
 # ─── Caching ─────────────────────────────────────────────────────────────────
 <IfModule mod_expires.c>
   ExpiresActive On
@@ -29,6 +35,8 @@ RewriteRule ^(.*)$ $1.html [L]
 </IfModule>
 
 <IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+
   # Static assets with hashed filenames — immutable for 1 year
   <FilesMatch "\.(jpg|jpeg|png|gif|webp|svg|ico|woff|woff2|ttf|eot)$">
     Header set Cache-Control "public, max-age=31536000, immutable"
@@ -46,11 +54,10 @@ RewriteRule ^(.*)$ $1.html [L]
   # ─── Security headers (HTML only — not applied to images/fonts/assets) ────────
   <FilesMatch "\.(html|htm)$">
     Header always set X-Frame-Options "DENY"
-    Header always set X-Content-Type-Options "nosniff"
     Header always set Referrer-Policy "strict-origin-when-cross-origin"
     Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
     Header always set Cross-Origin-Opener-Policy "same-origin"
-    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.gstatic.com; connect-src 'self' https://www.google.com/recaptcha/; frame-src https://www.youtube.com https://www.youtube-nocookie.com https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/; form-action 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'"
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; script-src-attr 'none'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.gstatic.com; connect-src 'self' https://www.google.com/recaptcha/; frame-src https://www.youtube.com https://www.youtube-nocookie.com https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/; form-action 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'"
   </FilesMatch>
   # HSTS also applies to all responses per spec
   Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"

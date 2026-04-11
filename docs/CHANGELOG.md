@@ -6,6 +6,27 @@ All notable changes to centralcomms.nz v2.
 
 ## [Unreleased]
 
+### Security review hardening
+
+- `contact.php`: moved the private reCAPTCHA secret, recipient address, and sender address into server-only `contact-config.php`; added `contact-config.php.example`, `.gitignore`, and deploy exclusion.
+- `contact.php`: added config validation, IP-based rate limiting, server-side field length caps, and stripped CR/LF from name and phone fields before composing mail headers/body.
+- `public/assets/php/security.php`: added shared session, file-backed rate limiting, CSRF token, same-origin, and string length helper functions.
+- `notifications-api.php`, `updates-api.php`: added `HttpOnly`, `SameSite=Lax`, HTTPS-aware `Secure` session cookies, same-origin `Origin`/`Referer` checks, per-session CSRF tokens, and file-backed login throttling for staff POST requests.
+- `notifications-api.php`, `updates-api.php`: login failures now write to the PHP error log for server-side alerting/monitoring.
+- `notifications-api.php`, `updates-api.php`: added per-data-file lock files around read-modify-write operations to prevent lost updates under concurrent CMS requests.
+- `updates-api.php`: added server-side HTML sanitization for saved rich-text update bodies; allows only CMS-required tags/attributes, safe links/images, and YouTube embed iframes.
+- `updates-api.php`: tightened upload handling to 5 MB max, `getimagesize()` validation, 6000×6000 dimension cap, and per-user upload rate limiting.
+- `notifications-api.php`, `updates-api.php`: added server-side length caps for CMS text fields.
+- `notifications.astro`, `updates/index.astro`, `updates/[slug].astro`: staff write requests now send the `X-CSRF-Token` header returned by the APIs.
+- `notifications-api.php`: logout now clears only the notifications staff session key instead of destroying the entire PHP session, matching the independent auth model used by the updates CMS.
+- `updates/index.astro`: removed the hardcoded default author in the New Update form; blank authors now fall back to the authenticated staff username on the server.
+- `updates/index.astro`: scoped dark-overlay button styling for the New Update window so Cancel, Upload Image, Insert Image, Remove, and Embed YouTube remain readable.
+- `.htaccess`: denied direct HTTP access to server-only PHP config files while still allowing local PHP includes.
+- `.htaccess`: `X-Content-Type-Options: nosniff` now applies to all responses, including uploaded images; CSP now includes `script-src-attr 'none'` to block inline event-handler attributes.
+- `package.json`, `scripts/scrub-server-config.mjs`, `scripts/validate-updates-html.mjs`: `npm run build` now validates stored update HTML before Astro builds, then removes server-only config files from `dist/assets/php/` after Astro copies `public/`, preventing ignored local secrets from entering build artifacts.
+- `Makefile`: changed deploy connection values to overridable defaults (`?=`), added `contact-config.php` to the rsync exclusions, and creates writable JSON lock files during push.
+- `docs/README.md`: updated deployment paths from `/var/www/dev` to `/var/www/html`, documented the new contact config, JSON locking, HTML sanitization, session-cookie settings, same-origin POST checks, and Makefile overrides.
+
 ---
 
 ## 2026-04-08 (PageSpeed / performance / security hardening)

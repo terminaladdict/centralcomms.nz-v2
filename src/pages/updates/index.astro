@@ -122,7 +122,7 @@ const categoryColors: Record<string, string> = {
             <input class="field-input" type="date" id="c-date">
           </label>
           <label class="field-label">Author
-            <input class="field-input" type="text" id="c-author" value="Paul Willard">
+            <input class="field-input" type="text" id="c-author" placeholder="Leave blank to use your staff login">
           </label>
           <label class="field-label">Categories (comma-separated)
             <input class="field-input" type="text" id="c-categories" placeholder="CCTV, Networking">
@@ -175,9 +175,15 @@ const categoryColors: Record<string, string> = {
   const staffControls  = document.getElementById('staff-controls')!;
   const staffLogoutBtn = document.getElementById('staff-logout-btn')!;
   const newUpdateBtn   = document.getElementById('new-update-btn')!;
+  let csrfToken = '';
+
+  function csrfHeaders(extra: Record<string, string> = {}) {
+    return csrfToken ? { ...extra, 'X-CSRF-Token': csrfToken } : extra;
+  }
 
   async function checkAuth() {
     const r = await fetch(`${API}?action=me`).then(r => r.json());
+    csrfToken = r.csrf ?? '';
     if (r.logged_in) {
       staffLoginBtn.style.display  = 'none';
       staffControls.style.display  = 'flex';
@@ -211,6 +217,7 @@ const categoryColors: Record<string, string> = {
     }).then(r => r.json());
 
     if (r.logged_in) {
+      csrfToken = r.csrf ?? '';
       loginModal.style.display = 'none';
       loginForm.reset();
       checkAuth();
@@ -221,7 +228,8 @@ const categoryColors: Record<string, string> = {
   });
 
   staffLogoutBtn.addEventListener('click', async () => {
-    await fetch(`${API}?action=logout`, { method: 'POST' });
+    await fetch(`${API}?action=logout`, { method: 'POST', headers: csrfHeaders() });
+    csrfToken = '';
     checkAuth();
   });
 
@@ -263,7 +271,7 @@ const categoryColors: Record<string, string> = {
   async function uploadImageFile(file: File): Promise<string | null> {
     const fd = new FormData();
     fd.append('file', file);
-    const r = await fetch(`${API}?action=upload_image`, { method: 'POST', body: fd }).then(r => r.json());
+    const r = await fetch(`${API}?action=upload_image`, { method: 'POST', headers: csrfHeaders(), body: fd }).then(r => r.json());
     return r.url ?? null;
   }
 
@@ -364,7 +372,7 @@ const categoryColors: Record<string, string> = {
 
     const r = await fetch(`${API}?action=create`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: csrfHeaders({ 'Content-Type': 'application/json' }),
       body: JSON.stringify({
         title, date, author, excerpt, categories,
         image: createImageFilename || null,
@@ -492,9 +500,20 @@ const categoryColors: Record<string, string> = {
   .tiptap-editor:focus-within { border-color: #0ea5e9; }
   .editor-img-upload { display: flex; gap: 0.75rem; flex-wrap: wrap; }
 
+  #create-overlay .btn-outline {
+    color: #e8f1ff;
+    border-color: rgba(255, 255, 255, 0.45);
+    background: rgba(255, 255, 255, 0.04);
+  }
+  #create-overlay .btn-outline:hover,
+  #create-overlay .btn-outline:focus-visible {
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.78);
+    background: rgba(255, 255, 255, 0.1);
+  }
+
   .form-error { color: #f87171; font-size: 0.85rem; margin: 0.5rem 0 0; }
 
   @media (max-width: 900px) { .posts-grid { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 560px) { .posts-grid { grid-template-columns: 1fr; } .overlay-body { grid-template-columns: 1fr; } .hero-inner { flex-direction: column; } }
 </style>
-

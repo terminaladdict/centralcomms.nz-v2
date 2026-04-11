@@ -39,6 +39,9 @@ A portfolio of project case studies managed via an in-browser TipTap rich-text e
 ### Static + PHP hybrid
 All public-facing pages are pre-rendered static HTML (fast, SEO-friendly, no database). The PHP layer only handles write operations (form submissions, CMS saves, image uploads) — it never serves HTML to end users.
 
+### Security model
+Staff APIs use bcrypt password hashes, server-side PHP sessions, CSRF tokens, login throttling, same-origin POST checks, and locked JSON writes. Update body HTML is sanitized before storage and validated before build, uploaded images are MIME/dimension-checked, and private credentials/secrets live in gitignored server-only config files.
+
 ---
 
 ## Docs

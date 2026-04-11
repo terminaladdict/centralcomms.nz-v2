@@ -167,6 +167,7 @@ import Layout from '../layouts/Layout.astro';
   let resolvedVisible = RESOLVED_PER_LOAD;
   let isLoggedIn = false;
   let currentUser = null;
+  let csrfToken = '';
   let editingNotifId = null;
 
   // ── Utilities ───────────────────────────────────────────────────────────────
@@ -200,6 +201,7 @@ import Layout from '../layouts/Layout.astro';
     const opts = { method: body ? 'POST' : 'GET', credentials: 'same-origin' };
     if (body) {
       opts.headers = { 'Content-Type': 'application/json' };
+      if (action !== 'login' && csrfToken) opts.headers['X-CSRF-Token'] = csrfToken;
       opts.body = JSON.stringify(body);
     }
     const res = await fetch(url, opts);
@@ -217,6 +219,7 @@ import Layout from '../layouts/Layout.astro';
       const [me, data] = await Promise.all([apiCall('me'), apiCall('list')]);
       isLoggedIn = me.logged_in ?? false;
       currentUser = me.user ?? null;
+      csrfToken = me.csrf ?? '';
       notifications = data.notifications ?? [];
     } catch (err) {
       console.error('Notifications API unavailable:', err);
@@ -633,6 +636,7 @@ import Layout from '../layouts/Layout.astro';
       }
       isLoggedIn = true;
       currentUser = result.user;
+      csrfToken = result.csrf ?? '';
       document.getElementById('login-panel').hidden = true;
       document.getElementById('login-password').value = '';
       render();
@@ -647,6 +651,7 @@ import Layout from '../layouts/Layout.astro';
     await apiCall('logout', {}, {});
     isLoggedIn = false;
     currentUser = null;
+    csrfToken = '';
     hideNotifForm();
     render();
   }
@@ -1041,4 +1046,3 @@ import Layout from '../layouts/Layout.astro';
     box-shadow: 0 4px 16px rgba(0,0,0,0.08);
   }
 </style>
-
