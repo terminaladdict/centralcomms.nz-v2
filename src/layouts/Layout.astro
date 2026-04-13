@@ -12,6 +12,7 @@ interface Props {
   noindex?: boolean;
   ogType?: string;
   articleDate?: string;
+  canonicalURL?: string;
 }
 
 const {
@@ -23,16 +24,127 @@ const {
   noindex = false,
   ogType = "website",
   articleDate,
+  canonicalURL,
 } = Astro.props;
 
-const ogImage = image ?? "/assets/images/og-default.jpg";
+const defaultOgImage = "/assets/images/ccl-og-image.png";
+const ogImage = image ?? defaultOgImage;
 const ogImageWidth  = imageWidth  ?? (image ? undefined : 1200);
 const ogImageHeight = imageHeight ?? (image ? undefined : 630);
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const canonical = canonicalURL
+  ? new URL(canonicalURL, Astro.site)
+  : new URL(Astro.url.pathname, Astro.site);
 const fullTitle = title === "Home"
   ? "Central Communications Ltd — Building Better Business Infrastructure"
+  : /Central (Communications|Comms)/i.test(title)
+  ? title
   : `${title} | Central Communications Ltd`;
+
+const siteUrl = new URL("/", Astro.site);
+const schemaData = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "@id": new URL("#business", siteUrl).href,
+  "name": "Central Communications Ltd",
+  "legalName": "Central Communications Ltd",
+  "url": siteUrl.href,
+  "image": new URL(defaultOgImage, Astro.site).href,
+  "logo": new URL("/assets/images/centralcomms.svg", Astro.site).href,
+  "telephone": "+648008480038",
+  "priceRange": "$$",
+  "description": "Smart telecommunications, security, networking, wireless, UFB and web hosting solutions for businesses throughout the Waikato and beyond.",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Unit 3/103C Greenwood Street, Frankton",
+    "addressLocality": "Hamilton",
+    "postalCode": "3204",
+    "addressCountry": "NZ"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": -37.7870,
+    "longitude": 175.2793
+  },
+  "areaServed": ["Hamilton", "Waikato", "Bay of Plenty", "South Auckland"],
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      "opens": "08:30",
+      "closes": "17:00"
+    }
+  ],
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Telecommunications, Security and IT Services",
+    "itemListElement": [
+      {
+        "@type": "Offer",
+        "url": new URL("/voip.html", Astro.site).href,
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Business VoIP Phone Systems",
+          "serviceType": "VoIP phone systems"
+        }
+      },
+      {
+        "@type": "Offer",
+        "url": new URL("/cctv.html", Astro.site).href,
+        "itemOffered": {
+          "@type": "Service",
+          "name": "CCTV and Security Surveillance",
+          "serviceType": "Security camera installation"
+        }
+      },
+      {
+        "@type": "Offer",
+        "url": new URL("/networking--data.html", Astro.site).href,
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Structured Data Cabling and Networking",
+          "serviceType": "Network cabling"
+        }
+      },
+      {
+        "@type": "Offer",
+        "url": new URL("/it-support.html", Astro.site).href,
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Business IT Support and Hardware Sales",
+          "serviceType": "IT support"
+        }
+      },
+      {
+        "@type": "Offer",
+        "url": new URL("/wireless.html", Astro.site).href,
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Enterprise WiFi and Wireless Links",
+          "serviceType": "Wireless networking"
+        }
+      },
+      {
+        "@type": "Offer",
+        "url": new URL("/ultra-fast-broadband.html", Astro.site).href,
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Business Ultra Fast Broadband",
+          "serviceType": "Business broadband"
+        }
+      },
+      {
+        "@type": "Offer",
+        "url": new URL("/websites-and-hosting.html", Astro.site).href,
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Websites and Managed Hosting",
+          "serviceType": "Web hosting"
+        }
+      }
+    ]
+  }
+};
 ---
 <!doctype html>
 <html lang="en">
@@ -42,15 +154,16 @@ const fullTitle = title === "Home"
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
   <title>{fullTitle}</title>
+  <meta name="title" content={fullTitle} />
   <meta name="description" content={description} />
   {noindex && <meta name="robots" content="noindex,nofollow" />}
 
   <!-- Canonical -->
-  <link rel="canonical" href={canonicalURL} />
+  <link rel="canonical" href={canonical} />
 
   <!-- Open Graph -->
   <meta property="og:type" content={ogType} />
-  <meta property="og:url" content={canonicalURL} />
+  <meta property="og:url" content={canonical} />
   <meta property="og:title" content={fullTitle} />
   <meta property="og:description" content={description} />
   <meta property="og:image" content={new URL(ogImage, Astro.site)} />
@@ -69,6 +182,7 @@ const fullTitle = title === "Home"
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content={canonical} />
   <meta name="twitter:title" content={fullTitle} />
   <meta name="twitter:description" content={description} />
   <meta name="twitter:image" content={new URL(ogImage, Astro.site)} />
@@ -85,29 +199,7 @@ const fullTitle = title === "Home"
   />
 
   <!-- Schema.org -->
-  <script type="application/ld+json" set:html={JSON.stringify({
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    "name": "Central Communications Ltd",
-    "url": "https://www.centralcomms.nz",
-    "telephone": "+648008480038",
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "Unit 3/103C Greenwood Street, Frankton",
-      "addressLocality": "Hamilton",
-      "postalCode": "3204",
-      "addressCountry": "NZ"
-    },
-    "geo": {
-      "@type": "GeoCoordinates",
-      "latitude": -37.7870,
-      "longitude": 175.2793
-    },
-    "image": "https://www.centralcomms.nz/assets/images/centralcomms.svg",
-    "priceRange": "$50 - $50,000",
-    "description": "Smart solutions for VoIP, CCTV, data networking, wireless, UFB and web hosting in the Waikato.",
-    "areaServed": ["Hamilton", "Waikato", "Bay of Plenty", "South Auckland"]
-  })}></script>
+  <script type="application/ld+json" set:html={JSON.stringify(schemaData)}></script>
 </head>
 <body>
   <Nav />

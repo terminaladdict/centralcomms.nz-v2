@@ -6,6 +6,12 @@ All notable changes to centralcomms.nz v2.
 
 ## [Unreleased]
 
+### SEO and structured data
+
+- `Layout.astro`: expanded the default JSON-LD from a basic local business object to a `ProfessionalService` schema with logo, default social image, opening hours, service catalog, and canonical `@id`.
+- `Layout.astro`: added optional `canonicalURL`, `meta name="title"`, `twitter:url`, smarter title suffixing to avoid duplicate brand names, and switched the default Open Graph image to `ccl-og-image.png`.
+- Service pages: refined title and description metadata for VoIP, CCTV, networking/data cabling, and IT support pages using search-focused Hamilton/Waikato service terms.
+
 ### Security review hardening
 
 - `contact.php`: moved the private reCAPTCHA secret, recipient address, and sender address into server-only `contact-config.php`; added `contact-config.php.example`, `.gitignore`, and deploy exclusion.
