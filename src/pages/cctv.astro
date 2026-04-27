@@ -1,15 +1,128 @@
 ---
 import Layout from '../layouts/Layout.astro';
+
+const pageUrl = 'https://www.centralcomms.nz/cctv.html';
+const cctvServiceSchema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "@id": `${pageUrl}#service`,
+  "name": "PSPLA Licensed CCTV Installation",
+  "serviceType": "CCTV supply, installation, configuration and maintenance",
+  "description": "PSPLA licensed CCTV installation, upgrades, configuration and maintenance for Hamilton and Waikato homes, shops, warehouses and business sites.",
+  "url": pageUrl,
+  "areaServed": ["Hamilton", "Waikato"],
+  "provider": {
+    "@id": "https://www.centralcomms.nz/#business"
+  },
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "CCTV Services",
+    "itemListElement": [
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Commercial CCTV installation"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Residential CCTV installation"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "CCTV maintenance and upgrades"
+        }
+      }
+    ]
+  }
+};
+
+const cctvBusinessSchema = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "@id": `${pageUrl}#security-business`,
+  "name": "Central Communications Ltd",
+  "legalName": "Central Communications Ltd",
+  "url": pageUrl,
+  "telephone": "+648008480038",
+  "areaServed": "Hamilton, Waikato, New Zealand",
+  "identifier": [
+    { "@type": "PropertyValue", "name": "PSPLA Licence", "value": "26-136741" },
+    { "@type": "PropertyValue", "name": "NZBN", "value": "9429050077809" }
+  ],
+  "hasCredential": [
+    {
+      "@type": "EducationalOccupationalCredential",
+      "credentialCategory": "Licence",
+      "name": "PSPLA security technician company licence",
+      "identifier": "26-136741",
+      "issuingBody": "Private Security Personnel Licensing Authority"
+    }
+  ],
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Unit 3/103C Greenwood Street, Frankton",
+    "addressLocality": "Hamilton",
+    "addressRegion": "Waikato",
+    "postalCode": "3204",
+    "addressCountry": "NZ"
+  }
+};
+
+const cctvFaqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Are you PSPLA licensed in Hamilton?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Central Communications Ltd operates with PSPLA licence 26-136741 and NZBN 9429050077809 for CCTV installation and related security work in Hamilton and the Waikato."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do you install CCTV for both homes and businesses?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. We install and maintain CCTV systems for homes, retail shops, offices, warehouses, yards and multi-site business environments."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is included in a CCTV installation?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "We handle site surveys, system design, camera and recorder supply, installation, remote viewing setup, integration work and ongoing maintenance."
+      }
+    }
+  ]
+};
 ---
 <Layout
-  title="Commercial CCTV Installation & Security Cameras Waikato"
-  description="PSPLA licensed security experts. We design and install high-definition CCTV systems for Hamilton and Waikato businesses using Hikvision, Dahua, Uniview and Mobotix."
+  title="CCTV Installers Hamilton | PSPLA Licensed | Central Communications"
+  description="PSPLA licensed CCTV installation, upgrades and maintenance for Hamilton and Waikato homes, retail and commercial sites. Free site visits and system design."
+  canonicalURL={pageUrl}
+  extraSchema={[cctvServiceSchema, cctvBusinessSchema, cctvFaqSchema]}
 >
   <div class="page-hero">
     <div class="container">
       <span class="section-tag">Services — CCTV</span>
-      <h1 class="page-title">CCTV &amp; Security<br /><em>Surveillance</em></h1>
-      <p class="page-sub">Licensed installation of professional IP camera systems for homes and businesses.</p>
+      <h1 class="page-title">CCTV Installers<br /><em>Hamilton</em></h1>
+      <p class="page-sub">PSPLA licensed CCTV supply, installation, configuration and maintenance for homes, shops, warehouses and business sites across Hamilton and the Waikato.</p>
+      <ul class="trust-strip" aria-label="CCTV business credentials">
+        <li>PSPLA Licence 26-136741</li>
+        <li>NZBN 9429050077809</li>
+        <li>Hamilton &amp; wider Waikato</li>
+        <li>Residential &amp; commercial CCTV</li>
+      </ul>
     </div>
   </div>
 
@@ -30,7 +143,17 @@ import Layout from '../layouts/Layout.astro';
             of trust on top of your system.
           </p>
 
-          <h2>PSPLA Licensed — It's a Legal Requirement</h2>
+          <h2>PSPLA Licensed CCTV Installers in Hamilton</h2>
+          <p>
+            Yes, we are PSPLA licensed in Hamilton. Central Communications Ltd operates under
+            <strong> PSPLA licence 26-136741</strong> and <strong>NZBN 9429050077809</strong>,
+            supplying, installing and maintaining CCTV systems throughout the Waikato.
+          </p>
+          <ul class="credential-list" aria-label="Licensing and service coverage">
+            <li>Security technician company licence for installation work</li>
+            <li>Security consultant company authority for commercial advice and sales</li>
+            <li>Coverage for homes, retail, offices, warehouses, yards and multi-site businesses</li>
+          </ul>
           <p>
             Did you know that the company that installs your CCTV is legally required to be licensed?
             Central Communications is fully licensed as both a <strong>security technician company</strong>
@@ -42,7 +165,7 @@ import Layout from '../layouts/Layout.astro';
             are <em>not</em> licensed. Doing CCTV work without a license can mean huge fines.
           </p>
           <div style="margin:1.5rem 0;">
-            <img src="/assets/images/pspla-license-2026.png" alt="PSPLA License 2026 — Central Communications Ltd" style="width:100%;max-width:420px;border-radius:0.75rem;border:1px solid rgba(14,165,233,0.15);" loading="lazy" />
+            <img src="/assets/images/pspla-license-2026.png" alt="PSPLA licensed CCTV installer in Hamilton - Central Communications licence 26-136741" style="width:100%;max-width:420px;border-radius:0.75rem;border:1px solid rgba(14,165,233,0.15);" loading="lazy" />
           </div>
 
           <h2>Our CCTV Brands</h2>
@@ -64,6 +187,35 @@ import Layout from '../layouts/Layout.astro';
             <li>Integration with alarm and access control systems</li>
             <li>Ongoing maintenance &amp; support</li>
           </ul>
+
+          <section class="faq" aria-labelledby="cctv-faq-heading">
+            <h2 id="cctv-faq-heading">CCTV installer FAQs</h2>
+
+            <details>
+              <summary>Are you PSPLA licensed in Hamilton?</summary>
+              <p>
+                Yes. Central Communications Ltd holds PSPLA licence 26-136741 and NZBN
+                9429050077809, and we carry out CCTV installation and related work across
+                Hamilton and the wider Waikato.
+              </p>
+            </details>
+
+            <details>
+              <summary>Do you install CCTV for both homes and businesses?</summary>
+              <p>
+                We do. We install and maintain CCTV systems for homes, retail shops, offices,
+                warehouses, yards and multi-site business environments.
+              </p>
+            </details>
+
+            <details>
+              <summary>What does a CCTV installation usually include?</summary>
+              <p>
+                Most projects include a site survey, system design, camera and recorder supply,
+                cabling, remote viewing setup, configuration, integration and ongoing support.
+              </p>
+            </details>
+          </section>
         </div>
 
         <div class="sidebar">
@@ -88,6 +240,21 @@ import Layout from '../layouts/Layout.astro';
   }
   .page-title em { font-style: normal; color: #0ea5e9; }
   .page-sub { font-size: 1.1rem; color: #7ea3c8; max-width: 520px; }
+  .trust-strip {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  .trust-strip li {
+    border: 1px solid rgba(126, 163, 200, 0.28);
+    border-radius: 8px;
+    color: #c8dbef;
+    font-size: 0.9rem;
+    padding: 0.55rem 0.8rem;
+  }
 
   .content-grid {
     display: grid;
@@ -112,6 +279,19 @@ import Layout from '../layouts/Layout.astro';
     transition: filter 0.2s;
   }
   .brands-grid img:hover { filter: none; }
+
+  .credential-list {
+    list-style: none;
+    padding: 0;
+    margin: 1.25rem 0;
+    display: grid;
+    gap: 0.75rem;
+  }
+  .credential-list li {
+    border-left: 3px solid #0ea5e9;
+    color: #1e3a5f;
+    padding-left: 0.9rem;
+  }
 
   .feature-list {
     list-style: none;
@@ -160,6 +340,42 @@ import Layout from '../layouts/Layout.astro';
     border: 1px solid rgba(14, 165, 233, 0.12);
     width: 100%;
     height: auto;
+  }
+
+  .faq {
+    margin-top: 3rem;
+  }
+  .faq details {
+    border-top: 1px solid rgba(14, 165, 233, 0.2);
+    padding: 1rem 0;
+  }
+  .faq details:last-of-type {
+    border-bottom: 1px solid rgba(14, 165, 233, 0.2);
+  }
+  .faq summary {
+    color: #0c1d35;
+    cursor: pointer;
+    font-weight: 600;
+    list-style: none;
+    padding-right: 1.5rem;
+    position: relative;
+  }
+  .faq summary::-webkit-details-marker {
+    display: none;
+  }
+  .faq summary::after {
+    color: #0ea5e9;
+    content: '+';
+    font-size: 1.1rem;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .faq details[open] summary::after {
+    content: '-';
+  }
+  .faq p {
+    margin: 0.75rem 0 0;
   }
 
   @media (max-width: 900px) {

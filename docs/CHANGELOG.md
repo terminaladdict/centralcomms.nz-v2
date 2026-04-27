@@ -11,6 +11,7 @@ All notable changes to centralcomms.nz v2.
 - `Layout.astro`: expanded the default JSON-LD from a basic local business object to a `ProfessionalService` schema with logo, default social image, opening hours, service catalog, and canonical `@id`.
 - `Layout.astro`: added optional `canonicalURL`, `meta name="title"`, `twitter:url`, smarter title suffixing to avoid duplicate brand names, and switched the default Open Graph image to `ccl-og-image.png`.
 - Service pages: refined title and description metadata for VoIP, CCTV, networking/data cabling, and IT support pages using search-focused Hamilton/Waikato service terms.
+- `Layout.astro`, `cctv.astro`: added support for page-specific schema and used it on the CCTV page for service, local business, and FAQ metadata; also strengthened visible licensing, trust, and FAQ content around the PSPLA credential.
 
 ### Security review hardening
 

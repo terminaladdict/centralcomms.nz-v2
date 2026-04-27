@@ -13,6 +13,7 @@ interface Props {
   ogType?: string;
   articleDate?: string;
   canonicalURL?: string;
+  extraSchema?: Record<string, any> | Record<string, any>[];
 }
 
 const {
@@ -25,6 +26,7 @@ const {
   ogType = "website",
   articleDate,
   canonicalURL,
+  extraSchema,
 } = Astro.props;
 
 const defaultOgImage = "/assets/images/ccl-og-image.png";
@@ -145,6 +147,11 @@ const schemaData = {
     ]
   }
 };
+const extraSchemaItems = Array.isArray(extraSchema)
+  ? extraSchema
+  : extraSchema
+  ? [extraSchema]
+  : [];
 ---
 <!doctype html>
 <html lang="en">
@@ -200,6 +207,9 @@ const schemaData = {
 
   <!-- Schema.org -->
   <script type="application/ld+json" set:html={JSON.stringify(schemaData)}></script>
+  {extraSchemaItems.map((item) => (
+    <script type="application/ld+json" set:html={JSON.stringify(item)}></script>
+  ))}
 </head>
 <body>
   <Nav />
