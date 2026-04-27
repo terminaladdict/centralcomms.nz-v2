@@ -17,6 +17,7 @@ const allowedIframeHosts = new Set([
   'www.youtube-nocookie.com',
   'youtube-nocookie.com',
 ]);
+const allowedIframeAttrs = new Set(['src', 'width', 'height', 'allow', 'allowfullscreen', 'title']);
 
 const failures = [];
 
@@ -45,6 +46,17 @@ for (const update of updates) {
       }
     } catch {
       failures.push(`${slug}: iframe src is not a valid absolute URL: ${src}`);
+    }
+
+    for (const attrMatch of tag.matchAll(/\s([^\s=/>]+)(?:\s*=\s*("([^"]*)"|'([^']*)'|([^\s>]+)))?/gi)) {
+      const name = attrMatch[1].toLowerCase();
+      const value = attrMatch[3] ?? attrMatch[4] ?? attrMatch[5] ?? '';
+      if (!allowedIframeAttrs.has(name)) {
+        failures.push(`${slug}: iframe contains unsupported attribute ${name}`);
+      }
+      if (name === 'allowfullscreen' && value && value.toLowerCase() !== 'allowfullscreen') {
+        failures.push(`${slug}: iframe allowfullscreen should be a boolean attribute, found value ${JSON.stringify(value)}`);
+      }
     }
   }
 

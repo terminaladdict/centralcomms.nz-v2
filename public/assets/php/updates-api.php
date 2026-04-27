@@ -225,7 +225,7 @@ function sanitize_update_html(string $html): string {
                 if (!is_safe_youtube_url($src)) {
                     $node->parentNode?->removeChild($node);
                 } else {
-                    $node->setAttribute('allowfullscreen', 'true');
+                    $node->setAttribute('allowfullscreen', '');
                 }
             }
         } elseif ($node instanceof DOMComment) {

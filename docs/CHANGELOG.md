@@ -22,6 +22,7 @@ All notable changes to centralcomms.nz v2.
 - `notifications-api.php`, `updates-api.php`: login failures now write to the PHP error log for server-side alerting/monitoring.
 - `notifications-api.php`, `updates-api.php`: added per-data-file lock files around read-modify-write operations to prevent lost updates under concurrent CMS requests.
 - `updates-api.php`: added server-side HTML sanitization for saved rich-text update bodies; allows only CMS-required tags/attributes, safe links/images, and YouTube embed iframes.
+- `scripts/normalize-updates-html.mjs`, `package.json`: build now normalizes legacy YouTube iframe markup in `updates.json` before validating and rendering, so synced live CMS content with stale TipTap attributes cannot block deploys or ship invalid iframe HTML.
 - `updates-api.php`: tightened upload handling to 5 MB max, `getimagesize()` validation, 6000×6000 dimension cap, and per-user upload rate limiting.
 - `notifications-api.php`, `updates-api.php`: added server-side length caps for CMS text fields.
 - `notifications.astro`, `updates/index.astro`, `updates/[slug].astro`: staff write requests now send the `X-CSRF-Token` header returned by the APIs.

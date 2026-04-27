@@ -1,329 +1,329 @@
 {
-    "updates": [
-        {
-            "slug": "commercial-data-cabling",
-            "title": "Commercial Data Cabling",
-            "date": "2022-09-14",
-            "author": "Paul Willard",
-            "image": "Commercial_data.jpg",
-            "categories": [
-                "Infrastructure"
-            ],
-            "excerpt": "Expert commercial data cabling — at-heights certified, Site Safe qualified.",
-            "content_html": "<p>Have a commercial build that needs cabling? We have experience with major commercial construction companies and commercial-scale data cabling.</p><p>Be it cabling for your CCTV system, your phone system, or your general network — we've got you covered.</p><p>We are qualified for at-heights work, elevated work platforms, and Site Safe operations.</p><p></p><div data-youtube-video=\"\"><iframe width=\"640\" height=\"480\" allowfullscreen=\"true\" autoplay=\"false\" disablekbcontrols=\"false\" enableiframeapi=\"false\" endtime=\"0\" ivloadpolicy=\"0\" loop=\"false\" modestbranding=\"false\" origin=\"\" playlist=\"\" rel=\"1\" src=\"https://www.youtube.com/embed/KQofUSaCyR4?rel=1\" start=\"0\"></iframe></div><p></p>"
-        },
-        {
-            "slug": "10-gigabit-ethernet",
-            "title": "10 Gigabit Ethernet 10GBASE-T",
-            "date": "2022-06-20",
-            "author": "Paul Willard",
-            "image": "20220604_090014.jpg",
-            "categories": [
-                "Infrastructure"
-            ],
-            "excerpt": "10GbE installation with SFP+ fibre uplinks and Cat6 copper distribution.",
-            "content_html": "<p>10 Gigabit Ethernet (10GE, 10GbE, or 10 GigE) is here — and it makes your network rocket! 🚀</p><p>We're experts in fibre splicing and copper structured data cabling. Be it cabling for your CCTV system, your phone system, or your general network infrastructure — we've got the cabling solution for you.</p><img src=\"/assets/images/posts/thumbnails/20220604_090014.jpg\" alt=\"Cabinet installation\"><p>For this installation, we set up the primary cabinet with SFP+ ports for 10Gb fibre uplinks and 10GBase-T for cabled Cat6 10Gb devices.</p><img src=\"/assets/images/posts/thumbnails/20220606_160901.jpg\" alt=\"Secondary cabinet with DAC cables\"><p>The secondary cabinet runs DAC cable from the primary cabinet using the SFP+ ports, then distributes via Gigabit PoE and Gigabit non-PoE switches throughout the network.</p><p></p><p></p>"
-        },
-        {
-            "slug": "meatworks-structured-data-cabling",
-            "title": "Structured Cabling in Extreme Buildings",
-            "date": "2022-03-29",
-            "author": "Paul Willard",
-            "image": "Meatworks_Montage.jpg",
-            "categories": [
-                "Infrastructure"
-            ],
-            "excerpt": "Data cabling in a working freezing works — tough conditions, expert results.",
-            "content_html": "<p>We've been back in the local freezing works. This time we've been running cables for additional workstations. It's a tough job getting cables through tight spots in some roofs and under some floors. But we are experienced experts at structured cabling. There are not many places we can't get a cable (copper or fibre). And if we can't get a cable run, we've got expert wireless radio engineers who can get data just about anywhere.</p>"
-        },
-        {
-            "slug": "freezer-cctv",
-            "title": "Lockdown Essential Work — Freezer CCTV",
-            "date": "2021-10-18",
-            "author": "Paul Willard",
-            "image": "central_comms_montage.jpg",
-            "categories": [
-                "CCTV"
-            ],
-            "excerpt": "Cold-rated IP cameras installed in a -40°C meat works freezer during Covid lockdown.",
-            "content_html": "<p>It was Covid lockdown in October 2021 — but most of what we do is classified as an essential service. CCTV for a local freezing works is definitely essential. We were contacted by a local meat works company to do some work in their freezer. The meat works freezer (which can reach -40°C) operates entirely by remote console and CCTV cameras. We removed ageing analogue cameras and replaced them with IP cameras. This required some specialist supplies — the cable we used is rated to operate down to -50°C, and the cameras are rated to -40°C. When we arrived, the freezers had been turned off for an hour and the temperature had warmed to -15°C. 🥶</p>"
-        },
-        {
-            "slug": "ellicott-road-cctv",
-            "title": "Ellicott Road CCTV Installation",
-            "date": "2021-06-24",
-            "author": "Paul Willard",
-            "image": "home_cctv.jpg",
-            "categories": [
-                "CCTV"
-            ],
-            "excerpt": "Complete 6-camera CCTV system with open-source NVR and web-integrated live views.",
-            "content_html": "<p>We set up a complete CCTV system with 6 cameras, cabling, and an NVR server at an address in Ellicott Road, Hamilton. The system uses a combination of dome and bullet cameras.</p>\n<p>We're proud to have used completely open-source NVR software — this allows us to do things like embed live camera streams in a website.</p>\n<p>We wrote custom code and embedded a number of cameras in a website that integrated with other information on the property. We also integrated an Android application to view the stream directly from each camera, and another Android app to view alarms and recordings from the NVR.</p>\n<figure><img src=\"/assets/images/posts/thumbnails/themount_camera.jpg\" alt=\"CCTV installation\"></figure>"
-        },
-        {
-            "slug": "mt-maunganui-offsite-backup",
-            "title": "Mount Maunganui Offsite Backup",
-            "date": "2020-08-05",
-            "author": "Paul Willard",
-            "image": "20201226_150352.jpg",
-            "categories": [
-                "Broadband",
-                "Infrastructure"
-            ],
-            "excerpt": "Expanding our data redundancy with an offsite backup in Mount Maunganui.",
-            "content_html": "<p>All the data that customers generate and entrust to us is backed up in Hamilton, our main location. In August 2020 we set up an offsite backup in Mount Maunganui. There are worse places in the world to visit your backup service! We think New Zealand is pretty lucky having beaches like Mount Maunganui. We now have a complete snapshot of all our data stored on servers in Mount Maunganui as well, giving our customers true geographic redundancy.</p>"
-        },
-        {
-            "slug": "waikato-aquarium-society",
-            "title": "Waikato Aquarium Society",
-            "date": "2020-04-02",
-            "author": "Paul Willard",
-            "image": "waikatoaquariumsociety.jpg",
-            "categories": [
-                "Websites",
-                "Hosting"
-            ],
-            "excerpt": "Member marketplace and club website for the Waikato Aquarium Society.",
-            "content_html": "<p>Established over 50 years ago, the Waikato Aquarium Society (WAS) is a club for people in the Waikato region who keep aquariums and enjoy the hobby of fishkeeping. They wanted a site where people could register to sell their fish. We designed and developed a system for their members to list and sell fish (and anything else!) online.</p>"
-        },
-        {
-            "slug": "rainbow-kids",
-            "title": "Rainbow Kids",
-            "date": "2019-12-20",
-            "author": "Paul Willard",
-            "image": "rainbowkids.jpg",
-            "categories": [
-                "Websites"
-            ],
-            "excerpt": "Cute brochure website for Rainbow Kids childcare centre in central Hamilton.",
-            "content_html": "<p>Rainbow Kids is a modern, purpose-built centre located in central Hamilton. They needed a cute-looking brochure website to advertise what they do. They already had a logo, so we used that to develop a website brand for them that matched their vibrant, welcoming identity.</p>"
-        },
-        {
-            "slug": "virtual-hosting",
-            "title": "Virtual Hosting with Proxmox",
-            "date": "2019-03-10",
-            "author": "Paul Willard",
-            "image": "proxmox.jpg",
-            "categories": [
-                "Infrastructure"
-            ],
-            "excerpt": "Open source virtualisation with Proxmox for our own server cluster.",
-            "content_html": "<p>Central Communications is a huge fan of open source technology. When developing a cluster of virtual servers, we investigated all the options and chose the open source platform Proxmox. Proxmox allows us to cluster real machines together. These real machines host virtual machines that we can migrate in real time between hosts. Proxmox VE is a complete open-source platform for enterprise virtualisation — managing VMs, containers, software-defined storage and networking, and high-availability clustering from a single web interface.</p>"
-        },
-        {
-            "slug": "terminaladdict",
-            "title": "TerminalAddict",
-            "date": "2018-07-03",
-            "author": "Paul Willard",
-            "image": "terminaladdict.jpg",
-            "categories": [
-                "Broadband",
-                "Hosting",
-                "Websites",
-                "Wireless"
-            ],
-            "excerpt": "Our own tech community resource — giving back to the IT community.",
-            "content_html": "<p>TerminalAddict is our own way of giving back to the IT community. We think being good citizens of the internet is great, so we open-source what we can. You'll find lots of nerdy and geeky things here — from custom functions for WordPress to how to run a secure DNS-over-HTTPS server.</p>"
-        },
-        {
-            "slug": "wanna-internet",
-            "title": "Wanna Internet",
-            "date": "2018-06-30",
-            "author": "Paul Willard",
-            "image": "wanna.jpg",
-            "categories": [
-                "Websites"
-            ],
-            "excerpt": "Bespoke website with customer database integration and a custom sign-up form.",
-            "content_html": "<p>Wanna Internet needed a website — badly. They had a website that dated back to the early 2000s. We made a bespoke website that included intricate integration with their customer database and Radius user server. We built a customer control panel, a Covid blog, a network status page, and one of the coolest sign-up forms we've ever built!</p>"
-        },
-        {
-            "slug": "freedomtax",
-            "title": "Freedomtax.co.nz",
-            "date": "2018-05-10",
-            "author": "Paul Willard",
-            "image": "freedomtax.jpg",
-            "categories": [
-                "Hosting"
-            ],
-            "excerpt": "Hosting for Freedomtax — a local small business tax specialist.",
-            "content_html": "<p>Anthia approached Net Enterprises (Central Communications) to host her website. Being a small business tax specialist she also has a tendency to support small businesses. Central Communications is not one of the big international hosting services — we are local, based in Hamilton, and have real people that answer emails and take phone calls. Thanks Anthia!</p>"
-        },
-        {
-            "slug": "gps-tracking-vehicles",
-            "title": "GPS Tracking Vehicles",
-            "date": "2017-08-13",
-            "author": "Paul Willard",
-            "image": "traccar.jpg",
-            "categories": [
-                "Hosting"
-            ],
-            "excerpt": "Open source GPS tracking with Traccar — keeping your assets safe.",
-            "content_html": "<p>Once upon a time Paul owned an expensive Harley Davidson Fatbob. One night while thinking about security he started thinking about GPS trackers. One thing led to another and Paul worked out a system to track vehicles.</p>\n<p>Open source to the rescue! Traccar is an open source GPS tracking software. You need to configure an Android phone to get it going, but it's well worth it when you want to look after your ride.</p>\n<figure><img src=\"/assets/images/posts/thumbnails/Fatbob_right_side.jpg\" alt=\"Harley Davidson Fatbob\"></figure>\n<p>Traccar gives you real-time vehicle location, history, and alerts — all self-hosted and under your control.</p>"
-        },
-        {
-            "slug": "performance-products",
-            "title": "Performance Products",
-            "date": "2017-08-06",
-            "author": "Paul Willard",
-            "image": "performanceproducts.jpg",
-            "categories": [
-                "Websites"
-            ],
-            "excerpt": "New website for Performance Products, improving on what they had.",
-            "content_html": "<p>Glenys Hall first talked to us about just updating an existing website with some new products. We suggested an altogether new website, which they agreed was a better idea. They wanted to keep their existing web hosting provider, so we worked within those parameters and made a website that she was very happy with.</p>"
-        },
-        {
-            "slug": "dance-connection",
-            "title": "Dance Connection",
-            "date": "2016-09-02",
-            "author": "Paul Willard",
-            "image": "danceconnection.jpg",
-            "categories": [
-                "Websites",
-                "Hosting"
-            ],
-            "excerpt": "Video-based dance class website tightly integrated with YouTube.",
-            "content_html": "<p>In 2016 Dance Connection started providing modern jive dance classes, and wanted to share their classes with the world. They wanted to host a video-based site where people could watch videos of the dance classes. Together, we built a great website integrated tightly with YouTube, allowing Dance Connection to upload their videos and have them appear automatically on their website.</p>"
-        },
-        {
-            "slug": "ulysses-motorcycle-club",
-            "title": "Ulysses Motorcycle Club",
-            "date": "2016-01-06",
-            "author": "Paul Willard",
-            "image": "ulysses.jpg",
-            "categories": [
-                "Websites",
-                "Hosting"
-            ],
-            "excerpt": "Complete website rewrite with ecommerce, gallery, and members area for Ulysses MC.",
-            "content_html": "<p>In 2016 the Ulysses Motorcycle Club asked for a complete rewrite of their website. They wanted something fresh, new, and with added functionality. We built an ecommerce store, photo gallery, members-only section, and branch news website for the club. We also host this on our own servers. The site is built on WordPress, allowing club members to manage portions of the website themselves.</p>"
-        },
-        {
-            "slug": "azarni-hair",
-            "title": "Azarni Hair",
-            "date": "2015-06-08",
-            "author": "Paul Willard",
-            "image": "azarnihair.jpg",
-            "categories": [
-                "Websites",
-                "Hosting"
-            ],
-            "excerpt": "Online booking system for Azarni Hair, letting clients book with specific stylists.",
-            "content_html": "<p>Shirley needed to be able to take bookings from her clients online. We developed a system where clients could pick a time in a calendar with a specific hairdresser. Each hairdresser would check in with their calendar between each appointment. Going online is a great way to build your business, Shirley!</p>"
-        },
-        {
-            "slug": "enlightenme",
-            "title": "Enlighten Me",
-            "date": "2015-05-06",
-            "author": "Paul Willard",
-            "image": "enlightenme.jpg",
-            "categories": [
-                "Hosting",
-                "Websites"
-            ],
-            "excerpt": "Rebrand and relaunch for Helen's weight loss focused business.",
-            "content_html": "<p>Helen already had a website with us (Vibrant Health Centre). She wanted to rebrand and relaunch, so a new website was in order. We worked with Helen to create the look and feel she communicated to us for her new weight loss focused business.</p>"
-        },
-        {
-            "slug": "vibrant-health-centre",
-            "title": "Vibrant Health Centre",
-            "date": "2015-01-05",
-            "author": "Paul Willard",
-            "image": "vibranthealthcentre.jpg",
-            "categories": [
-                "Websites",
-                "Hosting"
-            ],
-            "excerpt": "Fresh new website for Vibrant Health Centre, matching their existing brand.",
-            "content_html": "<p>Helen had been running her business online for years and needed a fresh new look. She had already worked with a brand designer, so we put together a website that matched perfectly with her branding. The result was a clean, professional site that reflected the quality of her health services.</p>"
-        },
-        {
-            "slug": "mcrides",
-            "title": "McRides",
-            "date": "2013-05-15",
-            "author": "Paul Willard",
-            "image": "mcrides.jpg",
-            "categories": [
-                "Websites"
-            ],
-            "excerpt": "Website work for McRides across several iterations.",
-            "content_html": "<p>McRides has seen many different forms over the years. We have worked with them to evolve their online presence, keeping their website modern and effective for their customers.</p>"
-        },
-        {
-            "slug": "addiction-dance",
-            "title": "Addiction Dance",
-            "date": "2013-01-25",
-            "author": "Paul Willard",
-            "image": "addictiondance.jpg",
-            "categories": [
-                "Websites"
-            ],
-            "excerpt": "Website for Addiction Dance, born out of Paul's own dance journey.",
-            "content_html": "<p>In 2012, Paul (the owner of Net Enterprises, and Central Communications), started dance classes. One thing led to another and we built a website for Addiction Dance to share the joy of dancing online.</p>"
-        },
-        {
-            "slug": "move-managers",
-            "title": "Move Managers",
-            "date": "2011-06-14",
-            "author": "Paul Willard",
-            "image": "movemanagers.jpg",
-            "categories": [
-                "Websites",
-                "Hosting"
-            ],
-            "excerpt": "Website and hosting for Move Managers.",
-            "content_html": "<p>We designed, developed and hosted a professional website for Move Managers, helping them establish a strong online presence for their business.</p>"
-        },
-        {
-            "slug": "nzdha",
-            "title": "NZ Dental Hygienists' Association",
-            "date": "2011-05-29",
-            "author": "Paul Willard",
-            "image": "nzdha.jpg",
-            "categories": [
-                "Websites"
-            ],
-            "excerpt": "Website and online presence for the NZ Dental Hygienists' Association.",
-            "content_html": "<p>Karen Turanga already had a project called widesmile going on with us. We built a professional website for the NZ Dental Hygienists' Association to support their members and promote the profession.</p>"
-        },
-        {
-            "slug": "tileworks",
-            "title": "Tile Works",
-            "date": "2011-04-04",
-            "author": "Paul Willard",
-            "image": "tileworks.jpg",
-            "categories": [
-                "Websites"
-            ],
-            "excerpt": "Website project for Tile Works.",
-            "content_html": "<p>John and Wendy Morch asked for some help with a project they had on for Tile Works. We delivered a clean, functional website that showcased their products effectively.</p>"
-        },
-        {
-            "slug": "web-address",
-            "title": "Web Address",
-            "date": "2009-07-03",
-            "author": "Paul Willard",
-            "image": "webaddress.jpg",
-            "categories": [
-                "Websites"
-            ],
-            "excerpt": "Web work for Web Address, once the second largest domain registrar in New Zealand.",
-            "content_html": "<p>In 2009 Web Address was the second largest domain registrar in New Zealand. We provided web services and technical support for their online presence.</p>"
-        },
-        {
-            "slug": "hillside-hotel",
-            "title": "Hillside Hotel",
-            "date": "2003-11-15",
-            "author": "Paul Willard",
-            "image": "hillsidehotel.jpg",
-            "categories": [
-                "Wireless",
-                "Broadband",
-                "Websites"
-            ],
-            "excerpt": "Wireless, broadband and web work for the Hillside Hotel.",
-            "content_html": "<p>We provided wireless networking, broadband connectivity and web services for the Hillside Hotel. A comprehensive solution covering all their telecommunications needs.</p>"
-        }
-    ]
+  "updates": [
+    {
+      "slug": "commercial-data-cabling",
+      "title": "Commercial Data Cabling",
+      "date": "2022-09-14",
+      "author": "Paul Willard",
+      "image": "Commercial_data.jpg",
+      "categories": [
+        "Infrastructure"
+      ],
+      "excerpt": "Expert commercial data cabling — at-heights certified, Site Safe qualified.",
+      "content_html": "<p>Have a commercial build that needs cabling? We have experience with major commercial construction companies and commercial-scale data cabling.</p><p>Be it cabling for your CCTV system, your phone system, or your general network — we've got you covered.</p><p>We are qualified for at-heights work, elevated work platforms, and Site Safe operations.</p><p></p><div data-youtube-video=\"\"><iframe width=\"640\" height=\"480\" allowfullscreen src=\"https://www.youtube.com/embed/KQofUSaCyR4?rel=1\"></iframe></iframe></div><p></p>"
+    },
+    {
+      "slug": "10-gigabit-ethernet",
+      "title": "10 Gigabit Ethernet 10GBASE-T",
+      "date": "2022-06-20",
+      "author": "Paul Willard",
+      "image": "20220604_090014.jpg",
+      "categories": [
+        "Infrastructure"
+      ],
+      "excerpt": "10GbE installation with SFP+ fibre uplinks and Cat6 copper distribution.",
+      "content_html": "<p>10 Gigabit Ethernet (10GE, 10GbE, or 10 GigE) is here — and it makes your network rocket! 🚀</p><p>We're experts in fibre splicing and copper structured data cabling. Be it cabling for your CCTV system, your phone system, or your general network infrastructure — we've got the cabling solution for you.</p><img src=\"/assets/images/posts/thumbnails/20220604_090014.jpg\" alt=\"Cabinet installation\"><p>For this installation, we set up the primary cabinet with SFP+ ports for 10Gb fibre uplinks and 10GBase-T for cabled Cat6 10Gb devices.</p><img src=\"/assets/images/posts/thumbnails/20220606_160901.jpg\" alt=\"Secondary cabinet with DAC cables\"><p>The secondary cabinet runs DAC cable from the primary cabinet using the SFP+ ports, then distributes via Gigabit PoE and Gigabit non-PoE switches throughout the network.</p><p></p><p></p>"
+    },
+    {
+      "slug": "meatworks-structured-data-cabling",
+      "title": "Structured Cabling in Extreme Buildings",
+      "date": "2022-03-29",
+      "author": "Paul Willard",
+      "image": "Meatworks_Montage.jpg",
+      "categories": [
+        "Infrastructure"
+      ],
+      "excerpt": "Data cabling in a working freezing works — tough conditions, expert results.",
+      "content_html": "<p>We've been back in the local freezing works. This time we've been running cables for additional workstations. It's a tough job getting cables through tight spots in some roofs and under some floors. But we are experienced experts at structured cabling. There are not many places we can't get a cable (copper or fibre). And if we can't get a cable run, we've got expert wireless radio engineers who can get data just about anywhere.</p>"
+    },
+    {
+      "slug": "freezer-cctv",
+      "title": "Lockdown Essential Work — Freezer CCTV",
+      "date": "2021-10-18",
+      "author": "Paul Willard",
+      "image": "central_comms_montage.jpg",
+      "categories": [
+        "CCTV"
+      ],
+      "excerpt": "Cold-rated IP cameras installed in a -40°C meat works freezer during Covid lockdown.",
+      "content_html": "<p>It was Covid lockdown in October 2021 — but most of what we do is classified as an essential service. CCTV for a local freezing works is definitely essential. We were contacted by a local meat works company to do some work in their freezer. The meat works freezer (which can reach -40°C) operates entirely by remote console and CCTV cameras. We removed ageing analogue cameras and replaced them with IP cameras. This required some specialist supplies — the cable we used is rated to operate down to -50°C, and the cameras are rated to -40°C. When we arrived, the freezers had been turned off for an hour and the temperature had warmed to -15°C. 🥶</p>"
+    },
+    {
+      "slug": "ellicott-road-cctv",
+      "title": "Ellicott Road CCTV Installation",
+      "date": "2021-06-24",
+      "author": "Paul Willard",
+      "image": "home_cctv.jpg",
+      "categories": [
+        "CCTV"
+      ],
+      "excerpt": "Complete 6-camera CCTV system with open-source NVR and web-integrated live views.",
+      "content_html": "<p>We set up a complete CCTV system with 6 cameras, cabling, and an NVR server at an address in Ellicott Road, Hamilton. The system uses a combination of dome and bullet cameras.</p>\n<p>We're proud to have used completely open-source NVR software — this allows us to do things like embed live camera streams in a website.</p>\n<p>We wrote custom code and embedded a number of cameras in a website that integrated with other information on the property. We also integrated an Android application to view the stream directly from each camera, and another Android app to view alarms and recordings from the NVR.</p>\n<figure><img src=\"/assets/images/posts/thumbnails/themount_camera.jpg\" alt=\"CCTV installation\"></figure>"
+    },
+    {
+      "slug": "mt-maunganui-offsite-backup",
+      "title": "Mount Maunganui Offsite Backup",
+      "date": "2020-08-05",
+      "author": "Paul Willard",
+      "image": "20201226_150352.jpg",
+      "categories": [
+        "Broadband",
+        "Infrastructure"
+      ],
+      "excerpt": "Expanding our data redundancy with an offsite backup in Mount Maunganui.",
+      "content_html": "<p>All the data that customers generate and entrust to us is backed up in Hamilton, our main location. In August 2020 we set up an offsite backup in Mount Maunganui. There are worse places in the world to visit your backup service! We think New Zealand is pretty lucky having beaches like Mount Maunganui. We now have a complete snapshot of all our data stored on servers in Mount Maunganui as well, giving our customers true geographic redundancy.</p>"
+    },
+    {
+      "slug": "waikato-aquarium-society",
+      "title": "Waikato Aquarium Society",
+      "date": "2020-04-02",
+      "author": "Paul Willard",
+      "image": "waikatoaquariumsociety.jpg",
+      "categories": [
+        "Websites",
+        "Hosting"
+      ],
+      "excerpt": "Member marketplace and club website for the Waikato Aquarium Society.",
+      "content_html": "<p>Established over 50 years ago, the Waikato Aquarium Society (WAS) is a club for people in the Waikato region who keep aquariums and enjoy the hobby of fishkeeping. They wanted a site where people could register to sell their fish. We designed and developed a system for their members to list and sell fish (and anything else!) online.</p>"
+    },
+    {
+      "slug": "rainbow-kids",
+      "title": "Rainbow Kids",
+      "date": "2019-12-20",
+      "author": "Paul Willard",
+      "image": "rainbowkids.jpg",
+      "categories": [
+        "Websites"
+      ],
+      "excerpt": "Cute brochure website for Rainbow Kids childcare centre in central Hamilton.",
+      "content_html": "<p>Rainbow Kids is a modern, purpose-built centre located in central Hamilton. They needed a cute-looking brochure website to advertise what they do. They already had a logo, so we used that to develop a website brand for them that matched their vibrant, welcoming identity.</p>"
+    },
+    {
+      "slug": "virtual-hosting",
+      "title": "Virtual Hosting with Proxmox",
+      "date": "2019-03-10",
+      "author": "Paul Willard",
+      "image": "proxmox.jpg",
+      "categories": [
+        "Infrastructure"
+      ],
+      "excerpt": "Open source virtualisation with Proxmox for our own server cluster.",
+      "content_html": "<p>Central Communications is a huge fan of open source technology. When developing a cluster of virtual servers, we investigated all the options and chose the open source platform Proxmox. Proxmox allows us to cluster real machines together. These real machines host virtual machines that we can migrate in real time between hosts. Proxmox VE is a complete open-source platform for enterprise virtualisation — managing VMs, containers, software-defined storage and networking, and high-availability clustering from a single web interface.</p>"
+    },
+    {
+      "slug": "terminaladdict",
+      "title": "TerminalAddict",
+      "date": "2018-07-03",
+      "author": "Paul Willard",
+      "image": "terminaladdict.jpg",
+      "categories": [
+        "Broadband",
+        "Hosting",
+        "Websites",
+        "Wireless"
+      ],
+      "excerpt": "Our own tech community resource — giving back to the IT community.",
+      "content_html": "<p>TerminalAddict is our own way of giving back to the IT community. We think being good citizens of the internet is great, so we open-source what we can. You'll find lots of nerdy and geeky things here — from custom functions for WordPress to how to run a secure DNS-over-HTTPS server.</p>"
+    },
+    {
+      "slug": "wanna-internet",
+      "title": "Wanna Internet",
+      "date": "2018-06-30",
+      "author": "Paul Willard",
+      "image": "wanna.jpg",
+      "categories": [
+        "Websites"
+      ],
+      "excerpt": "Bespoke website with customer database integration and a custom sign-up form.",
+      "content_html": "<p>Wanna Internet needed a website — badly. They had a website that dated back to the early 2000s. We made a bespoke website that included intricate integration with their customer database and Radius user server. We built a customer control panel, a Covid blog, a network status page, and one of the coolest sign-up forms we've ever built!</p>"
+    },
+    {
+      "slug": "freedomtax",
+      "title": "Freedomtax.co.nz",
+      "date": "2018-05-10",
+      "author": "Paul Willard",
+      "image": "freedomtax.jpg",
+      "categories": [
+        "Hosting"
+      ],
+      "excerpt": "Hosting for Freedomtax — a local small business tax specialist.",
+      "content_html": "<p>Anthia approached Net Enterprises (Central Communications) to host her website. Being a small business tax specialist she also has a tendency to support small businesses. Central Communications is not one of the big international hosting services — we are local, based in Hamilton, and have real people that answer emails and take phone calls. Thanks Anthia!</p>"
+    },
+    {
+      "slug": "gps-tracking-vehicles",
+      "title": "GPS Tracking Vehicles",
+      "date": "2017-08-13",
+      "author": "Paul Willard",
+      "image": "traccar.jpg",
+      "categories": [
+        "Hosting"
+      ],
+      "excerpt": "Open source GPS tracking with Traccar — keeping your assets safe.",
+      "content_html": "<p>Once upon a time Paul owned an expensive Harley Davidson Fatbob. One night while thinking about security he started thinking about GPS trackers. One thing led to another and Paul worked out a system to track vehicles.</p>\n<p>Open source to the rescue! Traccar is an open source GPS tracking software. You need to configure an Android phone to get it going, but it's well worth it when you want to look after your ride.</p>\n<figure><img src=\"/assets/images/posts/thumbnails/Fatbob_right_side.jpg\" alt=\"Harley Davidson Fatbob\"></figure>\n<p>Traccar gives you real-time vehicle location, history, and alerts — all self-hosted and under your control.</p>"
+    },
+    {
+      "slug": "performance-products",
+      "title": "Performance Products",
+      "date": "2017-08-06",
+      "author": "Paul Willard",
+      "image": "performanceproducts.jpg",
+      "categories": [
+        "Websites"
+      ],
+      "excerpt": "New website for Performance Products, improving on what they had.",
+      "content_html": "<p>Glenys Hall first talked to us about just updating an existing website with some new products. We suggested an altogether new website, which they agreed was a better idea. They wanted to keep their existing web hosting provider, so we worked within those parameters and made a website that she was very happy with.</p>"
+    },
+    {
+      "slug": "dance-connection",
+      "title": "Dance Connection",
+      "date": "2016-09-02",
+      "author": "Paul Willard",
+      "image": "danceconnection.jpg",
+      "categories": [
+        "Websites",
+        "Hosting"
+      ],
+      "excerpt": "Video-based dance class website tightly integrated with YouTube.",
+      "content_html": "<p>In 2016 Dance Connection started providing modern jive dance classes, and wanted to share their classes with the world. They wanted to host a video-based site where people could watch videos of the dance classes. Together, we built a great website integrated tightly with YouTube, allowing Dance Connection to upload their videos and have them appear automatically on their website.</p>"
+    },
+    {
+      "slug": "ulysses-motorcycle-club",
+      "title": "Ulysses Motorcycle Club",
+      "date": "2016-01-06",
+      "author": "Paul Willard",
+      "image": "ulysses.jpg",
+      "categories": [
+        "Websites",
+        "Hosting"
+      ],
+      "excerpt": "Complete website rewrite with ecommerce, gallery, and members area for Ulysses MC.",
+      "content_html": "<p>In 2016 the Ulysses Motorcycle Club asked for a complete rewrite of their website. They wanted something fresh, new, and with added functionality. We built an ecommerce store, photo gallery, members-only section, and branch news website for the club. We also host this on our own servers. The site is built on WordPress, allowing club members to manage portions of the website themselves.</p>"
+    },
+    {
+      "slug": "azarni-hair",
+      "title": "Azarni Hair",
+      "date": "2015-06-08",
+      "author": "Paul Willard",
+      "image": "azarnihair.jpg",
+      "categories": [
+        "Websites",
+        "Hosting"
+      ],
+      "excerpt": "Online booking system for Azarni Hair, letting clients book with specific stylists.",
+      "content_html": "<p>Shirley needed to be able to take bookings from her clients online. We developed a system where clients could pick a time in a calendar with a specific hairdresser. Each hairdresser would check in with their calendar between each appointment. Going online is a great way to build your business, Shirley!</p>"
+    },
+    {
+      "slug": "enlightenme",
+      "title": "Enlighten Me",
+      "date": "2015-05-06",
+      "author": "Paul Willard",
+      "image": "enlightenme.jpg",
+      "categories": [
+        "Hosting",
+        "Websites"
+      ],
+      "excerpt": "Rebrand and relaunch for Helen's weight loss focused business.",
+      "content_html": "<p>Helen already had a website with us (Vibrant Health Centre). She wanted to rebrand and relaunch, so a new website was in order. We worked with Helen to create the look and feel she communicated to us for her new weight loss focused business.</p>"
+    },
+    {
+      "slug": "vibrant-health-centre",
+      "title": "Vibrant Health Centre",
+      "date": "2015-01-05",
+      "author": "Paul Willard",
+      "image": "vibranthealthcentre.jpg",
+      "categories": [
+        "Websites",
+        "Hosting"
+      ],
+      "excerpt": "Fresh new website for Vibrant Health Centre, matching their existing brand.",
+      "content_html": "<p>Helen had been running her business online for years and needed a fresh new look. She had already worked with a brand designer, so we put together a website that matched perfectly with her branding. The result was a clean, professional site that reflected the quality of her health services.</p>"
+    },
+    {
+      "slug": "mcrides",
+      "title": "McRides",
+      "date": "2013-05-15",
+      "author": "Paul Willard",
+      "image": "mcrides.jpg",
+      "categories": [
+        "Websites"
+      ],
+      "excerpt": "Website work for McRides across several iterations.",
+      "content_html": "<p>McRides has seen many different forms over the years. We have worked with them to evolve their online presence, keeping their website modern and effective for their customers.</p>"
+    },
+    {
+      "slug": "addiction-dance",
+      "title": "Addiction Dance",
+      "date": "2013-01-25",
+      "author": "Paul Willard",
+      "image": "addictiondance.jpg",
+      "categories": [
+        "Websites"
+      ],
+      "excerpt": "Website for Addiction Dance, born out of Paul's own dance journey.",
+      "content_html": "<p>In 2012, Paul (the owner of Net Enterprises, and Central Communications), started dance classes. One thing led to another and we built a website for Addiction Dance to share the joy of dancing online.</p>"
+    },
+    {
+      "slug": "move-managers",
+      "title": "Move Managers",
+      "date": "2011-06-14",
+      "author": "Paul Willard",
+      "image": "movemanagers.jpg",
+      "categories": [
+        "Websites",
+        "Hosting"
+      ],
+      "excerpt": "Website and hosting for Move Managers.",
+      "content_html": "<p>We designed, developed and hosted a professional website for Move Managers, helping them establish a strong online presence for their business.</p>"
+    },
+    {
+      "slug": "nzdha",
+      "title": "NZ Dental Hygienists' Association",
+      "date": "2011-05-29",
+      "author": "Paul Willard",
+      "image": "nzdha.jpg",
+      "categories": [
+        "Websites"
+      ],
+      "excerpt": "Website and online presence for the NZ Dental Hygienists' Association.",
+      "content_html": "<p>Karen Turanga already had a project called widesmile going on with us. We built a professional website for the NZ Dental Hygienists' Association to support their members and promote the profession.</p>"
+    },
+    {
+      "slug": "tileworks",
+      "title": "Tile Works",
+      "date": "2011-04-04",
+      "author": "Paul Willard",
+      "image": "tileworks.jpg",
+      "categories": [
+        "Websites"
+      ],
+      "excerpt": "Website project for Tile Works.",
+      "content_html": "<p>John and Wendy Morch asked for some help with a project they had on for Tile Works. We delivered a clean, functional website that showcased their products effectively.</p>"
+    },
+    {
+      "slug": "web-address",
+      "title": "Web Address",
+      "date": "2009-07-03",
+      "author": "Paul Willard",
+      "image": "webaddress.jpg",
+      "categories": [
+        "Websites"
+      ],
+      "excerpt": "Web work for Web Address, once the second largest domain registrar in New Zealand.",
+      "content_html": "<p>In 2009 Web Address was the second largest domain registrar in New Zealand. We provided web services and technical support for their online presence.</p>"
+    },
+    {
+      "slug": "hillside-hotel",
+      "title": "Hillside Hotel",
+      "date": "2003-11-15",
+      "author": "Paul Willard",
+      "image": "hillsidehotel.jpg",
+      "categories": [
+        "Wireless",
+        "Broadband",
+        "Websites"
+      ],
+      "excerpt": "Wireless, broadband and web work for the Hillside Hotel.",
+      "content_html": "<p>We provided wireless networking, broadband connectivity and web services for the Hillside Hotel. A comprehensive solution covering all their telecommunications needs.</p>"
+    }
+  ]
 }
