@@ -231,6 +231,7 @@ const categoryColors: Record<string, string> = {
   const editSaveBtn  = document.getElementById('edit-save-btn')!;
   const editCancelBtn= document.getElementById('edit-cancel-btn')!;
   const editError    = document.getElementById('edit-error')!;
+  const editEditorHost = document.getElementById('e-editor')!;
 
   let editEditor: Editor | null = null;
   let currentImageFilename = '';
@@ -318,9 +319,16 @@ const categoryColors: Record<string, string> = {
 
     editOverlay.style.display = 'block';
     document.body.style.overflow = 'hidden';
+    requestAnimationFrame(() => {
+      (document.getElementById('e-title') as HTMLInputElement)?.focus();
+    });
   }
 
   editBtn.addEventListener('click', openEditOverlay);
+
+  editEditorHost.addEventListener('click', () => {
+    editEditor?.commands.focus();
+  });
 
   editCancelBtn.addEventListener('click', () => {
     editOverlay.style.display = 'none';
@@ -484,8 +492,11 @@ const categoryColors: Record<string, string> = {
 
   .editor-label { font-size: 0.8rem; color: #7ea3c8; font-family: "Space Mono", monospace; letter-spacing: 0.08em; text-transform: uppercase; }
   .editor-toolbar { display: flex; flex-wrap: wrap; gap: 0.25rem; padding: 0.5rem; background: #071525; border: 1px solid rgba(14,165,233,0.15); border-radius: 0.5rem 0.5rem 0 0; border-bottom: none; }
-  .tiptap-editor { flex: 1; min-height: 320px; background: #0c1a2e; border: 1px solid rgba(14,165,233,0.2); border-radius: 0 0 0.5rem 0.5rem; color: #e8f1ff; font-size: 0.95rem; line-height: 1.7; padding: 1rem; outline: none; overflow-y: auto; }
+  .tiptap-editor { flex: 1; min-height: 320px; background: #0c1a2e; border: 1px solid rgba(14,165,233,0.2); border-radius: 0 0 0.5rem 0.5rem; color: #e8f1ff; font-size: 0.95rem; line-height: 1.7; padding: 1rem; outline: none; overflow-y: auto; cursor: text; }
   .tiptap-editor:focus-within { border-color: #0ea5e9; }
+  .tiptap-editor .ProseMirror { min-height: calc(320px - 2rem); outline: none; }
+  .tiptap-editor .ProseMirror > *:first-child { margin-top: 0; }
+  .tiptap-editor .ProseMirror p.is-editor-empty:first-child::before { content: 'Write the update content here...'; color: #7ea3c8; float: left; pointer-events: none; height: 0; }
   .editor-img-upload { display: flex; gap: 0.75rem; flex-wrap: wrap; }
 
   .form-error { color: #f87171; font-size: 0.85rem; }

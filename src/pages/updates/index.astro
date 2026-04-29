@@ -281,12 +281,14 @@ const categoryColors: Record<string, string> = {
   const createSaveBtn   = document.getElementById('create-save-btn')!;
   const createCancelBtn = document.getElementById('create-cancel-btn')!;
   const createError     = document.getElementById('create-error')!;
+  const createEditorHost = document.getElementById('c-editor')!;
 
   let createEditor: Editor | null = null;
   let createImageFilename = '';
 
   function openCreateOverlay() {
     createOverlay.style.display = 'block';
+    document.body.style.overflow = 'hidden';
     (document.getElementById('c-date') as HTMLInputElement).value = new Date().toISOString().slice(0, 10);
 
     if (!createEditor) {
@@ -304,13 +306,22 @@ const categoryColors: Record<string, string> = {
     } else {
       createEditor.commands.setContent('');
     }
+
+    requestAnimationFrame(() => {
+      (document.getElementById('c-title') as HTMLInputElement)?.focus();
+    });
   }
 
   newUpdateBtn.addEventListener('click', openCreateOverlay);
 
+  createEditorHost.addEventListener('click', () => {
+    createEditor?.commands.focus();
+  });
+
   createCancelBtn.addEventListener('click', () => {
     createOverlay.style.display = 'none';
     createError.style.display = 'none';
+    document.body.style.overflow = '';
   });
 
   // Featured image upload
@@ -382,6 +393,7 @@ const categoryColors: Record<string, string> = {
 
     if (r.update) {
       createOverlay.style.display = 'none';
+      document.body.style.overflow = '';
       // Show confirmation — page needs redeploy to appear in grid
       alert(`Update "${r.update.title}" saved with slug "${r.update.slug}".\n\nRun "make deploy" to publish it.`);
     } else {
@@ -495,9 +507,23 @@ const categoryColors: Record<string, string> = {
   .tiptap-editor {
     flex: 1; min-height: 320px; background: #0c1a2e; border: 1px solid rgba(14,165,233,0.2);
     border-radius: 0 0 0.5rem 0.5rem; color: #e8f1ff; font-size: 0.95rem; line-height: 1.7;
-    padding: 1rem; outline: none; overflow-y: auto;
+    padding: 1rem; outline: none; overflow-y: auto; cursor: text;
   }
   .tiptap-editor:focus-within { border-color: #0ea5e9; }
+  .tiptap-editor .ProseMirror {
+    min-height: calc(320px - 2rem);
+    outline: none;
+  }
+  .tiptap-editor .ProseMirror > *:first-child {
+    margin-top: 0;
+  }
+  .tiptap-editor .ProseMirror p.is-editor-empty:first-child::before {
+    content: 'Write the update content here...';
+    color: #7ea3c8;
+    float: left;
+    pointer-events: none;
+    height: 0;
+  }
   .editor-img-upload { display: flex; gap: 0.75rem; flex-wrap: wrap; }
 
   #create-overlay .btn-outline {
