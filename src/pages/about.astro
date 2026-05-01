@@ -30,7 +30,7 @@ const team = [
     name: 'Adam Crawforth',
     role: 'Telco Engineer',
     img: '/assets/images/people/AdamCrawforth-Highvis.jpg',
-    bio: 'Adam has years of experience as a warehouse manager for a large retailer. He\'s likely one of the guys you will meet who come to your business and help you out. In the weekends Adam has a house full of tropical fish and is involved in the Waikato Aquarium Society.',
+    bio: 'Adam has years of experience as a warehouse manager for a large retailer. He\'s likely one of the guys you met who came to your business and helped you out.<br />Adam has moved on to follow his passion in animal medicine, but we are leaving him here because he is, legit, one of the funniest people who has been with Central Comms. 🤣',
   },
 ];
 ---
@@ -100,7 +100,7 @@ const team = [
             <div>
               <div class="team-name">{member.name}</div>
               <div class="team-role">{member.role}</div>
-              <p class="team-bio">{member.bio}</p>
+              <p class="team-bio" set:html={member.bio}></p>
             </div>
           </div>
         ))}
